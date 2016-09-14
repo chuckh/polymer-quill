@@ -192,6 +192,14 @@ Custom property | Description | Default
             change = new Delta();
           }
         }.bind(this), this.saveInterval);
+
+        // Check for unsaved data
+        window.onbeforeunload = function() {
+          if (change.length() > 0) {
+            return 'There are unsaved changes. Are you sure you want to leave?';
+          }
+        };
+
       },
 
     });
