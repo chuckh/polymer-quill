@@ -1,0 +1,32 @@
+{
+  "name": "polymer-quill",
+  "version": "0.3.0",
+  "description": "Polymer Quill Rich Text Editor",
+  "main": "index.html",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "quill": "^1.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "polymer test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chuckh/polymer-quill.git"
+  },
+  "keywords": [
+    "Polymer",
+    "Quill",
+    "Editor",
+    "wysiwyg"
+  ],
+  "author": "Chuck Horton",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chuckh/polymer-quill/issues"
+  },
+  "homepage": "https://github.com/chuckh/polymer-quill#readme"
+}
