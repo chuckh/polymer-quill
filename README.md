@@ -8,6 +8,10 @@ Quill is a free, open source WYSIWYG editor built for the modern web.
 With its modular architecture and expressive API, it is completely customizable to fit any need.
 Learn more at http://quilljs.com/
 
+## Demo and API docs
+
+[Demo and API docs](https://chuckh.github.io/bower_components/polymer-quill/)
+
 ### Examples
 
 #### Defaults (stores as Deltas every 2 seconds, does not show results, 100px height)
@@ -45,7 +49,10 @@ Custom property | Description | Default
 
 ## Install
 
+To install first we bower install the `polymer-quill` element. Then we npm install `quil`.
+
     bower install --save polymer-quill
+    npm install
 
 ## License
 
