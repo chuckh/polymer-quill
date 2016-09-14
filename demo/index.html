@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head>
+    <title>polymer-quill demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../polymer-quill.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        max-width: 880px;
+      }
+      polymer-quill {
+        margin-bottom: 40px
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="vertical-section-container centered">
+      <h3>Basic polymer-quill Demo</h3>
+      <demo-snippet>
+        <template>
+          <style is="custom-style">
+            polymer-quill.full {
+              --polymer-quill-editor-height: 150px;
+            }
+          </style>
+          <h2>Full Toolbar, Show Results, Custom height (150px), Save as Deltas, Save every 1 second</h2>
+          <polymer-quill content="Hello World! - Store as Delta"
+            class='full'
+            store-as="delta"
+            save-interval="1000"
+            toolbar-type="full"
+            show-results>
+          </polymer-quill>
+          <h2>Standard Toolbar, Hide Results, Default height (100px), Save as HTML, Save every 2 seconds</h2>
+          <polymer-quill content="Hello World! - Store as HTML" store-as="html"></polymer-quill>
+        </template>
+      </demo-snippet>
+    </div>
+
+  </body>
+</html>
