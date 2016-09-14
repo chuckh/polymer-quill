@@ -49,10 +49,7 @@ Custom property | Description | Default
 
 ## Install
 
-To install first we bower install the `polymer-quill` element. Then we npm install `quil`.
-
     bower install --save polymer-quill
-    npm install
 
 ## License
 
