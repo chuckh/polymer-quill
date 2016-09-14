@@ -1,7 +1,7 @@
 {
   "name": "polymer-quill",
   "description": "Polymer Quill Rich Text Editor",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "polymer-quill.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.6.0"
