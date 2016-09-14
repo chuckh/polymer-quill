@@ -1,6 +1,8 @@
+
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="polymer-quill-import.html">
 <link rel="import" href="polymer-quill-styles.html">
+
 <!--
 ## Polymer Quill Rich Text Editor
 
@@ -156,9 +158,10 @@ Custom property | Description | Default
 
         // Set initial content
         if (this.storeAs === 'delta') {
-          this.content = JSON.stringify(quill.getContents());
+          quill.setContents(JSON.parse(this.content),'api');
+
         } else { // HTML
-          this.content = quill.root.innerHTML;
+          quill.root.innerHTML = this.content;
         }
 
         // Store accumulated changes
