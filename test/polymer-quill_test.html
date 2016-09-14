@@ -12,17 +12,35 @@
   </head>
   <body>
 
-    <test-fixture id="basic">
+    <test-fixture id="delta">
       <template>
-        <polymer-quill></polymer-quill>
+        <polymer-quill
+          content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
+          class='full'
+          store-as="delta"
+          save-interval="1000"
+          toolbar-type="full"
+          show-results>
+       </polymer-quill>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="html">
+      <template>
+        <polymer-quill content="<h2>Hello World! - Store as HTML</h2>" store-as="html"></polymer-quill>
       </template>
     </test-fixture>
 
     <script>
       suite('polymer-quill', function() {
 
-        test('instantiating the element works', function() {
-          var element = fixture('basic');
+        test('instantiating the element works Delta', function() {
+          var element = fixture('delta');
+          assert.equal(element.is, 'polymer-quill');
+        });
+
+        test('instantiating the element works HTML', function() {
+          var element = fixture('html');
           assert.equal(element.is, 'polymer-quill');
         });
 
