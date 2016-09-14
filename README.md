@@ -10,7 +10,7 @@ Learn more at http://quilljs.com/
 
 ## Demo and API docs
 
-[Demo and API docs](https://chuckh.github.io/bower_components/polymer-quill/)
+[Demo and API docs](https://chuckh.github.io/polymer-quill/)
 
 ### Examples
 
