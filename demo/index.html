@@ -20,8 +20,8 @@
       }
     </style>
   </head>
-  <body>
 
+  <body unresolved>
     <div class="vertical-section-container centered">
       <h3>Basic polymer-quill Demo</h3>
       <demo-snippet>
@@ -32,7 +32,7 @@
             }
           </style>
           <h2>Full Toolbar, Show Results, Custom height (150px), Save as Deltas, Save every 1 second</h2>
-          <polymer-quill content="Hello World! - Store as Delta"
+          <polymer-quill content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
             class='full'
             store-as="delta"
             save-interval="1000"
@@ -40,10 +40,9 @@
             show-results>
           </polymer-quill>
           <h2>Standard Toolbar, Hide Results, Default height (100px), Save as HTML, Save every 2 seconds</h2>
-          <polymer-quill content="Hello World! - Store as HTML" store-as="html"></polymer-quill>
+          <polymer-quill content="<h2>Hello World! - Store as HTML</h2>" store-as="html"></polymer-quill>
         </template>
       </demo-snippet>
     </div>
-
   </body>
 </html>

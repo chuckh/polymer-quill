@@ -30,12 +30,16 @@ Learn more at http://quilljs.com/
     --polymer-quill-editor-height: 150px;
   }
 </style>
-<h2>Full Toolbar, Show Results, Custom height (150px), Save as Deltas</h2>
-<polymer-quill content="Hello World! - Store as Delta" class="full" store-as="delta"
-  toolbar-type="full" show-results save-interval="1000">
+<h2>Full Toolbar, Show Results, Custom height (150px), Save as Deltas, Save every 1 second</h2>
+<polymer-quill content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
+  class='full'
+  store-as="delta"
+  save-interval="1000"
+  toolbar-type="full"
+  show-results>
 </polymer-quill>
-<h2>Standard Toolbar, Hide Results, Default height (100px), Save as HTML</h2>
-<polymer-quill content="Hello World! - Store as HTML" store-as="html"></polymer-quill>
+<h2>Standard Toolbar, Hide Results, Default height (100px), Save as HTML, Save every 2 seconds</h2>
+<polymer-quill content="<h2>Hello World! - Store as HTML</h2>" store-as="html"></polymer-quill>
 ```
 
 ### Styling
