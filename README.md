@@ -43,10 +43,9 @@ Custom property | Description | Default
 `--polymer-quill-editor-height`     | Custom height for editor     | `100px`
 `--polymer-quill`                   | Mixin applied to the editor  | `{}`
 
-### Install
+## Install
 
     bower install --save polymer-quill
-
 
 ## License
 
