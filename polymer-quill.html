@@ -1,0 +1,199 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="polymer-quill-import.html">
+<link rel="import" href="polymer-quill-styles.html">
+<!--
+## Polymer Quill Rich Text Editor
+
+`polymer-quill` creates a Polymer Quill Rich Text Editor.
+
+Quill is a free, open source WYSIWYG editor built for the modern web.
+With its modular architecture and expressive API, it is completely customizable to fit any need.
+Learn more at http://quilljs.com/
+
+### Examples
+
+#### Defaults (stores as Deltas every 2 seconds, does not show results, 100px height)
+
+    <polymer-quill content="Hello World"></polymer-quill>
+
+#### Custom (stores as HTML every 5 seconds, show results)
+
+    <polymer-quill content="Hello World" store-as="html" store-interval="5000" show-results></polymer-quill>
+
+#### Demo example
+
+```html
+<style is="custom-style">
+  polymer-quill.full {
+    --polymer-quill-editor-height: 150px;
+  }
+</style>
+<h2>Full Toolbar, Show Results, Custom height (150px), Save as Deltas</h2>
+<polymer-quill content="Hello World! - Store as Delta" class="full" store-as="delta"
+  toolbar-type="full" show-results save-interval="1000">
+</polymer-quill>
+<h2>Standard Toolbar, Hide Results, Default height (100px), Save as HTML</h2>
+<polymer-quill content="Hello World! - Store as HTML" store-as="html"></polymer-quill>
+```
+
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--polymer-quill-editor-height`     | Custom height for editor     | `100px`
+`--polymer-quill`                   | Mixin applied to the editor  | `{}`
+
+### Install
+
+    bower install --save polymer-quill
+
+@demo demo/index.html
+-->
+
+<dom-module id="polymer-quill">
+  <template>
+    <style include="polymer-quill-styles">
+      :host {
+        --calculated-polymer-quill-editor-height: var(--polymer-quill-editor-height, 100px);
+        display: block;
+        @apply(--polymer-quill);
+
+      }
+      #editor {
+        height: var(--calculated-polymer-quill-editor-height);
+      }
+      #results {
+        padding: 20px 10px;
+        overflow-x: scroll;
+      }
+    </style>
+    <div id="editor">{{content}}</div>
+    <div id="results" hidden$="[[!showResults]]">{{content}}<div>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'polymer-quill',
+
+      properties: {
+        /**
+         * Content which is in Deltas or HTML format.
+         */
+        content: {
+          type: String,
+          value: '',
+          notify: true,
+          reflectToAttribute: true,
+        },
+        /**
+         * Store as Quill Deltas or HTML.
+         * Options are `delta`, `html`.
+         */
+        storeAs: {
+          type: String,
+          value: 'delta',
+          notify: true,
+        },
+        /**
+         * Save Interval in milliseconds.
+         * Default is `2000`.
+         */
+        saveInterval: {
+          type: Number,
+          value: 2000,
+          notify: true,
+        },
+        /**
+         * Show Results below editor of saves in Delta or HMTL format.
+         * Default is `false`.
+         */
+        showResults: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
+        /**
+         * Editor toolbar type.
+         * Options are `standard`, `full`.
+         */
+        toolbarType: {
+          type: String,
+          value: 'standard',
+          notify: true,
+        },
+      },
+
+      ready: function() {
+        var toolbarOptions = null;
+        if (this.toolbarType === 'full') {
+          toolbarOptions = [
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            [{ 'align': [] }],
+            ['link', 'image'],
+            ['blockquote', 'code-block'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            ['clean']                                         // remove formatting button
+          ];
+        } else {
+            toolbarOptions = true;                            // standard toolbar
+        }
+
+        var Delta = Quill.import('delta');
+        var quill = new Quill(this.$.editor, {
+          modules: {
+            toolbar: toolbarOptions
+          },
+          bounds: document.body,
+          theme: 'snow',
+        });
+
+        // Set initial content
+        if (this.storeAs === 'delta') {
+          this.content = JSON.stringify(quill.getContents());
+        } else { // HTML
+          this.content = quill.root.innerHTML;
+        }
+
+        // Store accumulated changes
+        var change = new Delta();
+        quill.on('text-change', function(delta) {
+          change = change.compose(delta);
+        });
+
+        // Save periodically
+        setInterval(function() {
+          if (change.length() > 0) {
+            if (this.showResults) {
+              console.log('Saving changes', change);
+            }
+            if (this.storeAs === 'delta') {
+              this.content = JSON.stringify(quill.getContents());
+            } else { // html
+              this.content = quill.root.innerHTML;
+            }
+            /*
+            Send partial changes
+            $.post('/your-endpoint', {
+              partial: JSON.stringify(change)
+            });
+
+            Send entire document
+            $.post('/your-endpoint', {
+              doc: JSON.stringify(quill.getContents())
+            });
+            */
+            change = new Delta();
+          }
+        }.bind(this), this.saveInterval);
+      },
+
+    });
+  </script>
+</dom-module>
