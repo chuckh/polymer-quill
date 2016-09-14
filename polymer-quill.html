@@ -158,7 +158,9 @@ Custom property | Description | Default
 
         // Set initial content
         if (this.storeAs === 'delta') {
-          quill.setContents(JSON.parse(this.content),'api');
+          if (this.content.length > 1) {
+            quill.setContents(JSON.parse(this.content),'api');
+          }
         } else { // HTML
           quill.root.innerHTML = this.content;
         }
