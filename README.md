@@ -1,4 +1,4 @@
-# \<polymer-quill\>
+# \<polymer-quill\> [![Build Status](https://travis-ci.org/chuckh/polymer-quill.svg?branch=master)](https://travis-ci.org/chuckh/polymer-quill)
 
 ## Polymer Quill Rich Text Editor
 
