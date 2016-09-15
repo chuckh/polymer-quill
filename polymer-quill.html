@@ -16,11 +16,18 @@ Learn more at http://quilljs.com/
 
 #### Defaults (stores as Deltas every 2 seconds, does not show results, 100px height)
 
-    <polymer-quill content="Hello World"></polymer-quill>
+    <polymer-quill
+      content='{"ops":[{"insert":"Hello World"},{"attributes":{"header":2},"insert":"\n"}]}'>
+    </polymer-quill>
 
 #### Custom (stores as HTML every 5 seconds, show results)
 
-    <polymer-quill content="Hello World" store-as="html" store-interval="5000" show-results></polymer-quill>
+    <polymer-quill
+      content="<h2>Hello World</h2>"
+      store-as="html"
+      store-interval="5000"
+      show-results>
+    </polymer-quill>
 
 #### Demo example
 
@@ -31,15 +38,20 @@ Learn more at http://quilljs.com/
   }
 </style>
 <h2>Full Toolbar, Show Results, Custom height (150px), Save as Deltas, Save every 1 second</h2>
-<polymer-quill content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
+<polymer-quill
+  content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
   class='full'
   store-as="delta"
   save-interval="1000"
   toolbar-type="full"
   show-results>
 </polymer-quill>
+
 <h2>Standard Toolbar, Hide Results, Default height (100px), Save as HTML, Save every 2 seconds</h2>
-<polymer-quill content="<h2>Hello World! - Store as HTML</h2>" store-as="html"></polymer-quill>
+<polymer-quill
+  content="<h2>Hello World! - Store as HTML</h2>"
+  store-as="html">
+</polymer-quill>
 ```
 
 
@@ -114,7 +126,7 @@ Custom property | Description | Default
           notify: true,
         },
         /**
-         * Delay Initial Load of content in milliseconds.
+         * Delay initial load of content in milliseconds.
          * Provide time for loading data from polymerfire or iron-ajax.
          * Default is `0`.
          */
@@ -173,7 +185,6 @@ Custom property | Description | Default
         // Set initial content
         this.async(function() {
           if (this.storeAs === 'delta') {
-            console.log('content: ');
             if (this.content.length > 1) {
               quill.setContents(JSON.parse(this.content),'api');
             }
