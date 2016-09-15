@@ -55,6 +55,18 @@ Custom property | Description | Default
 
     bower install --save polymer-quill
 
+### Polymer Starter Kit 2
+
+If you are using Polymer Starter Kit 2 or like as the bases of your app you will need to change `dom: 'shadow'` to `dom: 'shady'` like below. Otherwise the Polymer Quill Editor will in display.
+
+```javascript
+  // Setup Polymer options
+  window.Polymer = {
+    dom: 'shady',
+    lazyRegister: true
+  };
+```
+
 ## License
 
 ### The MIT License (MIT)
