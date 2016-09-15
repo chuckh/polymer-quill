@@ -110,6 +110,16 @@ Custom property | Description | Default
           notify: true,
         },
         /**
+         * Delay Initial Load of content in milliseconds.
+         * Provide time for loading data from polymerfire or iron-ajax.
+         * Default is `0`.
+         */
+        delay: {
+          type: Number,
+          value: 0,
+          notify: true,
+        },
+        /**
          * Show Results below editor of saves in Delta or HMTL format.
          * Default is `false`.
          */
@@ -157,13 +167,16 @@ Custom property | Description | Default
         });
 
         // Set initial content
-        if (this.storeAs === 'delta') {
-          if (this.content.length > 1) {
-            quill.setContents(JSON.parse(this.content),'api');
+        this.async(function() {
+          if (this.storeAs === 'delta') {
+            console.log('content: ');
+            if (this.content.length > 1) {
+              quill.setContents(JSON.parse(this.content),'api');
+            }
+          } else { // HTML
+            quill.root.innerHTML = this.content;
           }
-        } else { // HTML
-          quill.root.innerHTML = this.content;
-        }
+        },this.delay);
 
         // Store accumulated changes
         var change = new Delta();
