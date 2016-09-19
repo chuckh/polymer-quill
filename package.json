@@ -1,13 +1,13 @@
 {
   "name": "polymer-quill",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Polymer Quill Rich Text Editor",
   "main": "polymer-quill.html",
   "directories": {
     "test": "test"
   },
   "dependencies": {
-    "quill": "^1.0.3"
+    "quill": "^1.0.4"
   },
   "devDependencies": {},
   "scripts": {
