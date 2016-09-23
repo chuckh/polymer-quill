@@ -32,13 +32,12 @@
             }
           </style>
           <polymer-quill id="demo1"
-            content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
+            content='{"ops":[{"insert":"Hello World! - Store as Delta - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\n"}]}'
             class='full'
             store-as="delta"
             save-interval="1000"
             toolbar-type="full"
             show-html
-            enable=false;
             show-results>
           </polymer-quill>
         </template>
@@ -47,9 +46,21 @@
       <h3>Standard Toolbar, Hide Results, Default height (100px), Save as HTML, Save every 2 seconds</h3>
       <demo-snippet>
         <template>
-          <polymer-quill
+          <polymer-quill id="demo2"
             content="<h2>Hello World! - Store as HTML</h2>"
             store-as="html">
+          </polymer-quill>
+        </template>
+      </demo-snippet>
+
+      <h3>Standard Toolbar, Disabled, Show HTML, Default height (100px), Save as HTML, Save every 2 seconds</h3>
+      <demo-snippet>
+        <template>
+          <polymer-quill id="demo3"
+            content='{"ops":[{"insert":"Hello World! - Store as Delta, Disabled"},{"attributes":{"header":2},"insert":"\n"}]}'
+            store-as="delta"
+            enable="false"
+            >
           </polymer-quill>
         </template>
       </demo-snippet>
