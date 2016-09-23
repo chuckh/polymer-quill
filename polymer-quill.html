@@ -156,8 +156,8 @@ Custom property | Description | Default
     <div id="editor" class$="{{disabledClass}}">{{content}}</div>
     <div id="results" class="results" hidden$="[[!showResults]]">RESULTS: {{content}}</div>
     <div id="resultsHTML" class="results" hidden$="[[!showHtml]]">HTML: {{html}}</div>
-    <button type="button" name="button" on-tap="getHTML">HTML</button>
-    <button id="toggleButton" on-tap="toggleToolbar" raised>{{buttonTitle}}</button>
+    <!-- <button type="button" name="button" on-tap="getHTML">HTML</button>
+    <button id="toggleButton" on-tap="toggleDisabled" raised>{{buttonTitle}}</button> -->
 
   </template>
 
@@ -292,7 +292,7 @@ Custom property | Description | Default
 
 
         // Set if editor is dsiabled
-        console.log('enable: ',this.enable);
+        // console.log('enable: ',this.enable);
         if (this.enable === 'false') {
           this.quill.enable(false);
           this.hideToolbar = true;
@@ -377,20 +377,21 @@ Custom property | Description | Default
         this.highlight = true;
       },
 
-      toggleToolbar: function(event) {
-        // console.log('toggleToolbar',this.$.toggleButton.value,this.quill,this.quill.theme.options.readOnly);
-        if (this.buttonTitle === 'DISABLE') {
+      toggleDisabled: function() {
+        if (this.enable  === 'true') {
+          // this.enable = 'false';
           this.buttonTitle = 'ENABLE';
           this.hideToolbar = true;
           this.quill.enable(false);
           this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
-       } else {
-          this.buttonTitle = 'DISABLE';
+        } else {
+          this.enable = 'true';
+          // this.buttonTitle = 'DISABLE';
           this.hideToolbar = false;
           this.quill.enable(true);
           this.disabledClass = 'style-scope polymer-quill ql-container ql-snow';
         }
-        // console.log('toggleToolbar',this.quill.theme.options.readOnly);
+        return this.enable;
       }
 
     });
