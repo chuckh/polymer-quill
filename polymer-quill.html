@@ -352,8 +352,11 @@ Custom property | Description | Default
         };
       },
 
-      getHTML: function() {
+      getHTML: function(source) {
         var inputDelta = this.content;
+        if (source) {
+          inputDelta = source;
+        }
         var html = '';
         if (this.storeAs === 'delta') {
           var tempHtml = document.createElement("div");
