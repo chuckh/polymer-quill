@@ -23,7 +23,7 @@
 
   <body unresolved>
     <div class="vertical-section-container centered">
-      <h3>Full Toolbar, Show Results, Custom height (150px), Save as Deltas, Save every 1 second</h3>
+      <h3>Full Toolbar, Show Results & HTML, Custom height (150px), Save as Deltas, Save every 1 second</h3>
       <demo-snippet>
         <template>
           <style is="custom-style">
@@ -31,12 +31,14 @@
               --polymer-quill-editor-height: 150px;
             }
           </style>
-          <polymer-quill
+          <polymer-quill id="demo1"
             content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
             class='full'
             store-as="delta"
             save-interval="1000"
             toolbar-type="full"
+            show-html
+            enable=false;
             show-results>
           </polymer-quill>
         </template>
