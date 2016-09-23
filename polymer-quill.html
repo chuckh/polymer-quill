@@ -378,9 +378,10 @@ Custom property | Description | Default
       },
 
       toggleDisabled: function() {
+        console.log('toggleDisabled: ',this.enable);
         if (this.enable  === 'true') {
-          // this.enable = 'false';
-          this.buttonTitle = 'ENABLE';
+          this.enable = 'false';
+          // this.buttonTitle = 'ENABLE';
           this.hideToolbar = true;
           this.quill.enable(false);
           this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';

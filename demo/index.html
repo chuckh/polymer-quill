@@ -22,6 +22,7 @@
   </head>
 
   <body unresolved>
+
     <div class="vertical-section-container centered">
       <h3>Full Toolbar, Show Results & HTML, Custom height (150px), Save as Deltas, Save every 1 second</h3>
       <demo-snippet>
@@ -40,6 +41,7 @@
             show-html
             show-results>
           </polymer-quill>
+          <button id="disableToggleButtton" type="button" name="button" onclick="disableToggle">Disable</button>
         </template>
       </demo-snippet>
 
@@ -57,13 +59,14 @@
       <demo-snippet>
         <template>
           <polymer-quill id="demo3"
-            content='{"ops":[{"insert":"Hello World! - Store as Delta, Disabled"},{"attributes":{"header":2},"insert":"\n"}]}'
+            content='{"ops":[{"insert":"Hello World! - Store as Delta, Disabled - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\n"}]}'
             store-as="delta"
-            enable="false"
-            >
+            show-html
+            enable="false">
           </polymer-quill>
         </template>
       </demo-snippet>
     </div>
+    <script src="demo.js"></script>
   </body>
 </html>
