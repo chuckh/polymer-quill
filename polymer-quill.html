@@ -78,7 +78,6 @@ Custom property | Description | Default
         --calculated-polymer-quill-editor-height: var(--polymer-quill-editor-height, 100px);
         display: block;
         @apply(--polymer-quill);
-
       }
       #editor {
         height: var(--calculated-polymer-quill-editor-height);
@@ -87,6 +86,11 @@ Custom property | Description | Default
         padding: 20px 10px;
         overflow-x: scroll;
       }
+      .disabled {
+        border: 1px solid #ccc !important;
+        opacity: 0.75;
+      }
+
     </style>
     <div id="toolbar" hidden$='{{hideToolbar}}'>
       <!-- <span class="ql-formats">
@@ -94,7 +98,7 @@ Custom property | Description | Default
       <select class="ql-size"></select>
       </span> -->
       <span class="ql-formats">
-        <select class="ql-header">
+        <select class="ql-header"  hidden$="{{standardToolbar}}">
           <option value="1">Header 1</option>
           <option value="2">Header 2</option>
           <option value="3">Header 3</option>
@@ -102,14 +106,20 @@ Custom property | Description | Default
           <option value="5">Header 5</option>
           <option>Normal</option>
         </select>
+        <select class="ql-header"  hidden$="{{!standardToolbar}}">
+          <option value="1">Header 1</option>
+          <option value="2">Header 2</option>
+          <option value="3">Header 3</option>
+          <option>Normal</option>
+        </select>
       </span>
       <span class="ql-formats">
         <button class="ql-bold" title="Bold"></button>
         <button class="ql-italic" title="Italic"></button>
         <button class="ql-underline" title="Underline"></button>
-        <button class="ql-strike" title="strike"></button>
+        <button class="ql-strike" title="strike" hidden$="{{standardToolbar}}"></button>
       </span>
-      <span class="ql-formats">
+      <span class="ql-formats" hidden$="{{standardToolbar}}">
         <select class="ql-color" title="Text Color"></select>
         <select class="ql-background" title="Text Background Color"></select>
       </span>
@@ -117,7 +127,7 @@ Custom property | Description | Default
       <button class="ql-script" value="sub"></button>
       <button class="ql-script" value="super"></button>
       </span> -->
-      <span class="ql-formats">
+      <span class="ql-formats" hidden$="{{standardToolbar}}">
         <button class="ql-header" value="1" title="Header 1"></button>
         <button class="ql-header" value="2" title="Header 2"></button>
         <button class="ql-blockquote" title="Blockquote"></button>
@@ -126,24 +136,24 @@ Custom property | Description | Default
       <span class="ql-formats">
         <button class="ql-list" value="ordered" title="Numbered List"></button>
         <button class="ql-list" value="bullet" title="Bullet List"></button>
-        <button class="ql-indent" value="-1" title="Decrease Indent"></button>
-        <button class="ql-indent" value="+1" title="Indent"></button>
+        <button class="ql-indent" value="-1" title="Decrease Indent" hidden$="{{standardToolbar}}"></button>
+        <button class="ql-indent" value="+1" title="Indent" hidden$="{{standardToolbar}}"></button>
       </span>
-      <span class="ql-formats">
+      <span class="ql-formats" hidden$="{{standardToolbar}}">
         <!-- <button class="ql-direction" value="rtl"></button> -->
         <select class="ql-align" title="Align">></select>
       </span>
       <span class="ql-formats">
         <button class="ql-link" title="Link"></button>
-        <button class="ql-image" title="Image">></button>
-        <button class="ql-video" title="Video">></button>
+        <button class="ql-image" title="Image" hidden$="{{standardToolbar}}"></button>
+        <button class="ql-video" title="Video" hidden$="{{standardToolbar}}"></button>
         <!-- <button class="ql-formula"></button>> -->
       </span>
       <span class="ql-formats">
         <button class="ql-clean" title="Clear Formating"></button>
       </span>
     </div>
-    <div id="editor">{{content}}</div>
+    <div id="editor" class$="{{disabledClass}}">{{content}}</div>
     <div id="results" class="results" hidden$="[[!showResults]]">RESULTS: {{content}}</div>
     <div id="resultsHTML" class="results" hidden$="[[!showHtml]]">HTML: {{html}}</div>
     <button type="button" name="button" on-tap="getHTML">HTML</button>
@@ -164,8 +174,8 @@ Custom property | Description | Default
           type: String,
           value: '',
           notify: true,
-          reflectToAttribute: true,
-          observer: '_contentChanged'
+          reflectToAttribute: true
+          // observer: '_contentChanged'
         },
         /**
          * Content which is in HTML format.
@@ -232,51 +242,62 @@ Custom property | Description | Default
           notify: true,
         },
         /**
+         * Standard Tool
+         * Default is `true`.
+         */
+        standardToolbar: {
+          type: Boolean,
+          value: true,
+          notify: true,
+        },
+        /**
          * Enable editing.
          * Default is `true`.
          */
         enable: {
-          type: Boolean,
-          value: true,
+          type: String,
+          value: 'true',
           notify: true,
           reflectToAttribute: true,
         },
+        /**
+         * Disable Button title.
+         * Default is `DISABLE`.
+         */
         buttonTitle: {
           type: String,
           value: 'DISABLE'
+        },
+        /**
+         * Disable Class title.
+         * Default is ``.
+         */
+        disabledClass: {
+          type: String,
+          value: 'style-scope polymer-quill ql-container ql-snow'
         }
       },
 
       ready: function() {
-        var toolbarOptions = null;
         if (this.toolbarType === 'full') {
-          this.quill = new Quill(this.$.editor, {
-            modules: {
-              toolbar: this.$.toolbar
-            },
-            theme: 'snow',
-          });
-        } else {
-          this.quill = new Quill(this.$.editor, {
-            modules: {
-              toolbar: true                            // standard toolbar
-            },
-            theme: 'snow',
-          });
-          this.hideToolbar = true;
+          this.standardToolbar = false;
         }
-
         var Delta = Quill.import('delta');
-        // this.quill = new Quill(this.$.editor, {
-        //   modules: {
-        //     toolbar: toolbarOptions
-        //   },
-        //   theme: 'snow',
-        // });
+        this.quill = new Quill(this.$.editor, {
+          modules: {
+            toolbar: this.$.toolbar
+          },
+          theme: 'snow',
+        });
 
-        // Set if editor is readonly
-        console.log('enable: ',this.enable,this.quill);
-        this.quill.enable(this.enable);
+
+        // Set if editor is dsiabled
+        console.log('enable: ',this.enable);
+        if (this.enable === 'false') {
+          this.quill.enable(false);
+          this.hideToolbar = true;
+          this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
+        }
 
         // Set initial content
         this.async(function() {
@@ -333,13 +354,18 @@ Custom property | Description | Default
 
       getHTML: function() {
         var inputDelta = this.content;
-        var tempCont = document.createElement("div");
-        var quill1 = new Quill(tempCont);
-        quill1.setContents(JSON.parse(this.content),'api');
-        var html = quill1.root.innerHTML;
-        console.log('html: ',html,this.content);
-        tempCont.parentNode.removeChild(tempCont);
-        // tempCont.remove();
+        var html = '';
+        if (this.storeAs === 'delta') {
+          var tempHtml = document.createElement("div");
+          var quillHtml = new Quill(tempHtml);
+          quillHtml.setContents(JSON.parse(this.content),'api');
+          html = quillHtml.root.innerHTML;
+          quillHtml = null;
+          tempHtml = null;
+        } else {
+          html = this.content;
+        }
+        console.log('getHTML: ',html);
         return html;
       },
 
@@ -349,18 +375,19 @@ Custom property | Description | Default
       },
 
       toggleToolbar: function(event) {
-        console.log('toggleToolbar',this.$.toggleButton.value,this.quill,this.quill.theme.options.readOnly);
+        // console.log('toggleToolbar',this.$.toggleButton.value,this.quill,this.quill.theme.options.readOnly);
         if (this.buttonTitle === 'DISABLE') {
-          this.buttonTitle = 'ENABLE'
+          this.buttonTitle = 'ENABLE';
           this.hideToolbar = true;
           this.quill.enable(false);
+          this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
        } else {
-          this.buttonTitle = 'DISABLE'
+          this.buttonTitle = 'DISABLE';
           this.hideToolbar = false;
           this.quill.enable(true);
+          this.disabledClass = 'style-scope polymer-quill ql-container ql-snow';
         }
-        console.log('toggleToolbar',this.quill.theme.options.readOnly);
-
+        // console.log('toggleToolbar',this.quill.theme.options.readOnly);
       }
 
     });
