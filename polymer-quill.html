@@ -156,8 +156,6 @@ Custom property | Description | Default
     <div id="editor" class$="{{disabledClass}}">{{content}}</div>
     <div id="results" class="results" hidden$="[[!showResults]]">RESULTS: {{content}}</div>
     <div id="resultsHTML" class="results" hidden$="[[!showHtml]]">HTML: {{html}}</div>
-    <!-- <button type="button" name="button" on-tap="getHTML">HTML</button>
-    <button id="toggleButton" on-tap="toggleDisabled" raised>{{buttonTitle}}</button> -->
 
   </template>
 
@@ -174,8 +172,8 @@ Custom property | Description | Default
           type: String,
           value: '',
           notify: true,
-          reflectToAttribute: true
-          // observer: '_contentChanged'
+          reflectToAttribute: true,
+          observer: '_contentChanged'
         },
         /**
          * Content which is in HTML format.
@@ -261,14 +259,6 @@ Custom property | Description | Default
           reflectToAttribute: true,
         },
         /**
-         * Disable Button title.
-         * Default is `DISABLE`.
-         */
-        buttonTitle: {
-          type: String,
-          value: 'DISABLE'
-        },
-        /**
          * Disable Class title.
          * Default is ``.
          */
@@ -329,7 +319,13 @@ Custom property | Description | Default
               this.content = this.quill.root.innerHTML;
             }
             this.html = this.quill.root.innerHTML;
-            /*
+
+            // Fire custom event save-change
+            console.log('fire: save',change);
+            // this.fire('save');
+            // this.fire('save', {change: change, content: this.content, html: this.html},null,{bubble: true});
+            this.fire('save', {kind: true},{bubble: true});
+             /*
             Send partial changes
             $.post('/your-endpoint', {
               partial: JSON.stringify(change)
@@ -361,7 +357,7 @@ Custom property | Description | Default
         if (this.storeAs === 'delta') {
           var tempHtml = document.createElement("div");
           var quillHtml = new Quill(tempHtml);
-          quillHtml.setContents(JSON.parse(this.content),'api');
+          quillHtml.setContents(JSON.parse(inputDelta),'api');
           html = quillHtml.root.innerHTML;
           quillHtml = null;
           tempHtml = null;
@@ -372,22 +368,20 @@ Custom property | Description | Default
         return html;
       },
 
-      _contnetChanged: function(newValue, oldValue) {
-        this.toggleClass('disabled', newValue);
-        this.highlight = true;
+      _contentChanged: function(newValue, oldValue) {
+        // console.log('_contentChanged: ',newValue,oldValue);
+        // this.toggleClass('disabled', newValue);
+        // this.highlight = true;
       },
 
       toggleDisabled: function() {
-        console.log('toggleDisabled: ',this.enable);
         if (this.enable  === 'true') {
           this.enable = 'false';
-          // this.buttonTitle = 'ENABLE';
           this.hideToolbar = true;
           this.quill.enable(false);
           this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
         } else {
           this.enable = 'true';
-          // this.buttonTitle = 'DISABLE';
           this.hideToolbar = false;
           this.quill.enable(true);
           this.disabledClass = 'style-scope polymer-quill ql-container ql-snow';
