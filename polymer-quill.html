@@ -321,10 +321,10 @@ Custom property | Description | Default
             this.html = this.quill.root.innerHTML;
 
             // Fire custom event save-change
-            console.log('fire: save',change);
+            console.log('fire: save-change',change);
             // this.fire('save');
-            // this.fire('save', {change: change, content: this.content, html: this.html},null,{bubble: true});
-            this.fire('save', {kind: true},{bubble: true});
+            this.fire('save-change', {change: change, content: this.content, html: this.html},null,{bubble: true});
+            // this.fire('save', {kind: true},{bubble: true});
              /*
             Send partial changes
             $.post('/your-endpoint', {
