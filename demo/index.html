@@ -63,7 +63,8 @@
               content='{"ops":[{"insert":"Hello World! - Store as Delta, Disabled - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\n"}]}'
               store-as="delta"
               show-html
-              enable="false">
+              enable="false"
+              on-change="saveChange">
             </polymer-quill>
             <paper-button id="disableToggleButtton3" type="button" name="button" on-tap="disableToggle">Enable</paper-button>
             <paper-button id="getHtmlButtton3" type="button" name="button" on-tap="getHTML">Get HTML</paper-button>
@@ -95,12 +96,8 @@
                 console.log('html: ',html);
               };
               app.saveChange = function(e) {
-                var normalizedEvent = Polymer.dom(event);
                 console.log('saveChange: ',e);
               };
-              // Listen for resize and scroll on window.
-              // app.this.$demo3.addEventListener('save', app.saveChange(event));
-              app.addEventListener('save-change', app.saveChange(event));
 
             </script>
           <template>
