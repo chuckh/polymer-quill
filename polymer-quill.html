@@ -322,7 +322,7 @@ Custom property | Description | Default
 
             // Fire custom event save-change
             // console.log('fire: save-change',change);
-            this.fire('change', {change: change, content: this.content, html: this.html});
+            this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html});
              /*
             Send partial changes
             $.post('/your-endpoint', {
