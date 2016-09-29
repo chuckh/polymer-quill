@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
+    <!-- <link rel="import" href="../../polymer/polymer.html"> -->
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../iron-localstorage/iron-localstorage.html">
     <link rel="import" href="../../paper-button/paper-button.html">
 
     <link rel="import" href="../polymer-quill.html">
@@ -24,7 +26,7 @@
 
   <body unresolved>
     <div class="vertical-section-container centered">
-      <h3>Full Toolbar, Show Results & HTML, Custom height (150px), Save as Deltas, Save every 1 second</h3>
+      <h3>1. Full Toolbar, Show Results & HTML, Custom height (150px), Save as Deltas, Save every 1 second</h3>
       <demo-snippet>
         <template>
           <style is="custom-style">
@@ -41,68 +43,101 @@
             show-html
             show-results>
           </polymer-quill>
-          <paper-button id="disableToggleButtton1" type="button" name="button" on-tap="disableToggle">Disable</paper-button>
         </template>
       </demo-snippet>
 
-      <h3>Standard Toolbar, Hide Results, Default height (100px), Save as HTML, Save every 2 seconds</h3>
+      <h3>2. Standard Toolbar, Hide Results, Default height (100px), Save as HTML, Save every 2 seconds</h3>
       <demo-snippet>
         <template>
           <polymer-quill id="demo2"
-            content="<h2>Hello World! - Store as HTML</h2>"
+            content='<h2>Hello World! - Store as HTML -  <a href="//proplanr.com" target="_blank">proplanr.com</a></h2>'
             store-as="html">
           </polymer-quill>
         </template>
       </demo-snippet>
 
-      <h3>Standard Toolbar, Disabled, Show HTML, Default height (100px), Save as HTML, Save every 2 seconds</h3>
+      <h3>3. Standard Toolbar, Disabled, Show HTML, Default height (100px), Save as HTML, Save every 2 seconds</h3>
       <demo-snippet>
         <template>
-          <template is="dom-bind" id="app3">
-            <polymer-quill id="demo3"
-              content='{"ops":[{"insert":"Hello World! - Store as Delta, Disabled - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\n"}]}'
+          <polymer-quill id="demo3"
+            content='{"ops":[{"insert":"Hello World! - Store as Delta, Disabled - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\n"}]}'
+            store-as="delta"
+            show-html
+            enable="false">
+          </polymer-quill>
+        </template>
+      </demo-snippet>
+
+      <h3>4. Standard Toolbar, On Change, Show HTML, Default height (100px), Save as HTML, Save every 2 seconds</h3>
+      <demo-snippet>
+        <template>
+          <template is="dom-bind" id="app4">
+            <iron-localstorage
+              name="app4-localstorage"
+              value="{{contentValue}}"
+              use-raw>
+            </iron-localstorage>
+            <polymer-quill id="demo4"
               store-as="delta"
               show-html
-              enable="false"
-              on-change="saveChange">
+              enable="true"
+              on-change="saveChange"
+              >
             </polymer-quill>
-            <paper-button id="disableToggleButtton3" type="button" name="button" on-tap="disableToggle">Enable</paper-button>
-            <paper-button id="getHtmlButtton3" type="button" name="button" on-tap="getHTML">Get HTML</paper-button>
+            <paper-button id="disableToggleButtton4" type="button" name="button" on-tap="disableToggle">Disable</paper-button>
+            <paper-button id="getHtmlButtton4" type="button" name="button" on-tap="getHTML">Get HTML</paper-button>
             <script>
               // var app = document.querySelector('template[is="dom-bind"]');
-              var app = document.querySelector('#app3');
-
-              app.addEventListener('dom-change', function() {
-                console.log('polymer-quill is ready to rock!');
-              });
+              var app = document.querySelector('#app4');
 
               window.addEventListener('WebComponentsReady', function() {
                 // imports are loaded and elements have been registered
-                app.isChrome = ((navigator.userAgent.toLowerCase().indexOf('chrome') > -1) &&(navigator.vendor.toLowerCase().indexOf("google") > -1));
-                console.log('WebComponentsReady', app.isChrome);
+                console.log('WebComponentsReady');
+                app.loadInitialData();
               });
 
+              app.loadInitialData = function () {
+                // console.log('loadInitialData', this.contentValue);
+                var content = '';
+                if (this.contentValue === null) {
+                  content = '{"ops":[{"insert":"Hello World! - Store as Delta, On Change Event - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\\n"}]}';
+                } else {
+                  content = this.contentValue;
+                }
+                app.$.demo4.quill.setContents(JSON.parse(content),'api');
+              };
+
               app.disableToggle = function(e) {
-                console.log('disableToggle: ',e.target.innerText,app);
                 if (e.target.innerText === 'ENABLE') {
                   e.target.innerText = 'DISABLE'
                 } else {
                   e.target.innerText = 'ENABLE'
                 }
-                app.$.demo3.toggleDisabled();
-              };
-              app.getHTML = function(e) {
-                var html = app.$.demo3.getHTML();
-                console.log('html: ',html);
-              };
-              app.saveChange = function(e) {
-                console.log('saveChange: ',e);
+                app.$.demo4.toggleDisabled();
               };
 
+              app.getHTML = function(e) {
+                var html = app.$.demo4.getHTML();
+                alert('HTML: ' + html)
+              };
+
+              app.saveChange = function(e) {
+                // Send partial changes in deltas string
+                // this.contentValue = e.detail.change;
+
+                // Send entire document in deltas string
+                this.contentValue = e.detail.content;
+
+                // Send entire document in html
+                // this.contentValue = e.detail.html;
+
+                console.log('saveChange to localstorage: ');
+              };
             </script>
-          <template>
+          </template>
         </template>
       </demo-snippet>
+
     </div>
   </body>
 </html>
