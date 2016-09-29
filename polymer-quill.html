@@ -164,6 +164,24 @@ Custom property | Description | Default
 
       is: 'polymer-quill',
 
+      /**
+        * Fired when element is attached.
+        *
+        * @event attached
+        */
+
+      /**
+        * Fired when content has changed.
+        *
+        * @event change
+        */
+
+      /**
+        * Fired when element is ready.
+        *
+        * @event ready
+        */
+
       properties: {
         /**
          * Content which is in Deltas or HTML format.
@@ -280,7 +298,6 @@ Custom property | Description | Default
           theme: 'snow',
         });
 
-
         // Set if editor is dsiabled
         // console.log('enable: ',this.enable);
         if (this.enable === 'false') {
@@ -320,20 +337,9 @@ Custom property | Description | Default
             }
             this.html = this.quill.root.innerHTML;
 
-            // Fire custom event save-change
-            // console.log('fire: save-change',change);
+            // Fire custom event change
+            // console.log('fire: change',change);
             this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html});
-             /*
-            Send partial changes
-            $.post('/your-endpoint', {
-              partial: JSON.stringify(change)
-            });
-
-            Send entire document
-            $.post('/your-endpoint', {
-              doc: JSON.stringify(this.quill.getContents())
-            });
-            */
             change = new Delta();
           }
         }.bind(this), this.saveInterval);
