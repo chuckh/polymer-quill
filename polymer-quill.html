@@ -267,14 +267,13 @@ Custom property | Description | Default
           notify: true,
         },
         /**
-         * Enable editing.
+         * Enable tracks if editing is enabled.
          * Default is `true`.
          */
         enable: {
           type: String,
           value: 'true',
           notify: true,
-          reflectToAttribute: true,
         },
         /**
          * Disable Class title.
@@ -356,6 +355,7 @@ Custom property | Description | Default
         this.fire('attached');
       },
 
+      // Convert Deltas to HTML, source should be deltas string
       getHTML: function(source) {
         var inputDelta = this.content;
         if (source) {
@@ -380,7 +380,8 @@ Custom property | Description | Default
         // console.log('_contentChanged: ',newValue, ' -- oldValue:' + oldValue);
       },
 
-      toggleDisabled: function() {
+      // Toogle Editor Enable (show toolbar and enables editing), Disabled (hide toolbar and disables editing)
+      toggleEnable: function() {
         if (this.enable  === 'true') {
           this.enable = 'false';
           this.hideToolbar = true;

@@ -56,7 +56,7 @@
         </template>
       </demo-snippet>
 
-      <h3>3. Standard Toolbar, Disabled, Show HTML, Default height (100px), Save as HTML, Save every 2 seconds</h3>
+      <h3>3. Standard Toolbar, Disabled, Show HTML, Default height (100px), Save every 2 seconds</h3>
       <demo-snippet>
         <template>
           <polymer-quill id="demo3"
@@ -68,7 +68,7 @@
         </template>
       </demo-snippet>
 
-      <h3>4. Standard Toolbar, On Change, Show HTML, Default height (100px), Save as HTML, Save every 2 seconds</h3>
+      <h3>4. Standard Toolbar, On Change save to local storage, Show HTML, Default height (100px), Save as Deltas, Save every 2 seconds</h3>
       <demo-snippet>
         <template>
           <template is="dom-bind" id="app4">
@@ -109,11 +109,11 @@
 
               app.disableToggle = function(e) {
                 if (e.target.innerText === 'ENABLE') {
-                  e.target.innerText = 'DISABLE'
+                  e.target.innerText = 'DISABLE';
                 } else {
-                  e.target.innerText = 'ENABLE'
+                  e.target.innerText = 'ENABLE';
                 }
-                app.$.demo4.toggleDisabled();
+                app.$.demo4.toggleEnable();
               };
 
               app.getHTML = function(e) {
