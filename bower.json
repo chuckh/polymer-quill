@@ -22,7 +22,8 @@
   "homepage": "https://github.com/chuckh/polymer-quill",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.6.0",
-    "quill": "https://github.com/quilljs/quill/releases/download/v1.0.5/quill.tar.gz"
+    "quill": "https://github.com/quilljs/quill/releases/download/v1.0.5/quill.tar.gz",
+    "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.6"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
