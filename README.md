@@ -10,7 +10,8 @@ Learn more at http://quilljs.com/
 
 ## Demo and API docs
 
-[Demo and API docs](https://chuckh.github.io/polymer-quill/)
+- [API docs](https://chuckh.github.io/polymer-quill/)
+- [Demo](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/)
 
 ### Examples
 
@@ -57,7 +58,7 @@ Custom property | Description | Default
 
 ### Polymer Starter Kit 2
 
-If you are using Polymer Starter Kit 2 or like as the bases of your app you will need to change `dom: 'shadow'` to `dom: 'shady'` like below. Otherwise the Polymer Quill Editor will in display.
+If you are using Polymer Starter Kit 2 or like as the bases of your app you will need to change `dom: 'shadow'` to `dom: 'shady'` like below. Otherwise the Polymer Quill Editor will not display.
 
 ```javascript
   // Setup Polymer options
