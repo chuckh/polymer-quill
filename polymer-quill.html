@@ -346,6 +346,10 @@ Custom property | Description | Default
         };
       },
 
+      attached: function() {
+        this.fire('attached');
+      },
+
       getHTML: function(source) {
         var inputDelta = this.content;
         if (source) {
@@ -362,14 +366,12 @@ Custom property | Description | Default
         } else {
           html = this.content;
         }
-        console.log('getHTML: ',html);
+        // console.log('getHTML: ',html);
         return html;
       },
 
       _contentChanged: function(newValue, oldValue) {
-        // console.log('_contentChanged: ',newValue,oldValue);
-        // this.toggleClass('disabled', newValue);
-        // this.highlight = true;
+        // console.log('_contentChanged: ',newValue, ' -- oldValue:' + oldValue);
       },
 
       toggleDisabled: function() {
