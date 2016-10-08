@@ -28,10 +28,11 @@ Learn more at http://quilljs.com/
 ```html
 <style is="custom-style">
   polymer-quill.full {
-    --polymer-quill-editor-height: 150px;
+    --polymer-quill-editor-max-height: 300px;
+    --polymer-quill-editor-min-height: 100px;
   }
 </style>
-<h2>Full Toolbar, Show Results, Custom height (150px), Save as Deltas, Save every 1 second</h2>
+<h2>Full Toolbar, Show Results, Max Height (300px), Min Height (100px), Save as Deltas, Save every 1 second</h2>
 <polymer-quill content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
   class='full'
   store-as="delta"
@@ -45,12 +46,31 @@ Learn more at http://quilljs.com/
 
 ### Styling
 
-The following custom properties and mixins are available for styling:
+The following custom properties and mixins are available for styling. This allows the editor auto grow to the max-height.:
 
 Custom property | Description | Default
 ----------------|-------------|----------
-`--polymer-quill-editor-height`     | Custom height for editor     | `100px`
+`--polymer-quill-editor-max-height` | Custom max-height for editor     | `400px`
+`--polymer-quill-editor-min-height` | Custom max-height for editor     | `50px`
 `--polymer-quill`                   | Mixin applied to the editor  | `{}`
+
+Below is example of setting the editor to `max-height` of 260px less then the viewport height and `min-height` of 150px. So any content greater then the max-height with scroll otherwise it will auto grow.
+
+```
+polymer-quill {
+  --polymer-quill-editor-max-height: calc(100vh - 260px);
+  --polymer-quill-editor-min-height: 150px;
+  max-width: 870px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  padding: 0;
+  margin-left: auto;
+  margin-bottom: 5px;
+  margin-right: auto;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #212121;
+}
+```
 
 ## Install
 
