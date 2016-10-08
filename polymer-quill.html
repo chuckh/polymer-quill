@@ -34,7 +34,8 @@ Learn more at http://quilljs.com/
 ```html
 <style is="custom-style">
   polymer-quill.full {
-    --polymer-quill-editor-height: 150px;
+    --polymer-quill-editor-max-height: 600px;
+    --polymer-quill-editor-min-height: 200px;
   }
 </style>
 <h2>Full Toolbar, Show Results, Custom height (150px), Save as Deltas, Save every 1 second</h2>
@@ -61,7 +62,8 @@ The following custom properties and mixins are available for styling:
 
 Custom property | Description | Default
 ----------------|-------------|----------
-`--polymer-quill-editor-height`     | Custom height for editor     | `100px`
+`--polymer-quill-editor-max-height` | Custom max-height for editor     | `400px`
+`--polymer-quill-editor-min-height` | Custom min-height for editor     | `50px`
 `--polymer-quill`                   | Mixin applied to the editor  | `{}`
 
 ### Install
@@ -75,12 +77,15 @@ Custom property | Description | Default
   <template>
     <style include="polymer-quill-styles-snow">
       :host {
-        --calculated-polymer-quill-editor-height: var(--polymer-quill-editor-height, 100px);
+        --calculated-polymer-quill-editor-max-height: var(--polymer-quill-editor-max-height, 400px);
+        --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 100px);
         display: block;
         @apply(--polymer-quill);
       }
       #editor {
-        height: var(--calculated-polymer-quill-editor-height);
+        max-height: var(--calculated-polymer-quill-editor-max-height);
+        min-height: var(--calculated-polymer-quill-editor-min-height);
+        overflow: scroll;
       }
       .results {
         padding: 20px 10px;

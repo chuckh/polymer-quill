@@ -26,12 +26,13 @@
 
   <body unresolved>
     <div class="vertical-section-container centered">
-      <h3>1. Full Toolbar, Show Results & HTML, Custom height (150px), Save as Deltas, Save every 1 second</h3>
+      <h3>1. Full Toolbar, Show Results & HTML, Max height 300px & Min height 150px), Save as Deltas, Save every 1 second</h3>
       <demo-snippet>
         <template>
           <style is="custom-style">
             polymer-quill.full {
-              --polymer-quill-editor-height: 150px;
+              --polymer-quill-editor-max-height: 300px;
+              --polymer-quill-editor-min-height: 150px;
             }
           </style>
           <polymer-quill id="demo1"
@@ -46,7 +47,7 @@
         </template>
       </demo-snippet>
 
-      <h3>2. Standard Toolbar, Hide Results, Default height (100px), Save as HTML, Save every 2 seconds</h3>
+      <h3>2. Standard Toolbar, Hide Results, Default max & min heights (400px & 50px), Save as HTML, Save every 2 seconds</h3>
       <demo-snippet>
         <template>
           <polymer-quill id="demo2"
@@ -56,7 +57,7 @@
         </template>
       </demo-snippet>
 
-      <h3>3. Standard Toolbar, Disabled, Show HTML, Default height (100px), Save every 2 seconds</h3>
+      <h3>3. Standard Toolbar, Disabled, Show HTML, Default max & min heights (400px & 50px), Save every 2 seconds</h3>
       <demo-snippet>
         <template>
           <polymer-quill id="demo3"
@@ -68,7 +69,7 @@
         </template>
       </demo-snippet>
 
-      <h3>4. Standard Toolbar, On Change save to local storage, Show HTML, Default height (100px), Save as Deltas, Save every 2 seconds</h3>
+      <h3>4. Standard Toolbar, On Change save to local storage, Show HTML, Default max & min heights (400px & 50px), Save as Deltas, Save every 2 seconds</h3>
       <demo-snippet>
         <template>
           <template is="dom-bind" id="app4">
