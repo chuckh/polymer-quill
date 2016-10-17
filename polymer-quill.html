@@ -303,7 +303,6 @@ Custom property | Description | Default
         });
 
         // Set if editor is dsiabled
-        // console.log('enable: ',this.enable);
         if (this.enable === 'false') {
           this.quill.enable(false);
           this.hideToolbar = true;
@@ -342,7 +341,6 @@ Custom property | Description | Default
             this.html = this.quill.root.innerHTML;
 
             // Fire custom event change
-            // console.log('fire: change',change);
             this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html});
             change = new Delta();
           }
