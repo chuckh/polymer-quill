@@ -1,0 +1,404 @@
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="polymer-quill-import.html">
+<link rel="import" href="polymer-quill-styles-bubble.html">
+
+<!--
+## Polymer Quill Rich Text Editor - Bubble toolbar like Medium
+
+`polymer-quill-bubble` creates a Polymer Quill Rich Text Editor - Bubble toolbar like Medium.
+
+Quill is a free, open source WYSIWYG editor built for the modern web.
+With its modular architecture and expressive API, it is completely customizable to fit any need.
+Learn more at http://quilljs.com/
+
+### Examples
+
+#### Defaults (stores as Deltas every 2 seconds, does not show results, 100px height)
+
+    <polymer-quill-bubble
+      content='{"ops":[{"insert":"Hello World"},{"attributes":{"header":2},"insert":"\n"}]}'>
+    </polymer-quill-bubble>
+
+#### Custom (stores as HTML every 5 seconds, show results)
+
+    <polymer-quill-bubble
+      content="<h2>Hello World</h2>"
+      store-as="html"
+      store-interval="5000"
+      show-results>
+    </polymer-quill-bubble>
+
+#### Demo example
+
+```html
+<style is="custom-style">
+  polymer-quill.full {
+    --polymer-quill-editor-max-height: 600px;
+    --polymer-quill-editor-min-height: 200px;
+  }
+</style>
+<h2>Full Toolbar, Show Results, Custom height (150px), Save as Deltas, Save every 1 second</h2>
+<polymer-quill-bubble
+  content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
+  class='full'
+  store-as="delta"
+  save-interval="1000"
+  toolbar-type="full"
+  show-results>
+</polymer-quill-bubble>
+
+<h2>Standard Toolbar, Hide Results, Default height (100px), Save as HTML, Save every 2 seconds</h2>
+<polymer-quill-bubble
+  content="<h2>Hello World! - Store as HTML</h2>"
+  store-as="html">
+</polymer-quill-bubble>
+```
+
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--polymer-quill-editor-max-height` | Custom max-height for editor     | `400px`
+`--polymer-quill-editor-min-height` | Custom min-height for editor     | `50px`
+`--polymer-quill`                   | Mixin applied to the editor  | `{}`
+
+### Install
+
+    bower install --save polymer-quill
+
+@demo demo/index.html
+-->
+
+<dom-module id="polymer-quill-bubble">
+  <template>
+    <style include="polymer-quill-styles-bubble">
+      :host {
+        --calculated-polymer-quill-editor-max-height: var(--polymer-quill-editor-max-height, 400px);
+        --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 100px);
+        display: block;
+        @apply(--polymer-quill);
+      }
+      #editor {
+        max-height: var(--calculated-polymer-quill-editor-max-height);
+        min-height: var(--calculated-polymer-quill-editor-min-height);
+        overflow: scroll;
+      }
+      .results {
+        padding: 20px 10px;
+        overflow-x: scroll;
+      }
+      .disabled {
+        border: 1px solid #ccc !important;
+        opacity: 0.85;
+      }
+
+    </style>
+    <div id="toolbar" hidden$='{{hideToolbar}}'>
+      <!-- <span class="ql-formats">
+      <select class="ql-font"></select>
+      <select class="ql-size"></select>
+      </span> -->
+      <span class="ql-formats">
+        <select class="ql-header"  hidden$="{{standardToolbar}}">
+          <option value="1">Header 1</option>
+          <option value="2">Header 2</option>
+          <option value="3">Header 3</option>
+          <option value="4">Header 4</option>
+          <option value="5">Header 5</option>
+          <option value="7">Normal</option>
+        </select>
+        <select class="ql-header"  hidden$="{{!standardToolbar}}">
+          <option value="1">Header 1</option>
+          <option value="2">Header 2</option>
+          <option value="3">Header 3</option>
+          <option value="7">Normal</option>
+        </select>
+      </span>
+      <span class="ql-formats">
+        <button class="ql-bold" title="Bold"></button>
+        <button class="ql-italic" title="Italic"></button>
+        <button class="ql-underline" title="Underline"></button>
+        <button class="ql-strike" title="strike" hidden$="{{standardToolbar}}"></button>
+      </span>
+      <span class="ql-formats" hidden$="{{standardToolbar}}">
+        <select class="ql-color" title="Text Color"></select>
+        <select class="ql-background" title="Text Background Color"></select>
+      </span>
+      <!-- <span class="ql-formats">
+      <button class="ql-script" value="sub"></button>
+      <button class="ql-script" value="super"></button>
+      </span> -->
+      <span class="ql-formats" hidden$="{{standardToolbar}}">
+        <button class="ql-header" value="1" title="Header 1"></button>
+        <button class="ql-header" value="2" title="Header 2"></button>
+        <button class="ql-blockquote" title="Blockquote"></button>
+        <button class="ql-code-block" title="Code Clock"></button>
+      </span>
+      <span class="ql-formats">
+        <button class="ql-list" value="ordered" title="Numbered List"></button>
+        <button class="ql-list" value="bullet" title="Bullet List"></button>
+        <button class="ql-indent" value="-1" title="Decrease Indent" hidden$="{{standardToolbar}}"></button>
+        <button class="ql-indent" value="+1" title="Indent" hidden$="{{standardToolbar}}"></button>
+      </span>
+      <span class="ql-formats" hidden$="{{standardToolbar}}">
+        <!-- <button class="ql-direction" value="rtl"></button> -->
+        <select class="ql-align" title="Align">></select>
+      </span>
+      <span class="ql-formats">
+        <button class="ql-link" title="Link"></button>
+        <button class="ql-image" title="Image" hidden$="{{standardToolbar}}"></button>
+        <button class="ql-video" title="Video" hidden$="{{standardToolbar}}"></button>
+        <!-- <button class="ql-formula"></button>> -->
+      </span>
+      <span class="ql-formats">
+        <button class="ql-clean" title="Clear Formating"></button>
+      </span>
+    </div>
+    <div id="editor" class$="{{disabledClass}}">{{content}}</div>
+    <div id="results" class="results" hidden$="[[!showResults]]">RESULTS: {{content}}</div>
+    <div id="resultsHTML" class="results" hidden$="[[!showHtml]]">HTML: {{html}}</div>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'polymer-quill-bubble',
+
+      /**
+        * Fired when element is attached.
+        *
+        * @event attached
+        */
+
+      /**
+        * Fired when content has changed.
+        *
+        * @event change
+        */
+
+      /**
+        * Fired when element is ready.
+        *
+        * @event ready
+        */
+
+      properties: {
+        /**
+         * Content which is in Deltas or HTML format.
+         */
+        content: {
+          type: String,
+          value: '',
+          notify: true,
+          reflectToAttribute: true,
+          observer: '_contentChanged'
+        },
+        /**
+         * Content which is in HTML format.
+         */
+        html: {
+          type: String,
+          value: '',
+          notify: true,
+          reflectToAttribute: true,
+        },
+        /**
+         * Store as Quill Deltas or HTML.
+         * Options are `delta`, `html`.
+         */
+        storeAs: {
+          type: String,
+          value: 'delta',
+          notify: true,
+        },
+        /**
+         * Save Interval in milliseconds.
+         * Default is `2000`.
+         */
+        saveInterval: {
+          type: Number,
+          value: 2000,
+          notify: true,
+        },
+        /**
+         * Delay initial load of content in milliseconds.
+         * Provide time for loading data from polymerfire or iron-ajax.
+         * Default is `0`.
+         */
+        delay: {
+          type: Number,
+          value: 0,
+          notify: true,
+        },
+        /**
+         * Show Results below editor of saves in Delta or HMTL format.
+         * Default is `false`.
+         */
+        showResults: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
+        /**
+         * Show Results below editor of saves in HMTL format.
+         * Default is `false`.
+         */
+        showHtml: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
+        /**
+         * Editor toolbar type.
+         * Options are `standard`, `full`.
+         */
+        toolbarType: {
+          type: String,
+          value: 'standard',
+          notify: true,
+        },
+        /**
+         * Standard Tool
+         * Default is `true`.
+         */
+        standardToolbar: {
+          type: Boolean,
+          value: true,
+          notify: true,
+        },
+        /**
+         * Enable tracks if editing is enabled.
+         * Default is `true`.
+         */
+        enable: {
+          type: String,
+          value: 'true',
+          notify: true,
+        },
+        /**
+         * Disable Class title.
+         * Default is ``.
+         */
+        disabledClass: {
+          type: String,
+          value: 'style-scope polymer-quill ql-container ql-snow'
+        }
+      },
+
+      ready: function() {
+        if (this.toolbarType === 'full') {
+          this.standardToolbar = false;
+        }
+        var Delta = Quill.import('delta');
+        this.quill = new Quill(this.$.editor, {
+          modules: {
+            toolbar: this.$.toolbar
+          },
+          theme: 'bubble',
+        });
+
+        // Set if editor is dsiabled
+        if (this.enable === 'false') {
+          this.quill.enable(false);
+          this.hideToolbar = true;
+          this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
+        }
+
+        // Set initial content
+        this.async(function() {
+          if (this.storeAs === 'delta') {
+            if (this.content.length > 1) {
+              this.quill.setContents(JSON.parse(this.content),'api');
+            }
+          } else { // HTML
+            this.quill.root.innerHTML = this.content;
+          }
+          this.html = this.quill.root.innerHTML;
+        },this.delay);
+
+        // Store accumulated changes
+        var change = new Delta();
+        this.quill.on('text-change', function(delta) {
+          change = change.compose(delta);
+        });
+
+        // Save periodically
+        setInterval(function() {
+          if (change.length() > 0) {
+            if (this.showResults) {
+              console.log('Saving changes', change);
+            }
+            if (this.storeAs === 'delta') {
+              this.content = JSON.stringify(this.quill.getContents());
+            } else { // html
+              this.content = this.quill.root.innerHTML;
+            }
+            this.html = this.quill.root.innerHTML;
+
+            // Fire custom event change
+            this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html});
+            change = new Delta();
+          }
+        }.bind(this), this.saveInterval);
+
+        // Check for unsaved data
+        window.onbeforeunload = function() {
+          if (change.length() > 0) {
+            return 'There are unsaved changes. Are you sure you want to leave?';
+          }
+        };
+      },
+
+      attached: function() {
+        this.fire('attached');
+      },
+
+      // Convert Deltas to HTML, source should be deltas string
+      getHTML: function(source) {
+        var inputDelta = this.content;
+        if (source) {
+          inputDelta = source;
+        }
+        var html = '';
+        if (this.storeAs === 'delta') {
+          var tempHtml = document.createElement("div");
+          var quillHtml = new Quill(tempHtml);
+          quillHtml.setContents(JSON.parse(inputDelta),'api');
+          html = quillHtml.root.innerHTML;
+          quillHtml = null;
+          tempHtml = null;
+        } else {
+          html = this.content;
+        }
+        // console.log('getHTML: ',html);
+        return html;
+      },
+
+      _contentChanged: function(newValue, oldValue) {
+        // console.log('_contentChanged: ',newValue, ' -- oldValue:' + oldValue);
+      },
+
+      // Toogle Editor Enable (show toolbar and enables editing), Disabled (hide toolbar and disables editing)
+      toggleEnable: function() {
+        if (this.enable  === 'true') {
+          this.enable = 'false';
+          this.hideToolbar = true;
+          this.quill.enable(false);
+          this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
+        } else {
+          this.enable = 'true';
+          this.hideToolbar = false;
+          this.quill.enable(true);
+          this.disabledClass = 'style-scope polymer-quill ql-container ql-snow';
+        }
+        return this.enable;
+      }
+
+    });
+  </script>
+</dom-module>
