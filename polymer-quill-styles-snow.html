@@ -17,6 +17,9 @@
             margin: 0px;
             position: relative;
           }
+          :host ::content .ql-container.ql-disabled .ql-tooltip {
+            visibility: hidden;
+          }
           :host ::content .ql-clipboard {
             left: -100000px;
             height: 1px;
@@ -376,7 +379,6 @@
             display: inline-block;
             float: left;
             height: 24px;
-            outline: none;
             padding: 3px 5px;
             width: 28px;
           }
@@ -484,7 +486,6 @@
             content: '';
             display: table;
           }
-          :host ::content .ql-snow .ql-toolbar.snow,
           :host ::content .ql-snow .ql-stroke {
             fill: none;
             stroke: #444;
@@ -664,9 +665,6 @@
             margin: 2px;
             padding: 0px;
             width: 16px;
-          }
-          :host ::content .ql-snow .ql-color-picker .ql-picker-item.ql-primary-color {
-            margin-bottom: toolbarPadding;
           }
           :host ::content .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
             position: absolute;
