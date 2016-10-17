@@ -1,3 +1,7 @@
 bower_components/
 node_modules/
 .DS_Store
+
+quill.bubble-prev.css
+
+quill.snow-prev.css
