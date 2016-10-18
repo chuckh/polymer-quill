@@ -26,6 +26,8 @@
 
   <body unresolved>
     <div class="vertical-section-container centered">
+      <h2>polymer-quill demo</h2>
+
       <h3>1. Full Toolbar, Show Results & HTML, Max height 300px & Min height 150px), Save as Deltas, Save every 1 second</h3>
       <demo-snippet>
         <template>
@@ -36,13 +38,13 @@
             }
           </style>
           <polymer-quill id="demo1"
-            content='{"ops":[{"insert":"Hello World! - Store as Delta - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\n"}]}'
             class='full'
             store-as="delta"
             save-interval="1000"
             toolbar-type="full"
             show-html
-            show-results>
+            show-results
+            content='{"ops":[{"insert":"Hello World! - Store as Delta - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\n"}]}'>
           </polymer-quill>
         </template>
       </demo-snippet>
@@ -51,8 +53,8 @@
       <demo-snippet>
         <template>
           <polymer-quill id="demo2"
-            content='<h2>Hello World! - Store as HTML -  <a href="//proplanr.com" target="_blank">proplanr.com</a></h2>'
-            store-as="html">
+            store-as="html"
+            content='<h2>Hello World! - Store as HTML -  <a href="//proplanr.com" target="_blank">proplanr.com</a></h2>'>
           </polymer-quill>
         </template>
       </demo-snippet>
@@ -61,15 +63,15 @@
       <demo-snippet>
         <template>
           <polymer-quill id="demo3"
-            content='{"ops":[{"insert":"Hello World! - Store as Delta, Disabled - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\n"}]}'
             store-as="delta"
             show-html
-            enable="false">
+            enable="false"
+            content='{"ops":[{"insert":"Hello World! - Store as Delta, Disabled - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\n"}]}'>
           </polymer-quill>
         </template>
       </demo-snippet>
 
-      <h3>4. Standard Toolbar, On Change save to local storage, Show HTML, Default max & min heights (400px & 50px), Save as Deltas, Save every 2 seconds</h3>
+      <h3>4. Standard Toolbar, On Change save to local storage, Show HTML & Deltas, Default max & min heights (400px & 50px), Save as Deltas, Save every 2 seconds</h3>
       <demo-snippet>
         <template>
           <template is="dom-bind" id="app4">
@@ -81,9 +83,9 @@
             <polymer-quill id="demo4"
               store-as="delta"
               show-html
+              show-results
               enable="true"
-              on-change="saveChange"
-              >
+              on-change="saveChange">
             </polymer-quill>
             <paper-button id="disableToggleButtton4" type="button" name="button" on-tap="disableToggle" raised>Disable</paper-button>
             <paper-button id="getHtmlButtton4" type="button" name="button" on-tap="getHTML" raised>Get HTML</paper-button>
@@ -100,7 +102,7 @@
               app.loadInitialData = function () {
                 // console.log('loadInitialData', this.contentValue);
                 var content = '';
-                if (this.contentValue === null) {
+                if (this.contentValue === null || this.contentValue.length <= 25) {
                   content = '{"ops":[{"insert":"Hello World! - Store as Delta, On Change Event - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\\n"}]}';
                 } else {
                   content = this.contentValue;
@@ -138,6 +140,9 @@
           </template>
         </template>
       </demo-snippet>
+
+      <h3>5. Bubble Editor Popup Toolbar, Default max & min heights (500px & 200px), Save every 2 seconds</h3>
+      <a href="bubble.html"><h2>polymer-quill-bubble demo</h2></a>
 
     </div>
   </body>
