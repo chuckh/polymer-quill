@@ -2,7 +2,8 @@
 
 ## Polymer Quill Rich Text Editor
 
-`polymer-quill` element creates a Polymer Quill Rich Text Editor.
+`polymer-quill` element creates a Polymer Quill Rich Text Editor using the Snow Theme.
+`polymer-quill-bubble` element creates a Polymer Quill Rich Text Editor using the Bubble Theme (popup toolbar like Medium).
 
 Quill is a free, open source WYSIWYG editor built for the modern web.
 With its modular architecture and expressive API, it is completely customizable to fit any need.
@@ -15,9 +16,13 @@ Learn more at http://quilljs.com/
 
 ### Examples
 
-#### Defaults (stores as Deltas every 2 seconds, does not show results, 100px height)
+#### Defaults (stores as Deltas every 2 seconds, does not show results, 50px height)
 
     <polymer-quill content="Hello World"></polymer-quill>
+
+#### Defaults (stores as Deltas every 2 seconds, does not show results, 50px height)
+
+    <polymer-quill-bubble content="Hello World (click text to see toolbar)"></polymer-quill-bubble>    
 
 #### Custom (stores as HTML every 5 seconds, show results)
 
@@ -48,6 +53,9 @@ Learn more at http://quilljs.com/
 
 The following custom properties and mixins are available for styling. This allows the editor auto grow to the max-height.:
 
+## polymer-quill  (snow theme)
+Also had to make editor have `padding-bottom: 50px` to have link popup show.
+
 Custom property | Description | Default
 ----------------|-------------|----------
 `--polymer-quill-editor-max-height` | Custom max-height for editor     | `400px`
@@ -71,6 +79,17 @@ polymer-quill {
   color: #212121;
 }
 ```
+
+## polymer-quill-bubble  (bubble theme)
+
+Max-height needs to be set for bubble popup toolbar to work with is default. 
+Also had to make editor have `padding-bottom: 50px` so toolbar displays for last line.
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--polymer-quill-editor-max-height` | Custom max-height for editor     | `auto`
+`--polymer-quill-editor-min-height` | Custom max-height for editor     | `50px`
+`--polymer-quill`                   | Mixin applied to the editor  | `{}`
 
 ## Install
 
