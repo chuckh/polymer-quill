@@ -4,13 +4,15 @@
 <link rel="import" href="polymer-quill-styles-snow.html">
 
 <!--
-## Polymer Quill Rich Text Editor
+## Polymer Quill Rich Text Editor using Snow Theme
 
 `polymer-quill` creates a Polymer Quill Rich Text Editor.
 
 Quill is a free, open source WYSIWYG editor built for the modern web.
 With its modular architecture and expressive API, it is completely customizable to fit any need.
-Learn more at http://quilljs.com/
+Learn more at http://quilljs.com/.
+
+So link popup will work added `50px` bottom-padding to editor.
 
 ### Examples
 
@@ -280,6 +282,15 @@ Custom property | Description | Default
           value: 'true',
           notify: true,
         },
+         /**
+         * Whether to instantiate the editor to read-only mode.
+         * Default is `false`.
+         */
+        readyOnly: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
         /**
          * Disable Class title.
          * Default is ``.
@@ -300,6 +311,8 @@ Custom property | Description | Default
             toolbar: this.$.toolbar
           },
           theme: 'snow',
+          strict: false,
+          readOnly: this.readyOnly,
         });
 
         // Set if editor is dsiabled
@@ -307,6 +320,7 @@ Custom property | Description | Default
           this.quill.enable(false);
           this.hideToolbar = true;
           this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
+          this.readyOnly = true;
         }
 
         // Set initial content
@@ -390,11 +404,13 @@ Custom property | Description | Default
           this.hideToolbar = true;
           this.quill.enable(false);
           this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
+         this.readyOnly = true;
         } else {
           this.enable = 'true';
           this.hideToolbar = false;
           this.quill.enable(true);
           this.disabledClass = 'style-scope polymer-quill ql-container ql-snow';
+          this.readyOnly = false;
         }
         return this.enable;
       }
