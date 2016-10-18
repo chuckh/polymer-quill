@@ -6,11 +6,12 @@
 <!--
 ## Polymer Quill Rich Text Editor - Bubble toolbar like Medium
 
-`polymer-quill-bubble` creates a Polymer Quill Rich Text Editor - Bubble toolbar like Medium.
+`polymer-quill-bubble` creates a Polymer Quill Rich Text Editor - Bubble popup toolbar like Medium.
+Max-height is set to `auto` and padding-bottom to `50px` so toolbar will popup correctly.
 
 Quill is a free, open source WYSIWYG editor built for the modern web.
 With its modular architecture and expressive API, it is completely customizable to fit any need.
-Learn more at http://quilljs.com/
+Learn more at http://quilljs.com/.
 
 ### Examples
 
@@ -38,7 +39,7 @@ Learn more at http://quilljs.com/
     --polymer-quill-editor-min-height: 200px;
   }
 </style>
-<h2>Full Toolbar, Show Results, Custom height (150px), Save as Deltas, Save every 1 second</h2>
+<h2>Full Toolbar, Show Results, Custom min-height (200px), Save as Deltas, Save every 1 second</h2>
 <polymer-quill-bubble
   content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
   class='full'
@@ -48,7 +49,7 @@ Learn more at http://quilljs.com/
   show-results>
 </polymer-quill-bubble>
 
-<h2>Standard Toolbar, Hide Results, Default height (100px), Save as HTML, Save every 2 seconds</h2>
+<h2>Standard Toolbar, Hide Results, Default height (50px), Save as HTML, Save every 2 seconds</h2>
 <polymer-quill-bubble
   content="<h2>Hello World! - Store as HTML</h2>"
   store-as="html">
@@ -62,8 +63,9 @@ The following custom properties and mixins are available for styling:
 
 Custom property | Description | Default
 ----------------|-------------|----------
-`--polymer-quill-editor-max-height` | Custom max-height for editor     | `400px`
+`--polymer-quill-editor-max-height` | Custom max-height for editor     | `auto`
 `--polymer-quill-editor-min-height` | Custom min-height for editor     | `50px`
+`--polymer-quill-editor-border` | Custom min-height for editor     | `solid 1px #ccc`
 `--polymer-quill`                   | Mixin applied to the editor  | `{}`
 
 ### Install
@@ -77,15 +79,16 @@ Custom property | Description | Default
   <template>
     <style include="polymer-quill-styles-bubble">
       :host {
-        --calculated-polymer-quill-editor-max-height: var(--polymer-quill-editor-max-height, 400px);
+        --calculated-polymer-quill-editor-max-height: var(--polymer-quill-editor-max-height, auto);
         --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 100px);
+        --calculated-polymer-quill-editor-border: var(--polymer-quill-editor-border, solid 1px #ccc);
         display: block;
         @apply(--polymer-quill);
       }
       #editor {
         max-height: var(--calculated-polymer-quill-editor-max-height);
         min-height: var(--calculated-polymer-quill-editor-min-height);
-        overflow: scroll;
+        border: var(--calculated-polymer-quill-editor-border);
       }
       .results {
         padding: 20px 10px;
@@ -97,67 +100,7 @@ Custom property | Description | Default
       }
 
     </style>
-    <div id="toolbar" hidden$='{{hideToolbar}}'>
-      <!-- <span class="ql-formats">
-      <select class="ql-font"></select>
-      <select class="ql-size"></select>
-      </span> -->
-      <span class="ql-formats">
-        <select class="ql-header"  hidden$="{{standardToolbar}}">
-          <option value="1">Header 1</option>
-          <option value="2">Header 2</option>
-          <option value="3">Header 3</option>
-          <option value="4">Header 4</option>
-          <option value="5">Header 5</option>
-          <option value="7">Normal</option>
-        </select>
-        <select class="ql-header"  hidden$="{{!standardToolbar}}">
-          <option value="1">Header 1</option>
-          <option value="2">Header 2</option>
-          <option value="3">Header 3</option>
-          <option value="7">Normal</option>
-        </select>
-      </span>
-      <span class="ql-formats">
-        <button class="ql-bold" title="Bold"></button>
-        <button class="ql-italic" title="Italic"></button>
-        <button class="ql-underline" title="Underline"></button>
-        <button class="ql-strike" title="strike" hidden$="{{standardToolbar}}"></button>
-      </span>
-      <span class="ql-formats" hidden$="{{standardToolbar}}">
-        <select class="ql-color" title="Text Color"></select>
-        <select class="ql-background" title="Text Background Color"></select>
-      </span>
-      <!-- <span class="ql-formats">
-      <button class="ql-script" value="sub"></button>
-      <button class="ql-script" value="super"></button>
-      </span> -->
-      <span class="ql-formats" hidden$="{{standardToolbar}}">
-        <button class="ql-header" value="1" title="Header 1"></button>
-        <button class="ql-header" value="2" title="Header 2"></button>
-        <button class="ql-blockquote" title="Blockquote"></button>
-        <button class="ql-code-block" title="Code Clock"></button>
-      </span>
-      <span class="ql-formats">
-        <button class="ql-list" value="ordered" title="Numbered List"></button>
-        <button class="ql-list" value="bullet" title="Bullet List"></button>
-        <button class="ql-indent" value="-1" title="Decrease Indent" hidden$="{{standardToolbar}}"></button>
-        <button class="ql-indent" value="+1" title="Indent" hidden$="{{standardToolbar}}"></button>
-      </span>
-      <span class="ql-formats" hidden$="{{standardToolbar}}">
-        <!-- <button class="ql-direction" value="rtl"></button> -->
-        <select class="ql-align" title="Align">></select>
-      </span>
-      <span class="ql-formats">
-        <button class="ql-link" title="Link"></button>
-        <button class="ql-image" title="Image" hidden$="{{standardToolbar}}"></button>
-        <button class="ql-video" title="Video" hidden$="{{standardToolbar}}"></button>
-        <!-- <button class="ql-formula"></button>> -->
-      </span>
-      <span class="ql-formats">
-        <button class="ql-clean" title="Clear Formating"></button>
-      </span>
-    </div>
+    
     <div id="editor" class$="{{disabledClass}}">{{content}}</div>
     <div id="results" class="results" hidden$="[[!showResults]]">RESULTS: {{content}}</div>
     <div id="resultsHTML" class="results" hidden$="[[!showHtml]]">HTML: {{html}}</div>
@@ -254,7 +197,7 @@ Custom property | Description | Default
           notify: true,
         },
         /**
-         * Editor toolbar type.
+         * Editor toolbar type.  TODO - Future Feature
          * Options are `standard`, `full`.
          */
         toolbarType: {
@@ -263,7 +206,7 @@ Custom property | Description | Default
           notify: true,
         },
         /**
-         * Standard Tool
+         * Standard Tool.  TODO - Future Feature
          * Default is `true`.
          */
         standardToolbar: {
@@ -286,27 +229,34 @@ Custom property | Description | Default
          */
         disabledClass: {
           type: String,
-          value: 'style-scope polymer-quill ql-container ql-snow'
+          value: 'style-scope polymer-quill ql-container ql-bubble'
         }
       },
 
       ready: function() {
-        if (this.toolbarType === 'full') {
+        // TODO: add config of toolbar
+        /*if (this.toolbarType === 'full') {
           this.standardToolbar = false;
-        }
+        }*/
         var Delta = Quill.import('delta');
         this.quill = new Quill(this.$.editor, {
           modules: {
-            toolbar: this.$.toolbar
+            toolbar: [
+              [{ 'header': 1 }, { 'header': 2 }],
+              ['bold', 'italic'],
+              ['link', 'blockquote', 'code-block', 'image'],
+              [{ list: 'ordered' }, { list: 'bullet' }]
+            ]
           },
           theme: 'bubble',
+          strict: false,
         });
 
         // Set if editor is dsiabled
         if (this.enable === 'false') {
           this.quill.enable(false);
           this.hideToolbar = true;
-          this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
+          this.disabledClass = 'style-scope polymer-quill ql-container ql-bubble disabled';
         }
 
         // Set initial content
@@ -389,12 +339,12 @@ Custom property | Description | Default
           this.enable = 'false';
           this.hideToolbar = true;
           this.quill.enable(false);
-          this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
+          this.disabledClass = 'style-scope polymer-quill ql-container ql-bubble disabled';
         } else {
           this.enable = 'true';
           this.hideToolbar = false;
           this.quill.enable(true);
-          this.disabledClass = 'style-scope polymer-quill ql-container ql-snow';
+          this.disabledClass = 'style-scope polymer-quill ql-container ql-bubble';
         }
         return this.enable;
       }
