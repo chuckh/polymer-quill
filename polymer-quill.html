@@ -396,7 +396,14 @@ Custom property | Description | Default
       },
 
       _contentChanged: function(newValue, oldValue) {
+        this.resetContent(newValue);
         // console.log('_contentChanged: ',newValue, ' -- oldValue:' + oldValue);
+      },
+
+      resetContent : function(content){
+        this.async(function() {
+          this.quill.root.innerHTML = content;
+        }, 10);
       },
 
       // Toogle Editor Enable (show toolbar and enables editing), Disabled (hide toolbar and disables editing)
