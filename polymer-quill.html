@@ -66,6 +66,7 @@ Custom property | Description | Default
 ----------------|-------------|----------
 `--polymer-quill-editor-max-height` | Custom max-height for editor     | `400px`
 `--polymer-quill-editor-min-height` | Custom min-height for editor     | `50px`
+`--polymer-quill-editor-overflow`   | Custom overflow for editor       | `scroll`
 `--polymer-quill`                   | Mixin applied to the editor  | `{}`
 
 ### Install
@@ -80,14 +81,15 @@ Custom property | Description | Default
     <style include="polymer-quill-styles-snow">
       :host {
         --calculated-polymer-quill-editor-max-height: var(--polymer-quill-editor-max-height, 400px);
-        --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 100px);
+        --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 50px);
+        --calculated-polymer-quill-editor-overflow: var(--polymer-quill-editor-overflow, scroll);
         display: block;
         @apply(--polymer-quill);
       }
       #editor {
         max-height: var(--calculated-polymer-quill-editor-max-height);
         min-height: var(--calculated-polymer-quill-editor-min-height);
-        overflow: scroll;
+        overflow: var(--polymer-quill-editor-overflow);
       }
       .results {
         padding: 20px 10px;
