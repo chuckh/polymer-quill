@@ -21,8 +21,8 @@
   "license": "MIT",
   "homepage": "https://github.com/chuckh/polymer-quill",
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.6.0",
-    "quill": "https://github.com/quilljs/quill/releases/download/v1.1.0/quill.tar.gz",
+    "polymer": "Polymer/polymer#^1.7.0",
+    "quill": "https://github.com/quilljs/quill/releases/download/v1.1.7/quill.tar.gz",
     "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.6"
   },
   "devDependencies": {
