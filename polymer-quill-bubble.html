@@ -233,7 +233,16 @@ Custom property | Description | Default
         disabledClass: {
           type: String,
           value: 'style-scope polymer-quill ql-container ql-bubble'
-        }
+        },
+        /**
+         * Whether to use content reset for two way data binding.
+         * Default is `false`.
+         */
+        useContentReset: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
       },
 
       ready: function() {
@@ -333,7 +342,9 @@ Custom property | Description | Default
       },
 
       _contentChanged: function(newValue, oldValue) {
-        this.resetContent(newValue);
+        if (this.useContentReset) {
+          this.resetContent(newValue);
+        }
       },
       resetContent : function(content){
         // Set content
