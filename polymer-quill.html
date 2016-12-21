@@ -67,6 +67,7 @@ Custom property | Description | Default
 `--polymer-quill-editor-max-height` | Custom max-height for editor     | `400px`
 `--polymer-quill-editor-min-height` | Custom min-height for editor     | `50px`
 `--polymer-quill-editor-overflow`   | Custom overflow for editor       | `scroll`
+`--polymer-quill-editor-border`     | Custom min-height for editor     | `solid 1px #ccc`
 `--polymer-quill`                   | Mixin applied to the editor  | `{}`
 
 ### Install
@@ -82,6 +83,7 @@ Custom property | Description | Default
       :host {
         --calculated-polymer-quill-editor-max-height: var(--polymer-quill-editor-max-height, 400px);
         --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 50px);
+        --calculated-polymer-quill-editor-border: var(--polymer-quill-editor-border, solid 1px #ccc);
         --calculated-polymer-quill-editor-overflow: var(--polymer-quill-editor-overflow, scroll);
         display: block;
         @apply(--polymer-quill);
@@ -90,7 +92,8 @@ Custom property | Description | Default
         max-height: var(--calculated-polymer-quill-editor-max-height);
         min-height: var(--calculated-polymer-quill-editor-min-height);
         overflow: var(--polymer-quill-editor-overflow);
-      }
+        border: var(--calculated-polymer-quill-editor-border);
+     }
       .results {
         padding: 20px 10px;
         overflow-x: scroll;
@@ -230,13 +233,13 @@ Custom property | Description | Default
           notify: true,
         },
         /**
-         * Delay initial load of content in milliseconds.
+         * Delay load of content in milliseconds.
          * Provide time for loading data from polymerfire or iron-ajax.
-         * Default is `0`.
+         * Default is `10`.
          */
         delay: {
           type: Number,
-          value: 0,
+          value: 10,
           notify: true,
         },
         /**
@@ -396,7 +399,20 @@ Custom property | Description | Default
       },
 
       _contentChanged: function(newValue, oldValue) {
-        // console.log('_contentChanged: ',newValue, ' -- oldValue:' + oldValue);
+        this.resetContent(newValue);
+      },
+      resetContent : function(content){
+        // Set content
+        this.async(function() {
+          if (this.storeAs === 'delta') {
+            if (this.content.length > 1) {
+              this.quill.setContents(JSON.parse(this.content),'api');
+            }
+          } else { // HTML
+            this.quill.root.innerHTML = this.content;
+          }
+          this.html = this.quill.root.innerHTML;
+        },this.delay);
       },
 
       // Toogle Editor Enable (show toolbar and enables editing), Disabled (hide toolbar and disables editing)
