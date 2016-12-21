@@ -68,7 +68,7 @@ Custom property | Description | Default
 `--polymer-quill-editor-min-height` | Custom min-height for editor     | `50px`
 `--polymer-quill-editor-overflow`   | Custom overflow for editor       | `scroll`
 `--polymer-quill-editor-border`     | Custom min-height for editor     | `solid 1px #ccc`
-`--polymer-quill`                   | Mixin applied to the editor  | `{}`
+`--polymer-quill`                   | Mixin applied to the editor      | `{}`
 
 ### Install
 
@@ -398,9 +398,12 @@ Custom property | Description | Default
         return html;
       },
 
+      // Content Change
       _contentChanged: function(newValue, oldValue) {
         this.resetContent(newValue);
       },
+
+      // Reset Content
       resetContent : function(content){
         // Set content
         this.async(function() {
@@ -418,19 +421,29 @@ Custom property | Description | Default
       // Toogle Editor Enable (show toolbar and enables editing), Disabled (hide toolbar and disables editing)
       toggleEnable: function() {
         if (this.enable  === 'true') {
-          this.enable = 'false';
-          this.hideToolbar = true;
-          this.quill.enable(false);
-          this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
-         this.readyOnly = true;
+          this.disableEditor();
         } else {
-          this.enable = 'true';
-          this.hideToolbar = false;
-          this.quill.enable(true);
-          this.disabledClass = 'style-scope polymer-quill ql-container ql-snow';
-          this.readyOnly = false;
+          this.enableEditor();
         }
         return this.enable;
+      },
+
+      // Enable Editor (show toolbar and enable editing)
+      enableEditor: function() {
+        this.enable = 'true';
+        this.hideToolbar = false;
+        this.quill.enable(true);
+        this.disabledClass = 'style-scope polymer-quill ql-container ql-snow';
+        this.readyOnly = false;
+      },
+
+      // Disabled Editor (hide toolbar and disable editing)
+      disableEditor: function() {
+        this.enable = 'false';
+        this.hideToolbar = true;
+        this.quill.enable(false);
+        this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
+        this.readyOnly = true;
       }
 
     });
