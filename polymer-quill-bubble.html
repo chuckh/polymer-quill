@@ -4,7 +4,7 @@
 <link rel="import" href="polymer-quill-styles-bubble.html">
 
 <!--
-## Polymer Quill Rich Text Editor - Bubble toolbar like Medium
+## Polymer Quill Rich Text Editor - Bubble toolbar like Medium WIP
 
 `polymer-quill-bubble` creates a Polymer Quill Rich Text Editor - Bubble popup toolbar like Medium.
 Max-height is set to `auto` and padding-bottom to `50px` so toolbar will popup correctly.
@@ -65,7 +65,8 @@ Custom property | Description | Default
 ----------------|-------------|----------
 `--polymer-quill-editor-max-height` | Custom max-height for editor     | `auto`
 `--polymer-quill-editor-min-height` | Custom min-height for editor     | `50px`
-`--polymer-quill-editor-border` | Custom min-height for editor     | `solid 1px #ccc`
+`--polymer-quill-editor-overflow`   | Custom overflow for editor       | `scroll`
+`--polymer-quill-editor-border`     | Custom min-height for editor     | `solid 1px #ccc`
 `--polymer-quill`                   | Mixin applied to the editor  | `{}`
 
 ### Install
@@ -80,7 +81,8 @@ Custom property | Description | Default
     <style include="polymer-quill-styles-bubble">
       :host {
         --calculated-polymer-quill-editor-max-height: var(--polymer-quill-editor-max-height, auto);
-        --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 100px);
+        --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 50px);
+        --calculated-polymer-quill-editor-overflow: var(--polymer-quill-editor-overflow, scroll);
         --calculated-polymer-quill-editor-border: var(--polymer-quill-editor-border, solid 1px #ccc);
         display: block;
         @apply(--polymer-quill);
@@ -88,6 +90,7 @@ Custom property | Description | Default
       #editor {
         max-height: var(--calculated-polymer-quill-editor-max-height);
         min-height: var(--calculated-polymer-quill-editor-min-height);
+        overflow: var(--polymer-quill-editor-overflow);
         border: var(--calculated-polymer-quill-editor-border);
       }
       .results {
@@ -169,13 +172,13 @@ Custom property | Description | Default
           notify: true,
         },
         /**
-         * Delay initial load of content in milliseconds.
+         * Delay load of content in milliseconds.
          * Provide time for loading data from polymerfire or iron-ajax.
-         * Default is `0`.
+         * Default is `10`.
          */
         delay: {
           type: Number,
-          value: 0,
+          value: 10,
           notify: true,
         },
         /**
@@ -330,7 +333,20 @@ Custom property | Description | Default
       },
 
       _contentChanged: function(newValue, oldValue) {
-        // console.log('_contentChanged: ',newValue, ' -- oldValue:' + oldValue);
+        this.resetContent(newValue);
+      },
+      resetContent : function(content){
+        // Set content
+        this.async(function() {
+          if (this.storeAs === 'delta') {
+            if (this.content.length > 1) {
+              this.quill.setContents(JSON.parse(this.content),'api');
+            }
+          } else { // HTML
+            this.quill.root.innerHTML = this.content;
+          }
+          this.html = this.quill.root.innerHTML;
+        },this.delay);
       },
 
       // Toogle Editor Enable (show toolbar and enables editing), Disabled (hide toolbar and disables editing)
