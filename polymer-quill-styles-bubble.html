@@ -4,7 +4,7 @@
     <template>
         <style>
           /*!
-          * Quill Editor v1.1.0
+          * Quill Editor v1.1.7
           * https://quilljs.com/
           * Copyright (c) 2014, Jason Chen
           * Copyright (c) 2013, salesforce.com
@@ -70,6 +70,17 @@
           }
           :host ::content .ql-editor ul > li::before {
             content: '\25CF';
+          }
+          :host ::content .ql-editor ul[data-checked=true] > li::before,
+          :host ::content .ql-editor ul[data-checked=false] > li::before {
+            color: #777;
+            cursor: pointer;
+          }
+          :host ::content .ql-editor ul[data-checked=true] > li::before {
+            content: '\2611';
+          }
+          :host ::content .ql-editor ul[data-checked=false] > li::before {
+            content: '\2610';
           }
           :host ::content .ql-editor li::before {
             display: inline-block;
@@ -443,18 +454,18 @@
           :host ::content .ql-bubble .ql-toolbar .ql-picker-item:hover .ql-stroke,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
           :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
-          :host ::content .ql-bubble.ql-toolbar button:hover .ql-stroke-mitter,
-          :host ::content .ql-bubble .ql-toolbar button:hover .ql-stroke-mitter,
-          :host ::content .ql-bubble.ql-toolbar button.ql-active .ql-stroke-mitter,
-          :host ::content .ql-bubble .ql-toolbar button.ql-active .ql-stroke-mitter,
-          :host ::content .ql-bubble.ql-toolbar .ql-picker-label:hover .ql-stroke-mitter,
-          :host ::content .ql-bubble .ql-toolbar .ql-picker-label:hover .ql-stroke-mitter,
-          :host ::content .ql-bubble.ql-toolbar .ql-picker-label.ql-active .ql-stroke-mitter,
-          :host ::content .ql-bubble .ql-toolbar .ql-picker-label.ql-active .ql-stroke-mitter,
-          :host ::content .ql-bubble.ql-toolbar .ql-picker-item:hover .ql-stroke-mitter,
-          :host ::content .ql-bubble .ql-toolbar .ql-picker-item:hover .ql-stroke-mitter,
-          :host ::content .ql-bubble.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-mitter,
-          :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-mitter {
+          :host ::content .ql-bubble.ql-toolbar button:hover .ql-stroke-miter,
+          :host ::content .ql-bubble .ql-toolbar button:hover .ql-stroke-miter,
+          :host ::content .ql-bubble.ql-toolbar button.ql-active .ql-stroke-miter,
+          :host ::content .ql-bubble .ql-toolbar button.ql-active .ql-stroke-miter,
+          :host ::content .ql-bubble.ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
+          :host ::content .ql-bubble .ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
+          :host ::content .ql-bubble.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
+          :host ::content .ql-bubble .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
+          :host ::content .ql-bubble.ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
+          :host ::content .ql-bubble .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
+          :host ::content .ql-bubble.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
+          :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {
             stroke: #fff;
           }
           :host ::content .ql-bubble {
@@ -493,10 +504,10 @@
             stroke-linejoin: round;
             stroke-width: 2;
           }
-          :host ::content .ql-bubble .ql-stroke-mitter {
+          :host ::content .ql-bubble .ql-stroke-miter {
             fill: none;
             stroke: #ccc;
-            stroke-mitterlimit: 10;
+            stroke-miterlimit: 10;
             stroke-width: 2;
           }
           :host ::content .ql-bubble .ql-fill,
