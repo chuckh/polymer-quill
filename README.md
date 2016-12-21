@@ -13,6 +13,8 @@ Learn more at http://quilljs.com/
 
 - [API docs](https://chuckh.github.io/polymer-quill/)
 - [Demo](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/)
+- [Demo Snow Toolbar](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/)
+- [Demo Bubble Toolbar (Medium style)](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/bubble.html)
 
 ### Examples
 
@@ -60,7 +62,9 @@ Custom property | Description | Default
 ----------------|-------------|----------
 `--polymer-quill-editor-max-height` | Custom max-height for editor     | `400px`
 `--polymer-quill-editor-min-height` | Custom max-height for editor     | `50px`
-`--polymer-quill`                   | Mixin applied to the editor  | `{}`
+`--polymer-quill-editor-overflow`   | Custom overflow for editor       | `scroll`
+`--polymer-quill-editor-border`     | Custom min-height for editor     | `solid 1px #ccc`
+`--polymer-quill`                   | Mixin applied to the editor      | `{}`
 
 Below is example of setting the editor to `max-height` of 260px less then the viewport height and `min-height` of 150px. So any content greater then the max-height with scroll otherwise it will auto grow.
 
