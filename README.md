@@ -1,4 +1,7 @@
-# \<polymer-quill\> [![Build Status](https://travis-ci.org/chuckh/polymer-quill.svg?branch=master)](https://travis-ci.org/chuckh/polymer-quill)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://beta.webcomponents.org/element/PolymerElements/paper-button)
+[![Build Status](https://travis-ci.org/chuckh/polymer-quill.svg?branch=master)](https://travis-ci.org/chuckh/polymer-quill)
+
+# \<polymer-quill\> 
 
 ## Polymer Quill Rich Text Editor
 
@@ -9,6 +12,33 @@
 Quill is a free, open source WYSIWYG editor built for the modern web.
 With its modular architecture and expressive API, it is completely customizable to fit any need.
 Learn more at http://quilljs.com/
+
+Example:
+<!---
+```
+<custom-element-demo>
+  <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="polymer-quill.html">
+    <link rel="import" href="polymer-quill-bubble.html">
+    <link rel="import" href="polymer-quill-html-render.html">
+    <style is="custom-style">
+      #container {
+        display: flex;
+      }
+    </style>
+    <div id="container">
+      <next-code-block></next-code-block>
+    </div>
+  </template>
+</custom-element-demo>
+```
+-->
+```html
+<polymer-quill content="Hello World"></polymer-quill>
+<polymer-quill-bubble content="Hello World (click text to see toolbar)" show-results></polymer-quill-bubble>    
+<polymer-quill-html-render content="<h2 class="ql-align-center">Hello World</h2>"></polymer-quill-html-render>
+```
 
 ## Demo and API docs
 
