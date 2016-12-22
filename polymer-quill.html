@@ -43,7 +43,7 @@ So link popup will work added `50px` bottom-padding to editor.
 <h2>Full Toolbar, Show Results, Custom height (150px), Save as Deltas, Save every 1 second</h2>
 <polymer-quill
   content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
-  class='full'
+  class="full"
   store-as="delta"
   save-interval="1000"
   toolbar-type="full"
@@ -313,6 +313,11 @@ Custom property | Description | Default
           value: false,
           notify: true,
         },
+        placeholder: {
+          type: String,
+          value: 'Compose an epic...',
+          notify: true,
+        }
       },
 
       ready: function() {
@@ -327,7 +332,9 @@ Custom property | Description | Default
           theme: 'snow',
           strict: false,
           readOnly: this.readyOnly,
+          placeholder: 'Compose an epic...'
         });
+          // placeholder: this.placeholder,
 
         // Set if editor is dsiabled
         if (this.enable === 'false') {
