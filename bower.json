@@ -23,7 +23,9 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^1.7.0",
     "quill": "https://github.com/quilljs/quill/releases/download/v1.1.7/quill.tar.gz",
-    "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.6"
+    "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
+    "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.6",
+    "marked-element": "PolymerElements/marked-element#^1.2.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

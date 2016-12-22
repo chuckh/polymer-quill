@@ -1,0 +1,471 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="polymer-quill-styles-html">
+    <template>
+        <style>
+          /*!
+           * Quill Editor v1.1.7
+           * https://quilljs.com/
+           * Copyright (c) 2014, Jason Chen
+           * Copyright (c) 2013, salesforce.com
+           */
+          
+          .markdown-html p,
+          .markdown-html ol,
+          .markdown-html ul,
+          .markdown-html pre,
+          .markdown-html blockquote,
+          .markdown-html h1,
+          .markdown-html h2,
+          .markdown-html h3,
+          .markdown-html h4,
+          .markdown-html h5,
+          .markdown-html h6 {
+            margin: 0;
+            padding: 0;
+            counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+          }
+          .markdown-html ol,
+          .markdown-html ul {
+            padding-left: 1.5em;
+          }
+          .markdown-html ol > li,
+          .markdown-html ul > li {
+            list-style-type: none;
+          }
+          .markdown-html ul > li::before {
+            content: '\25CF';
+          }
+          .markdown-html ul[data-checked=true] > li::before,
+          .markdown-html ul[data-checked=false] > li::before {
+            color: #777;
+            cursor: pointer;
+          }
+          .markdown-html ul[data-checked=true] > li::before {
+            content: '\2611';
+          }
+          .markdown-html ul[data-checked=false] > li::before {
+            content: '\2610';
+          }
+          .markdown-html li::before {
+            display: inline-block;
+            margin-right: 0.3em;
+            text-align: right;
+            white-space: nowrap;
+            width: 1.2em;
+          }
+          .markdown-html li:not(.ql-direction-rtl)::before {
+            margin-left: -1.5em;
+          }
+          .markdown-html ol li,
+          .markdown-html ul li {
+            padding-left: 1.5em;
+          }
+          .markdown-html ol li {
+            counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+            counter-increment: list-num;
+          }
+          .markdown-html ol li:before {
+            content: counter(list-num, decimal) '. ';
+          }
+          .markdown-html ol li.ql-indent-1 {
+            counter-increment: list-1;
+          }
+          .markdown-html ol li.ql-indent-1:before {
+            content: counter(list-1, lower-alpha) '. ';
+          }
+          .markdown-html ol li.ql-indent-1 {
+            counter-reset: list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+          }
+          .markdown-html ol li.ql-indent-2 {
+            counter-increment: list-2;
+          }
+          .markdown-html ol li.ql-indent-2:before {
+            content: counter(list-2, lower-roman) '. ';
+          }
+          .markdown-html ol li.ql-indent-2 {
+            counter-reset: list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+          }
+          .markdown-html ol li.ql-indent-3 {
+            counter-increment: list-3;
+          }
+          .markdown-html ol li.ql-indent-3:before {
+            content: counter(list-3, decimal) '. ';
+          }
+          .markdown-html ol li.ql-indent-3 {
+            counter-reset: list-4 list-5 list-6 list-7 list-8 list-9;
+          }
+          .markdown-html ol li.ql-indent-4 {
+            counter-increment: list-4;
+          }
+          .markdown-html ol li.ql-indent-4:before {
+            content: counter(list-4, lower-alpha) '. ';
+          }
+          .markdown-html ol li.ql-indent-4 {
+            counter-reset: list-5 list-6 list-7 list-8 list-9;
+          }
+          .markdown-html ol li.ql-indent-5 {
+            counter-increment: list-5;
+          }
+          .markdown-html ol li.ql-indent-5:before {
+            content: counter(list-5, lower-roman) '. ';
+          }
+          .markdown-html ol li.ql-indent-5 {
+            counter-reset: list-6 list-7 list-8 list-9;
+          }
+          .markdown-html ol li.ql-indent-6 {
+            counter-increment: list-6;
+          }
+          .markdown-html ol li.ql-indent-6:before {
+            content: counter(list-6, decimal) '. ';
+          }
+          .markdown-html ol li.ql-indent-6 {
+            counter-reset: list-7 list-8 list-9;
+          }
+          .markdown-html ol li.ql-indent-7 {
+            counter-increment: list-7;
+          }
+          .markdown-html ol li.ql-indent-7:before {
+            content: counter(list-7, lower-alpha) '. ';
+          }
+          .markdown-html ol li.ql-indent-7 {
+            counter-reset: list-8 list-9;
+          }
+          .markdown-html ol li.ql-indent-8 {
+            counter-increment: list-8;
+          }
+          .markdown-html ol li.ql-indent-8:before {
+            content: counter(list-8, lower-roman) '. ';
+          }
+          .markdown-html ol li.ql-indent-8 {
+            counter-reset: list-9;
+          }
+          .markdown-html ol li.ql-indent-9 {
+            counter-increment: list-9;
+          }
+          .markdown-html ol li.ql-indent-9:before {
+            content: counter(list-9, decimal) '. ';
+          }
+          .markdown-html .ql-indent-1:not(.ql-direction-rtl) {
+            padding-left: 3em;
+          }
+          .markdown-html li.ql-indent-1:not(.ql-direction-rtl) {
+            padding-left: 4.5em;
+          }
+          .markdown-html .ql-indent-1.ql-direction-rtl.ql-align-right {
+            padding-right: 3em;
+          }
+          .markdown-html li.ql-indent-1.ql-direction-rtl.ql-align-right {
+            padding-right: 4.5em;
+          }
+          .markdown-html .ql-indent-2:not(.ql-direction-rtl) {
+            padding-left: 6em;
+          }
+          .markdown-html li.ql-indent-2:not(.ql-direction-rtl) {
+            padding-left: 7.5em;
+          }
+          .markdown-html .ql-indent-2.ql-direction-rtl.ql-align-right {
+            padding-right: 6em;
+          }
+          .markdown-html li.ql-indent-2.ql-direction-rtl.ql-align-right {
+            padding-right: 7.5em;
+          }
+          .markdown-html .ql-indent-3:not(.ql-direction-rtl) {
+            padding-left: 9em;
+          }
+          .markdown-html li.ql-indent-3:not(.ql-direction-rtl) {
+            padding-left: 10.5em;
+          }
+          .markdown-html .ql-indent-3.ql-direction-rtl.ql-align-right {
+            padding-right: 9em;
+          }
+          .markdown-html li.ql-indent-3.ql-direction-rtl.ql-align-right {
+            padding-right: 10.5em;
+          }
+          .markdown-html .ql-indent-4:not(.ql-direction-rtl) {
+            padding-left: 12em;
+          }
+          .markdown-html li.ql-indent-4:not(.ql-direction-rtl) {
+            padding-left: 13.5em;
+          }
+          .markdown-html .ql-indent-4.ql-direction-rtl.ql-align-right {
+            padding-right: 12em;
+          }
+          .markdown-html li.ql-indent-4.ql-direction-rtl.ql-align-right {
+            padding-right: 13.5em;
+          }
+          .markdown-html .ql-indent-5:not(.ql-direction-rtl) {
+            padding-left: 15em;
+          }
+          .markdown-html li.ql-indent-5:not(.ql-direction-rtl) {
+            padding-left: 16.5em;
+          }
+          .markdown-html .ql-indent-5.ql-direction-rtl.ql-align-right {
+            padding-right: 15em;
+          }
+          .markdown-html li.ql-indent-5.ql-direction-rtl.ql-align-right {
+            padding-right: 16.5em;
+          }
+          .markdown-html .ql-indent-6:not(.ql-direction-rtl) {
+            padding-left: 18em;
+          }
+          .markdown-html li.ql-indent-6:not(.ql-direction-rtl) {
+            padding-left: 19.5em;
+          }
+          .markdown-html .ql-indent-6.ql-direction-rtl.ql-align-right {
+            padding-right: 18em;
+          }
+          .markdown-html li.ql-indent-6.ql-direction-rtl.ql-align-right {
+            padding-right: 19.5em;
+          }
+          .markdown-html .ql-indent-7:not(.ql-direction-rtl) {
+            padding-left: 21em;
+          }
+          .markdown-html li.ql-indent-7:not(.ql-direction-rtl) {
+            padding-left: 22.5em;
+          }
+          .markdown-html .ql-indent-7.ql-direction-rtl.ql-align-right {
+            padding-right: 21em;
+          }
+          .markdown-html li.ql-indent-7.ql-direction-rtl.ql-align-right {
+            padding-right: 22.5em;
+          }
+          .markdown-html .ql-indent-8:not(.ql-direction-rtl) {
+            padding-left: 24em;
+          }
+          .markdown-html li.ql-indent-8:not(.ql-direction-rtl) {
+            padding-left: 25.5em;
+          }
+          .markdown-html .ql-indent-8.ql-direction-rtl.ql-align-right {
+            padding-right: 24em;
+          }
+          .markdown-html li.ql-indent-8.ql-direction-rtl.ql-align-right {
+            padding-right: 25.5em;
+          }
+          .markdown-html .ql-indent-9:not(.ql-direction-rtl) {
+            padding-left: 27em;
+          }
+          .markdown-html li.ql-indent-9:not(.ql-direction-rtl) {
+            padding-left: 28.5em;
+          }
+          .markdown-html .ql-indent-9.ql-direction-rtl.ql-align-right {
+            padding-right: 27em;
+          }
+          .markdown-html li.ql-indent-9.ql-direction-rtl.ql-align-right {
+            padding-right: 28.5em;
+          }
+          .markdown-html .ql-video {
+            display: block;
+            max-width: 100%;
+          }
+          .markdown-html .ql-video.ql-align-center {
+            margin: 0 auto;
+          }
+          .markdown-html .ql-video.ql-align-right {
+            margin: 0 0 0 auto;
+          }
+          .markdown-html .ql-bg-black {
+            background-color: #000;
+          }
+          .markdown-html .ql-bg-red {
+            background-color: #e60000;
+          }
+          .markdown-html .ql-bg-orange {
+            background-color: #f90;
+          }
+          .markdown-html .ql-bg-yellow {
+            background-color: #ff0;
+          }
+          .markdown-html .ql-bg-green {
+            background-color: #008a00;
+          }
+          .markdown-html .ql-bg-blue {
+            background-color: #06c;
+          }
+          .markdown-html .ql-bg-purple {
+            background-color: #93f;
+          }
+          .markdown-html .ql-color-white {
+            color: #fff;
+          }
+          .markdown-html .ql-color-red {
+            color: #e60000;
+          }
+          .markdown-html .ql-color-orange {
+            color: #f90;
+          }
+          .markdown-html .ql-color-yellow {
+            color: #ff0;
+          }
+          .markdown-html .ql-color-green {
+            color: #008a00;
+          }
+          .markdown-html .ql-color-blue {
+            color: #06c;
+          }
+          .markdown-html .ql-color-purple {
+            color: #93f;
+          }
+          .markdown-html .ql-font-serif {
+            font-family: Georgia, Times New Roman, serif;
+          }
+          .markdown-html .ql-font-monospace {
+            font-family: Monaco, Courier New, monospace;
+          }
+          .markdown-html .ql-size-small {
+            font-size: 0.75em;
+          }
+          .markdown-html .ql-size-large {
+            font-size: 1.5em;
+          }
+          .markdown-html .ql-size-huge {
+            font-size: 2.5em;
+          }
+          .markdown-html .ql-direction-rtl {
+            direction: rtl;
+            text-align: inherit;
+          }
+          .markdown-html .ql-align-center {
+            text-align: center;
+          }
+          .markdown-html .ql-align-justify {
+            text-align: justify;
+          }
+          .markdown-html .ql-align-right {
+            text-align: right;
+          }
+          .markdown-html.ql-blank::before {
+            color: rgba(0,0,0,0.6);
+            content: attr(data-placeholder);
+            font-style: italic;
+            pointer-events: none;
+            position: absolute;
+          }
+          .markdown-html {
+            box-sizing: border-box;
+          }
+          .markdown-html * {
+            box-sizing: border-box;
+          }
+          .markdown-html .ql-hidden {
+            display: none;
+          }
+          .markdown-html .ql-out-bottom,
+          .markdown-html .ql-out-top {
+            visibility: hidden;
+          }
+          
+          .markdown-html .ql-stroke {
+            fill: none;
+            stroke: #444;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 2;
+          }
+          .markdown-html .ql-stroke-miter {
+            fill: none;
+            stroke: #444;
+            stroke-miterlimit: 10;
+            stroke-width: 2;
+          }
+          .markdown-html .ql-fill,
+          .markdown-html .ql-stroke.ql-fill {
+            fill: #444;
+          }
+          .markdown-html .ql-empty {
+            fill: none;
+          }
+          .markdown-html .ql-even {
+            fill-rule: evenodd;
+          }
+          .markdown-html .ql-thin,
+          .markdown-html .ql-stroke.ql-thin {
+            stroke-width: 1;
+          }
+          .markdown-html .ql-transparent {
+            opacity: 0.4;
+          }
+          .markdown-html .ql-direction svg:last-child {
+            display: none;
+          }
+          .markdown-html .ql-direction.ql-active svg:last-child {
+            display: inline;
+          }
+          .markdown-html .ql-direction.ql-active svg:first-child {
+            display: none;
+          }
+          .markdown-html h1 {
+            font-size: 2em;
+          }
+          .markdown-html h2 {
+            font-size: 1.5em;
+          }
+          .markdown-html h3 {
+            font-size: 1.17em;
+          }
+          .markdown-html h4 {
+            font-size: 1em;
+          }
+          .markdown-html h5 {
+            font-size: 0.83em;
+          }
+          .markdown-html h6 {
+            font-size: 0.67em;
+          }
+          .markdown-html a {
+            text-decoration: underline;
+          }
+          .markdown-html blockquote {
+            border-left: 4px solid #ccc;
+            margin-bottom: 5px;
+            margin-top: 5px;
+            padding-left: 16px;
+          }
+          .markdown-html code,
+          .markdown-html pre {
+            background-color: #f0f0f0;
+            border-radius: 3px;
+            line-height: 1.5;
+          }
+          .markdown-html pre {
+            white-space: pre-wrap;
+            margin-bottom: 5px;
+            margin-top: 5px;
+            padding: 5px 10px;
+          }
+          .markdown-html code {
+            font-size: 85%;
+            padding-bottom: 2px;
+            padding-top: 2px;
+          }
+          .markdown-html code:before,
+          .markdown-html code:after {
+            content: "\A0";
+            letter-spacing: -2px;
+          }
+          .markdown-html pre.ql-syntax {
+            background-color: #23241f;
+            color: #f8f8f2;
+            overflow: visible;
+          }
+          .markdown-html .hljs-keyword, .hljs-selector-tag, .hljs-name, .hljs-attr {
+              color: #f92672;
+          }
+          .markdown-html .hljs-string, .hljs-type, .hljs-built_in, .hljs-builtin-name, .hljs-selector-id, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-addition, .hljs-variable, .hljs-template-variable {
+              color: #e6db74;
+          }
+          .markdown-html .hljs-comment, .hljs-deletion, .hljs-meta {
+              color: #75715e;
+          }
+
+          .markdown-html img {
+            max-width: 100%;
+          }
+          
+          .markdown-html a {
+            color: #06c;
+          }
+          
+        </style>
+    </template>
+</dom-module>
