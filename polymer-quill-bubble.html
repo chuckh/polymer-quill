@@ -227,6 +227,15 @@ Custom property | Description | Default
           notify: true,
         },
         /**
+         * Whether to instantiate the editor to read-only mode.
+         * Default is `false`.
+         */
+        readyOnly: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
+        /**
          * Disable Class title.
          * Default is ``.
          */
@@ -243,6 +252,11 @@ Custom property | Description | Default
           value: false,
           notify: true,
         },
+        placeholder: {
+          type: String,
+          value: 'Compose an epic...',
+          notify: true,
+        }
       },
 
       ready: function() {
@@ -262,7 +276,9 @@ Custom property | Description | Default
           },
           theme: 'bubble',
           strict: false,
-        });
+          readOnly: this.readyOnly,
+          placeholder: this.placeholder
+       });
 
         // Set if editor is dsiabled
         if (this.enable === 'false') {

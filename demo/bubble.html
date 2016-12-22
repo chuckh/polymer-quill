@@ -62,7 +62,27 @@
         </template>
       </demo-snippet>
       
-      <a href="index.html"><h2>polymer-quill demo</h2></a>
+      <h3>3. Bubble Editor Popup Toolbar, Default max & min heights (auto & 200px), Purble border, Show HTML, Save every 2 seconds, Placeholder</h3>
+      <demo-snippet>
+        <template>
+          <style is="custom-style">
+            polymer-quill-bubble#demo2 {
+              --polymer-quill-editor-min-height: 200px;
+              --polymer-quill-editor-border: 1px solid purple;
+            }
+          </style>
+          <polymer-quill-bubble id="demo2"
+            store-as="html"
+            show-html
+            content=""
+            placeholder="Compose some epic content..."
+          </polymer-quill-bubble>
+        </template>
+      </demo-snippet>
+
+      <h2>Other Demos</h2>
+      <a href="index.html"><h4>polymer-quill demo</h4></a>
+      <a href="html-render.html"><h4>polymer-quill-html-render demo</h4></a>
 
     </div>
   </body>
