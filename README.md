@@ -4,6 +4,7 @@
 
 `polymer-quill` element creates a Polymer Quill Rich Text Editor using the Snow Theme.
 `polymer-quill-bubble` element creates a Polymer Quill Rich Text Editor using the Bubble Theme (popup toolbar like Medium).
+`polymer-quill-html-render` element creates a Polymer Quill HTML Render
 
 Quill is a free, open source WYSIWYG editor built for the modern web.
 With its modular architecture and expressive API, it is completely customizable to fit any need.
@@ -15,6 +16,7 @@ Learn more at http://quilljs.com/
 - [Demo](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/)
 - [Demo Snow Toolbar](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/)
 - [Demo Bubble Toolbar (Medium style)](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/bubble.html)
+- [Demo Quill HTML Render](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/html-render.html)
 
 ### Examples
 
@@ -29,6 +31,11 @@ Learn more at http://quilljs.com/
 #### Custom (stores as HTML every 5 seconds, show results)
 
     <polymer-quill content="Hello World" store-as="html" store-interval="5000" show-results></polymer-quill>
+
+#### Custom (stores as HTML every 5 seconds, show results)
+
+    <polymer-quill-html-render content="<h2 class="ql-align-center">Hello World</h2>"></polymer-quill-html-render>
+
 
 #### Demo example
 
