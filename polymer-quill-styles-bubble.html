@@ -4,7 +4,7 @@
     <template>
         <style>
           /*!
-          * Quill Editor v1.1.7
+          * Quill Editor v1.1.8
           * https://quilljs.com/
           * Copyright (c) 2014, Jason Chen
           * Copyright (c) 2013, salesforce.com
@@ -397,6 +397,10 @@
           :host ::content .ql-bubble .ql-toolbar button svg {
             float: left;
             height: 100%;
+          }
+          :host ::content .ql-bubble.ql-toolbar button:active:hover,
+          :host ::content .ql-bubble .ql-toolbar button:active:hover {
+            outline: none;
           }
           :host ::content .ql-bubble.ql-toolbar input.ql-image[type=file],
           :host ::content .ql-bubble .ql-toolbar input.ql-image[type=file] {
