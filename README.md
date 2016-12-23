@@ -5,9 +5,9 @@
 
 ## Polymer Quill Rich Text Editor
 
-`<polymer-quill>` element creates a Polymer Quill Rich Text Editor using the Snow Theme.
-`<polymer-quill-bubble>` element creates a Polymer Quill Rich Text Editor using the Bubble Theme (popup toolbar like Medium).
-`<polymer-quill-html-render>` element creates a Polymer Quill HTML Render
+* `<polymer-quill>` element creates a Polymer Quill Rich Text Editor using the Snow Theme.
+* `<polymer-quill-bubble>` element creates a Polymer Quill Rich Text Editor using the Bubble Theme (popup toolbar like Medium).
+* `<polymer-quill-html-render>` element creates a Polymer Quill HTML Render
 
 Quill is a free, open source WYSIWYG editor built for the modern web.
 With its modular architecture and expressive API, it is completely customizable to fit any need.
