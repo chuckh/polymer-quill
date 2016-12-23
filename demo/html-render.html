@@ -19,6 +19,7 @@
     <link rel="import" href="../../paper-button/paper-button.html">
 
     <link rel="import" href="../polymer-quill-html-render.html">
+    <link rel="import" href="demo-selector.html">
 
     <style is="custom-style" include="demo-pages-shared-styles">
       body {
@@ -36,7 +37,8 @@
 
   <body unresolved>
     <div class="vertical-section-container centered">
-      <h2>polymer-quill-html-render demo</h2>
+      <h2>polymer-quill-html-render -- HTML Render Demo</h2>
+      <demo-selector demo="Render"></demo-selector>
 
       <h3>1. HTML Render Standard</h3>
       <demo-snippet>
@@ -73,10 +75,6 @@
           </polymer-quill-html-render>
         </template>
       </demo-snippet>
-      
-      <h2>Other Demos</h2>
-      <a href="index.html"><h4>polymer-quill demo</h4></a>
-      <a href="bubble.html"><h4>polymer-quill-bubble demo</h4></a>
 
     </div>
 
@@ -90,10 +88,7 @@
       window.addEventListener('WebComponentsReady', function() {
         console.log('html-render Demo Ready');
       });
-      
-      // function handleResponse(event) {
-      //   console.log('handleResponse',event,this.content);
-      // }
+
     </script>
 
   </body>

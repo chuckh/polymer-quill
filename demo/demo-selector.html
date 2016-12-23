@@ -1,0 +1,53 @@
+
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../paper-radio-group/paper-radio-group.html">
+
+<dom-module id="demo-selector">
+  <template>
+    <style>
+      :host {
+        display: block;
+        font-size: 16px;
+        font-weight: 200;
+      }
+    </style>
+    
+    <label id="demosLabel">Demos</label>
+    <paper-radio-group selected="{{demo}}" aria-labelledby="demosLabel" attr-for-selected="name">
+      <a href="index.html"><paper-radio-button name="Snow" id="snowPRB">Snow</paper-radio-button></a>
+      <a href="bubble.html"><paper-radio-button name="Bubble"id="bubblePRB">Bubble</paper-radio-button></a>
+      <a href="html-render.html"><paper-radio-button name="Render"id="renderPRB">HTML Render</paper-radio-button></a>
+    </paper-radio-group>
+    <hr>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'demo-selector',
+
+      properties: {
+        /**
+         * Content which is in HTML format.
+         */
+        demo: {
+          type: String,
+          notify: true,
+        },
+      },
+
+      ready: function() {
+        console.log('demo-selector ready',this.demo);
+        if (this.demo === "Snow") {
+          this.$.snowPRB.checked  = true;
+        } else if (this.demo === "Bubble") {
+          this.$.bubblePRB.checked  = true;          
+        } else {
+          this.$.renderPRB.checked  = true;          
+        }
+      }
+
+    });
+  </script>
+</dom-module>

@@ -18,6 +18,7 @@
     <link rel="import" href="../../paper-button/paper-button.html">
 
     <link rel="import" href="../polymer-quill-bubble.html">
+    <link rel="import" href="demo-selector.html">
 
     <style is="custom-style" include="demo-pages-shared-styles">
       .centered {
@@ -31,7 +32,8 @@
 
   <body unresolved>
     <div class="vertical-section-container centered">
-      <h2>polymer-quill-bubble demo</h2>
+      <h2>polymer-quill-bubble -- Bubble Demo</h2>
+      <demo-selector demo="Bubble"></demo-selector>
 
       <h3>1. Bubble Editor Popup Toolbar, max & min heights (auto & 700px), Save every 2 seconds</h3>
       <demo-snippet>
@@ -72,8 +74,8 @@
         <template>
           <style is="custom-style">
             polymer-quill-bubble#demo2 {
-              --polymer-quill-editor-min-height: 200px;
-              --polymer-quill-editor-border: 1px solid purple;
+              --polymer-quill-editor-min-height: 50px;
+              --polymer-quill-editor-border: none;
             }
           </style>
           <polymer-quill-bubble id="demo2"
@@ -84,10 +86,6 @@
           </polymer-quill-bubble>
         </template>
       </demo-snippet>
-
-      <h2>Other Demos</h2>
-      <a href="index.html"><h4>polymer-quill demo</h4></a>
-      <a href="html-render.html"><h4>polymer-quill-html-render demo</h4></a>
 
     </div>
   </body>

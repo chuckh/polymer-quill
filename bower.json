@@ -25,7 +25,8 @@
     "quill": "https://github.com/quilljs/quill/releases/download/v1.1.8/quill.tar.gz",
     "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
     "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.6",
-    "marked-element": "PolymerElements/marked-element#^1.2.0"
+    "marked-element": "PolymerElements/marked-element#^1.2.0",
+    "paper-radio-group": "PolymerElements/paper-radio-group#^1.2.1"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
