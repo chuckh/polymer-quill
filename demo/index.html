@@ -12,6 +12,7 @@
       };
     </script>
 
+    <link rel="import" href="../../iron-ajax/iron-ajax.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../../iron-localstorage/iron-localstorage.html">
@@ -146,10 +147,51 @@
         </template>
       </demo-snippet>
 
+      <h3>5. Full Toolbar, Sample Content via iron-ajax, Hide Results, Default max & min heights (none & 150px), Save as HTML, Save every 2 seconds</h3>
+      <demo-snippet>
+        <template is="dom-bind" id="app5">
+        <style is="custom-style">
+          polymer-quill.long {
+            --polymer-quill-editor-max-height: none;
+            --polymer-quill-editor-min-height: 150px;
+          }
+        </style>
+        <iron-ajax
+            auto
+            url="sample.txt"
+            handle-as="text"
+            on-response="handleResponse"
+            last-response="{{ajaxResponse}}">
+          </iron-ajax>
+          <polymer-quill id="demo5" class="long"
+            store-as="html"
+            content="{{ajaxResponse}}"
+            toolbar-type="full">
+          </polymer-quill>
+        </template>
+      </demo-snippet>
+
       <h2>Other Demos</h2>
       <a href="bubble.html"><h4>polymer-quill-bubble demo</h4></a>
       <a href="html-render.html"><h4>polymer-quill-html-render demo</h4></a>
 
     </div>
+
+    <script>
+      var app2 = document.querySelector('#app5');
+
+      app2.handleResponse = function (event) {
+        console.log('handleResponse');
+      };
+
+      window.addEventListener('WebComponentsReady', function() {
+        console.log('html-render Demo Ready');
+      });
+      
+      // function handleResponse(event) {
+      //   console.log('handleResponse',event,this.content);
+      // }
+    </script>
+
   </body>
 </html>
