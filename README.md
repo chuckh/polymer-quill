@@ -56,7 +56,7 @@ Learn more at http://quilljs.com/
 ```
 
 ## Demo and API docs
-If your are viewing this from webcomponents.org, use this links for API and demos, not the links on right sidebar.
+If your are viewing this from webcomponents.org, use the below links for API and demos, not the links on right sidebar.
 
 - [API docs](https://chuckh.github.io/polymer-quill/)
 - [Demo Snow Toolbar](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/)
