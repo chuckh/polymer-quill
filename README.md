@@ -103,11 +103,11 @@ Learn more at http://quilljs.com/
 <polymer-quill content="<h2>Hello World! - Store as HTML</h2>" store-as="html"></polymer-quill>
 ```
 
-### Styling
+## Styling
 
 The following custom properties and mixins are available for styling. This allows the editor auto grow to the max-height.:
 
-## polymer-quill  (snow theme)
+### polymer-quill  (Snow theme)
 Also had to make editor have `padding-bottom: 50px` to have link popup show.
 
 Custom property | Description | Default
@@ -136,7 +136,7 @@ polymer-quill {
 }
 ```
 
-## polymer-quill-bubble  (bubble theme)
+### polymer-quill-bubble  (Bubble theme)
 
 Max-height needs to be set for bubble popup toolbar to work with is default. 
 Also had to make editor have `padding-bottom: 50px` so toolbar displays for last line.
@@ -144,8 +144,10 @@ Also had to make editor have `padding-bottom: 50px` so toolbar displays for last
 Custom property | Description | Default
 ----------------|-------------|----------
 `--polymer-quill-editor-max-height` | Custom max-height for editor     | `auto`
-`--polymer-quill-editor-min-height` | Custom max-height for editor     | `50px`
-`--polymer-quill`                   | Mixin applied to the editor  | `{}`
+`--polymer-quill-editor-min-height` | Custom min-height for editor     | `50px`
+`--polymer-quill-editor-overflow`   | Custom overflow for editor       | `scroll`
+`--polymer-quill-editor-border`     | Custom min-height for editor     | `solid 1px #ccc`
+`--polymer-quill`                   | Mixin applied to the editor      | `{}`
 
 ## Install
 
@@ -162,14 +164,6 @@ If you are using Polymer Starter Kit 2 or like as the bases of your app you will
     lazyRegister: true
   };
 ```
-
-## Deploy to GitHub Pages
-cd ..
-mkdir pub 
-cd pub
-../tools/bin/gp.sh chuckh polymer-quill
-cd ..
-rm -rf temp
 
 ## License
 
