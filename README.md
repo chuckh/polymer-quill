@@ -14,7 +14,7 @@ With its modular architecture and expressive API, it is completely customizable 
 Learn more at http://quilljs.com/
 
 ### Screenshot
-![polymer-quill screenshot](polymer-quill-screenshot.png "polymer-quill screenshot")
+![polymer-quill screenshot](polymer-quill-screenshot.png)
 
 ### Example:
 <!---
