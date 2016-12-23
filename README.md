@@ -58,7 +58,7 @@ Learn more at http://quilljs.com/
 ## Demo and API docs
 If your are viewing this from webcomponents.org, use the below links for API and demos, not the links on right sidebar.
 
-- [API docs](https://chuckh.github.io/polymer-quill/)
+- [API docs](https://chuckh.github.io/polymer-quill/#polymer-quill)
 - [Demo Snow Toolbar](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/)
 - [Demo Bubble Toolbar (Medium style)](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/bubble.html)
 - [Demo Quill HTML Render](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/html-render.html)
