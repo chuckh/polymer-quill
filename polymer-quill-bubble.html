@@ -6,7 +6,7 @@
 <!--
 ## Polymer Quill Rich Text Editor - Bubble toolbar like Medium WIP
 
-`polymer-quill-bubble` creates a Polymer Quill Rich Text Editor - Bubble popup toolbar like Medium.
+`<polymer-quill-bubble>` creates a Polymer Quill Rich Text Editor - Bubble popup toolbar like Medium.
 Max-height is set to `auto` and padding-bottom to `50px` so toolbar will popup correctly.
 
 Quill is a free, open source WYSIWYG editor built for the modern web.
@@ -73,14 +73,14 @@ Custom property | Description | Default
 
     bower install --save polymer-quill
 
-@demo demo/index.html
+@demo demo/bubble.html
 -->
 
 <dom-module id="polymer-quill-bubble">
   <template>
     <style include="polymer-quill-styles-bubble">
       :host {
-        --calculated-polymer-quill-editor-max-height: var(--polymer-quill-editor-max-height, auto);
+        --calculated-polymer-quill-editor-max-height: var(--polymer-quill-editor-max-height, none);
         --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 50px);
         --calculated-polymer-quill-editor-overflow: var(--polymer-quill-editor-overflow, scroll);
         --calculated-polymer-quill-editor-border: var(--polymer-quill-editor-border, solid 1px #ccc);
@@ -90,7 +90,7 @@ Custom property | Description | Default
       #editor {
         max-height: var(--calculated-polymer-quill-editor-max-height);
         min-height: var(--calculated-polymer-quill-editor-min-height);
-        overflow: var(--polymer-quill-editor-overflow);
+        overflow: var(--calculated-polymer-quill-editor-overflow);
         border: var(--calculated-polymer-quill-editor-border);
       }
       .results {
