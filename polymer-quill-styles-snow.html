@@ -567,6 +567,7 @@
           :host ::content .ql-snow .ql-editor pre {
             background-color: #f0f0f0;
             border-radius: 3px;
+            line-height: 1.5;
           }
           :host ::content .ql-snow .ql-editor pre {
             white-space: pre-wrap;
@@ -588,6 +589,15 @@
             background-color: #23241f;
             color: #f8f8f2;
             overflow: visible;
+          }
+          :host ::content .hljs-keyword, .hljs-selector-tag, .hljs-name, .hljs-attr {
+              color: #f92672;
+          }
+          :host ::content .hljs-string, .hljs-type, .hljs-built_in, .hljs-builtin-name, .hljs-selector-id, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-addition, .hljs-variable, .hljs-template-variable {
+              color: #e6db74;
+          }
+          :host ::content .hljs-comment, .hljs-deletion, .hljs-meta {
+              color: #75715e;
           }
           :host ::content .ql-snow .ql-editor img {
             max-width: 100%;
