@@ -348,14 +348,26 @@ Custom property | Description | Default
 
         // Set initial content
         this.async(function() {
-          if (this.storeAs === 'delta') {
-            if (this.content.length > 1) {
-              this.quill.setContents(JSON.parse(this.content),'api');
+          try { // try with initial delay
+            var notset = true;
+            if (this.content && this.content.length > 1 && this.content != undefined && this.content !="<p>undefined</p>" ) {
+              if (this.storeAs === 'delta') {
+                this.quill.setContents(JSON.parse(this.content),'api');
+              } else { // HTML
+                this.quill.root.innerHTML = this.content;
+              }
+              notset = false;
+              this.html = this.quill.root.innerHTML;
             }
-          } else { // HTML
-            this.quill.root.innerHTML = this.content;
+            if (notset) {
+              throw 'notset';
+            }
           }
-          this.html = this.quill.root.innerHTML;
+          catch (notset) {
+            // try again after doubling the delay
+            this.delay = this.delay * 2;
+            this.setContent();
+          }
         },this.delay);
 
         // Store accumulated changes
@@ -389,6 +401,22 @@ Custom property | Description | Default
             return 'There are unsaved changes. Are you sure you want to leave?';
           }
         };
+      },
+
+      setContent: function() {
+        this.async(function() {
+          var notset = true;
+          if (this.content && this.content.length > 1 && this.content != undefined && this.content !="<p>undefined</p>" ) {
+            if (this.storeAs === 'delta') {
+              this.quill.setContents(JSON.parse(this.content),'api');
+            } else { // HTML
+              this.quill.root.innerHTML = this.content;
+            }
+            notset = false;
+            this.html = this.quill.root.innerHTML;
+          }
+          return notset;
+        },this.delay);
       },
 
       attached: function() {
