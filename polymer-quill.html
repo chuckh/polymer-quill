@@ -201,7 +201,7 @@ Custom property | Description | Default
           type: String,
           value: '',
           notify: true,
-          reflectToAttribute: true,
+          // reflectToAttribute: true,
           observer: '_contentChanged'
         },
         /**
@@ -211,7 +211,7 @@ Custom property | Description | Default
           type: String,
           value: '',
           notify: true,
-          reflectToAttribute: true,
+          // reflectToAttribute: true,
         },
         /**
          * Store as Quill Deltas or HTML.
@@ -390,7 +390,7 @@ Custom property | Description | Default
             this.html = this.quill.root.innerHTML;
 
             // Fire custom event change
-            this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html});
+            this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html, entireDelta: this.quill.getContents()});
             change = new Delta();
           }
         }.bind(this), this.saveInterval);
@@ -446,13 +446,13 @@ Custom property | Description | Default
 
       // Content Change
       _contentChanged: function(newValue, oldValue) {
-        if (this.useContentReset) {
+        if (this.useContentReset && newValue != undefined) {
           this.resetContent(newValue);
         }
       },
 
       // Reset Content
-      resetContent : function(content){
+      resetContent: function(content){
         // Set content
         this.async(function() {
           if (this.storeAs === 'delta') {
