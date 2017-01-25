@@ -304,18 +304,31 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         if (this.enable === 'false') {
           this.quill.enable(false);
           this.disabledClass = 'style-scope polymer-quill ql-container ql-bubble disabled';
+          this.readOnly = true;
         }
 
         // Set initial content
         this.async(function() {
-          if (this.storeAs === 'delta') {
-            if (this.content.length > 1) {
-              this.quill.setContents(JSON.parse(this.content),'api');
+          try { // try with initial delay
+            var notset = true;
+            if (this.content && this.content.length > 1 && this.content != undefined && this.content !="<p>undefined</p>" ) {
+              if (this.storeAs === 'delta') {
+                this.quill.setContents(JSON.parse(this.content),'api');
+              } else { // HTML
+                this.quill.root.innerHTML = this.content;
+              }
+              notset = false;
+              this.html = this.quill.root.innerHTML;
             }
-          } else { // HTML
-            this.quill.root.innerHTML = this.content;
+            if (notset) {
+              throw 'notset';
+            }
           }
-          this.html = this.quill.root.innerHTML;
+          catch (notset) {
+            // try again after doubling the delay
+            this.delay = this.delay * 2;
+            this.setContent();
+          }
         },this.delay);
 
         // Store accumulated changes
@@ -351,6 +364,22 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         };
       },
 
+      setContent: function() {
+        this.async(function() {
+          var notset = true;
+          if (this.content && this.content.length > 1 && this.content != undefined && this.content !="<p>undefined</p>" ) {
+            if (this.storeAs === 'delta') {
+              this.quill.setContents(JSON.parse(this.content),'api');
+            } else { // HTML
+              this.quill.root.innerHTML = this.content;
+            }
+            notset = false;
+            this.html = this.quill.root.innerHTML;
+          }
+          return notset;
+        },this.delay);
+      },
+
       attached: function() {
         this.fire('attached');
       },
@@ -376,12 +405,15 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         return html;
       },
 
+      // Content Change
       _contentChanged: function(newValue, oldValue) {
-        if (this.useContentReset) {
+        if (this.useContentReset && newValue != undefined) {
           this.resetContent(newValue);
         }
       },
-      resetContent : function(content){
+
+      // Reset Content
+      resetContent: function(content){
         // Set content
         this.async(function() {
           if (this.storeAs === 'delta') {
