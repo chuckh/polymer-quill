@@ -4,7 +4,7 @@
     <template>
         <style>
           /*!
-          * Quill Editor v1.1.8
+          * Quill Editor v1.2.0
           * https://quilljs.com/
           * Copyright (c) 2014, Jason Chen
           * Copyright (c) 2013, salesforce.com
@@ -71,10 +71,15 @@
           :host ::content .ql-editor ul > li::before {
             content: '\25CF';
           }
+          :host ::content .ql-editor ul[data-checked=true],
+          :host ::content .ql-editor ul[data-checked=false] {
+            pointer-events: none;
+          }
           :host ::content .ql-editor ul[data-checked=true] > li::before,
           :host ::content .ql-editor ul[data-checked=false] > li::before {
             color: #777;
             cursor: pointer;
+            pointer-events: all;
           }
           :host ::content .ql-editor ul[data-checked=true] > li::before {
             content: '\2611';
@@ -487,10 +492,14 @@
           }
           :host ::content .ql-bubble .ql-tooltip {
             position: absolute;
+            transform: translateY(10px);
           }
           :host ::content .ql-bubble .ql-tooltip a {
             cursor: pointer;
             text-decoration: none;
+          }
+          :host ::content .ql-bubble .ql-tooltip.ql-flip {
+            transform: translateY(-10px);
           }
           :host ::content .ql-bubble .ql-formats {
             display: inline-block;
@@ -817,10 +826,10 @@
             background-color: #444;
             border-radius: 25px;
             color: #fff;
-            margin-top: 10px;
+            /*margin-top: 10px;*/
           }
           :host ::content .ql-bubble .ql-tooltip-arrow {
-            border-bottom: 6px solid #444;
+            /*border-bottom: 6px solid #444;*/
             border-left: 6px solid transparent;
             border-right: 6px solid transparent;
             content: " ";
@@ -829,6 +838,14 @@
             margin-left: -6px;
             position: absolute;
             top: -6px;
+          }
+          :host ::content .ql-bubble .ql-tooltip:not(.ql-flip) .ql-tooltip-arrow {
+            border-bottom: 6px solid #444;
+            top: -6px;
+          }
+          :host ::content .ql-bubble .ql-tooltip.ql-flip .ql-tooltip-arrow {
+            border-top: 6px solid #444;
+            bottom: -6px;
           }
           :host ::content .ql-bubble .ql-tooltip.ql-editing .ql-tooltip-editor {
             display: block;
