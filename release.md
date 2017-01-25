@@ -11,5 +11,5 @@
 ## Deploy to GitHub Pages
   1. From command line: `. deploy.sh`
   1. Test Deploy
-    1. GoTo https://chuckh.github.io/polymer-quill/components/polymer-quill/
+    1. GoTo https://chuckh.github.io/polymer-quill/components/polymer-quill
     1. GoTo https://www.webcomponents.org/element/chuckh/polymer-quill
