@@ -290,7 +290,7 @@ Custom property | Description | Default
          * Whether to instantiate the editor to read-only mode.
          * Default is `false`.
          */
-        readyOnly: {
+        readOnly: {
           type: Boolean,
           value: false,
           notify: true,
@@ -334,7 +334,7 @@ Custom property | Description | Default
           },
           theme: 'snow',
           strict: false,
-          readOnly: this.readyOnly,
+          readOnly: this.readOnly,
           placeholder: this.placeholder,
           bounds: this.$.editor
         });
@@ -344,7 +344,7 @@ Custom property | Description | Default
           this.quill.enable(false);
           this.hideToolbar = true;
           this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
-          this.readyOnly = true;
+          this.readOnly = true;
         }
 
         // Set initial content
@@ -483,7 +483,7 @@ Custom property | Description | Default
         this.hideToolbar = false;
         this.quill.enable(true);
         this.disabledClass = 'style-scope polymer-quill ql-container ql-snow';
-        this.readyOnly = false;
+        this.readOnly = false;
       },
 
       // Disabled Editor (hide toolbar and disable editing)
@@ -492,7 +492,7 @@ Custom property | Description | Default
         this.hideToolbar = true;
         this.quill.enable(false);
         this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
-        this.readyOnly = true;
+        this.readOnly = true;
       }
 
     });
