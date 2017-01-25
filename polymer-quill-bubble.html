@@ -260,30 +260,35 @@ Custom property | Description | Default
           type: String,
           value: 'Compose an epic...',
           notify: true,
+        },
+        toolbarOptions: {
+          type: Object,
+          notify: true,
+          value: [
+              [{ header: [1, 2, 3, 4, false] }],
+              ['bold', 'italic', 'underline', 'strike'],
+              [{ 'align': [] }],
+              [{ 'indent': '-1'}, { 'indent': '+1' }], 
+              ['link', 'blockquote', 'code-block', 'image', 'video'],
+              [{ 'color': [] }, { 'background': [] }],
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              ['clean']
+            ]
         }
       },
 
       ready: function() {
-        // TODO: add config of toolbar
-        /*if (this.toolbarType === 'full') {
-          this.standardToolbar = false;
-        }*/
         var Delta = Quill.import('delta');
         this.quill = new Quill(this.$.editor, {
           modules: {
-            toolbar: [
-              [{ 'header': 1 }, { 'header': 2 }],
-              ['bold', 'italic'],
-              ['link', 'blockquote', 'code-block', 'image'],
-              [{ list: 'ordered' }, { list: 'bullet' }]
-            ]
+            toolbar: this.toolbarOptions
           },
           theme: 'bubble',
           strict: false,
           readOnly: this.readyOnly,
           placeholder: this.placeholder,
           bounds: this.$.editor
-       });
+        });
 
         // Set if editor is dsiabled
         if (this.enable === 'false') {
@@ -396,7 +401,6 @@ Custom property | Description | Default
         }
         return this.enable;
       }
-
     });
   </script>
 </dom-module>
