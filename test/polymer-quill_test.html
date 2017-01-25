@@ -9,6 +9,8 @@
     <script src="../../web-component-tester/browser.js"></script>
 
     <link rel="import" href="../polymer-quill.html">
+    <link rel="import" href="../polymer-quill-bubble.html">
+    <link rel="import" href="../polymer-quill-html-render.html">
   </head>
   <body>
 
@@ -31,6 +33,18 @@
       </template>
     </test-fixture>
 
+    <test-fixture id="bubble">
+      <template>
+        <<polymer-quill-bubble> content="<h2>Hello World! - Store as HTML</h2>" store-as="html"></polymer-quill-bubble>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="render">
+      <template>
+        <polymer-quill-html-render content="<h2>Hello World! - Store as HTML</h2>" store-as="html"></polymer-quill-html-render>
+      </template>
+    </test-fixture>
+
     <script>
       suite('polymer-quill', function() {
 
@@ -42,6 +56,16 @@
         test('instantiating the element works HTML', function() {
           var element = fixture('html');
           assert.equal(element.is, 'polymer-quill');
+        });
+
+        test('instantiating the Bubble element works HTML', function() {
+          var element = fixture('bubble');
+          assert.equal(element.is, 'polymer-quill-bubble');
+        });
+
+        test('instantiating the HTML Render element works HTML', function() {
+          var element = fixture('render');
+          assert.equal(element.is, 'polymer-quill-html-render');
         });
 
       });
