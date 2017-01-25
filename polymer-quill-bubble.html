@@ -409,7 +409,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
       enableEditor: function() {
         this.enable = 'true';
         this.quill.enable(true);
-        this.disabledClass = 'style-scope polymer-quill ql-container ql-snow';
+        this.disabledClass = 'style-scope polymer-quill ql-container ql-bubble';
         this.readOnly = false;
       },
 
@@ -417,7 +417,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
       disableEditor: function() {
         this.enable = 'false';
         this.quill.enable(false);
-        this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
+        this.disabledClass = 'style-scope polymer-quill ql-container ql-bubble disabled';
         this.readOnly = true;
       }
     });
