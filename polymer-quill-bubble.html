@@ -1,7 +1,9 @@
 
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
 <link rel="import" href="polymer-quill-import.html">
 <link rel="import" href="polymer-quill-styles-bubble.html">
+<link rel="import" href="firebase-upload.html">
 
 <!--
 ## Polymer Quill Rich Text Editor - Bubble toolbar like Medium WIP
@@ -34,18 +36,16 @@ Learn more at http://quilljs.com/.
 
 ```html
 <style is="custom-style">
-  polymer-quill.full {
-    --polymer-quill-editor-max-height: 600px;
+  polymer-quill.grow {
     --polymer-quill-editor-min-height: 200px;
   }
 </style>
-<h2>Full Toolbar, Show Results, Custom min-height (200px), Save as Deltas, Save every 1 second</h2>
+<h2>Standard Toolbar, Show Results, Auto Grow, Custom min-height (200px), Save as Deltas, Save every 1 second</h2>
 <polymer-quill-bubble
   content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
-  class='full'
+  class='grow'
   store-as="delta"
   save-interval="1000"
-  toolbar-type="full"
   show-results>
 </polymer-quill-bubble>
 
@@ -123,8 +123,30 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         opacity: 0.85;
       }
 
+      #dialogBody {
+        font-size: 18px;
+        line-height: 38px;
+        color: red;
+        text-align: center;
+      }
+
     </style>
+
+    <paper-dialog id="dialogUpload" always-on-top="true" mode="true" style="width: 90%; max-width: 680px;">
+      <h2 id="dialogHeader">Upload Image</h2>
+      <div id="dialogBody">
+        <firebase-upload id="uploadContainer" url="https://proplanr2.firebaseio.com" 
+          max-file-size="10000000" max-files="1" download-url="{{downloadURL}}">
+      </firebase-upload>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss autofocus>Cancel</paper-button>
+        <paper-button dialog-confirm on-tap="uploadOk" raised>Insert Image</paper-button>
+      </div>
+    </paper-dialog>
+
     
+ <!--hidden$="{{hideUpload}}"-->
     <div id="scrollingContainer">
       <div id="editor" class$="{{disabledClass}}">{{content}}</div>
     </div>
@@ -155,6 +177,10 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         *
         * @event ready
         */
+
+      listeners: {
+        'download-url-change': 'downloadUrlChange'
+      },  
 
       properties: {
         /**
@@ -282,11 +308,51 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
             [{ 'color': [] }, { 'background': [] }],
             [{ list: 'ordered' }, { list: 'bullet' }],
             ['clean']
-          ]
+          ],
+          // container: [['image']],
+          // handlers: {
+          //   'link': function(value) {
+          //     if (value) {
+          //       var href = prompt('Enter the URL');
+          //       this.quill.format('link', href);
+          //     } else {
+          //       this.quill.format('link', false);
+          //     }
+          //   }
+          // }
+        },
+        /**
+         * Hide File Upload Dialog.
+         * Default is `true`.
+         */
+        hideUpload: {
+          type: Boolean,
+          value: true,
+          notify: true,
+          observer: '_hideUploadChange'
+        },
+        firstLoad: {
+          type: Boolean,
+          value: true,
+          notify: true
+        },
+        downloadURL: {
+          type: String,
+          notify: true
         }
+        /**
+         * Placeholder for empty editor.
+         * Default is `Compose an epic...`.
+         */
+        // imageHandlerTest: {
+        //   type: Function,
+        //   observer: '_imageHandlerChange'
+        // },
       },
 
       ready: function() {
+      //  this.hideUpload = false;
+        console.log('bubble ready',this.hideUpload);
         var Delta = Quill.import('delta');
         this.quill = new Quill(this.$.editor, {
           modules: {
@@ -299,6 +365,9 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
           scrollingContainer: this.$.scrollingContainer, 
           bounds: this.$.editor
         });
+
+        var toolbar = this.quill.getModule('toolbar');
+        toolbar.addHandler('image', this.imageHandler.bind(this));
 
         // Set if editor is disabled
         if (this.enable === 'false') {
@@ -382,6 +451,63 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
 
       attached: function() {
         this.fire('attached');
+      },
+
+      // _imageHandlerChange: function(imageHandler) {
+      //   var dataHost = (this.dataHost && this.dataHost._rootDataHost) || this.dataHost;
+      //   console.log('_imageHandlerChange',imageHandler,dataHost);
+      //   this._imageHandlerFn = imageHandler && (typeof imageHandler == 'function' ? imageHandler :
+      //     function() { return dataHost[imageHandler].apply(dataHost, arguments); });
+      // },
+
+      _hideUploadChange: function(newValue, oldValue) {
+        console.log('_hideUploadChange',newValue,oldValue,this.hideUpload);
+        // this.hideUpload = newValue;
+        // if (this.useContentReset && newValue != undefined) {
+        //   this.resetContent(newValue);
+        // }
+      },
+
+      imageHandler: function() {
+        this.hideUpload = false;
+        var range = this.quill.getSelection();
+        console.log('imageHandler',this.hideUpload,range);
+        // var value = prompt('What is the image URL');
+        // this.$.dialogHeader.innerHTML = "Upload Image1?"
+        // this.dialogBodyValue = planTitle;
+        // this.dialogBodyValue2 = 'from ' + categoryTitle + ' category';
+        // this.deleteData = item;
+        // this.quill.insertEmbed(range.index, 'image', value, Quill.sources.USER);
+        var value = this.$.dialogUpload.open();
+        console.log(' - after',this.hideUpload,value);
+      },
+
+      downloadUrlChange: function(event) {
+        this.downloadURL = event.detail.downloadURL;
+        console.log('downloadUrlChange:',this.downloadURL,event);
+      },
+
+      uploadOk: function(event) {
+        var range = this.quill.getSelection();
+        this.async(function() {
+          console.log('uploadOk:',range,this.downloadURL);
+          if (this.downloadURL) {
+            this.quill.insertEmbed(range.index, 'image', this.downloadURL, Quill.sources.USER);
+          }          
+        },100);
+      },
+
+      imageHandlerX: function() {
+        // that.hideUpload = false;
+        // console.log('imageHandler',that.hideUpload);
+        if (!this.firstLoad) {
+          var range = this.quill.getSelection();
+          this.hideUpload = false;
+          this.firstLoad = true;
+        }
+        console.log('imageHandler',this.hideUpload,range);
+        // var value = prompt('What is the image URL');
+        // this.quill.insertEmbed(range.index, 'image', value, Quill.sources.USER);
       },
 
       // Convert Deltas to HTML, source should be deltas string
