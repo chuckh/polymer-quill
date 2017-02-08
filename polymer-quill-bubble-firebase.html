@@ -8,7 +8,7 @@
 <!--
 ## Polymer Quill Rich Text Editor - Bubble toolbar like Medium WIP
 
-`<polymer-quill-bubble>` creates a Polymer Quill Rich Text Editor - Bubble popup toolbar like Medium.
+`<polymer-quill-bubble-firebase>` creates a Polymer Quill Rich Text Editor - Bubble popup toolbar like Medium.
 Max-height is set to `auto` and padding-bottom to `50px` so toolbar will popup correctly.
 
 Quill is a free, open source WYSIWYG editor built for the modern web.
@@ -19,18 +19,18 @@ Learn more at http://quilljs.com/.
 
 #### Defaults (stores as Deltas every 2 seconds, does not show results, 100px height)
 
-    <polymer-quill-bubble
+    <polymer-quill-bubble-firebase
       content='{"ops":[{"insert":"Hello World"},{"attributes":{"header":2},"insert":"\n"}]}'>
-    </polymer-quill-bubble>
+    </polymer-quill-bubble-firebase>
 
 #### Custom (stores as HTML every 5 seconds, show results)
 
-    <polymer-quill-bubble
+    <polymer-quill-bubble-firebase
       content="<h2>Hello World</h2>"
       store-as="html"
       store-interval="5000"
       show-results>
-    </polymer-quill-bubble>
+    </polymer-quill-bubble-firebase>
 
 #### Demo example
 
@@ -41,19 +41,19 @@ Learn more at http://quilljs.com/.
   }
 </style>
 <h2>Standard Toolbar, Show Results, Auto Grow, Custom min-height (200px), Save as Deltas, Save every 1 second</h2>
-<polymer-quill-bubble
+<polymer-quill-bubble-firebase
   content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
   class='grow'
   store-as="delta"
   save-interval="1000"
   show-results>
-</polymer-quill-bubble>
+</polymer-quill-bubble-firebase>
 
 <h2>Standard Toolbar, Hide Results, Default height (50px), Save as HTML, Save every 2 seconds</h2>
-<polymer-quill-bubble
+<polymer-quill-bubble-firebase
   content="<h2>Hello World! - Store as HTML</h2>"
   store-as="html">
-</polymer-quill-bubble>
+</polymer-quill-bubble-firebase>
 ```
 
 
@@ -81,7 +81,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
 @demo demo/bubble.html
 -->
 
-<dom-module id="polymer-quill-bubble">
+<dom-module id="polymer-quill-bubble-firebase">
   <template>
     <style include="polymer-quill-styles-bubble">
       :host {
@@ -158,7 +158,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
   <script>
     Polymer({
 
-      is: 'polymer-quill-bubble',
+      is: 'polymer-quill-bubble-firebase',
 
       /**
         * Fired when element is attached.
