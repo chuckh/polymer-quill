@@ -1,11 +1,14 @@
+
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
 <link rel="import" href="polymer-quill-import.html">
 <link rel="import" href="polymer-quill-styles-bubble.html">
+<link rel="import" href="firebase-upload.html">
 
 <!--
 ## Polymer Quill Rich Text Editor - Bubble toolbar like Medium WIP
 
-`<polymer-quill-bubble>` creates a Polymer Quill Rich Text Editor - Bubble popup toolbar like Medium.
+`<polymer-quill-bubble-firebase>` creates a Polymer Quill Rich Text Editor - Bubble popup toolbar like Medium.
 Max-height is set to `auto` and padding-bottom to `50px` so toolbar will popup correctly.
 
 Quill is a free, open source WYSIWYG editor built for the modern web.
@@ -16,42 +19,43 @@ Learn more at http://quilljs.com/.
 
 #### Defaults (stores as Deltas every 2 seconds, does not show results, 100px height)
 
-    <polymer-quill-bubble
+    <polymer-quill-bubble-firebase
       content='{"ops":[{"insert":"Hello World"},{"attributes":{"header":2},"insert":"\n"}]}'>
-    </polymer-quill-bubble>
+    </polymer-quill-bubble-firebase>
 
 #### Custom (stores as HTML every 5 seconds, show results)
 
-    <polymer-quill-bubble
+    <polymer-quill-bubble-firebase
       content="<h2>Hello World</h2>"
       store-as="html"
       store-interval="5000"
       show-results>
-    </polymer-quill-bubble>
+    </polymer-quill-bubble-firebase>
 
 #### Demo example
 
 ```html
 <style is="custom-style">
-  polymer-quill.full {
-    --polymer-quill-editor-max-height: 600px;
+  polymer-quill.grow {
     --polymer-quill-editor-min-height: 200px;
   }
 </style>
-<h2>Full Toolbar, Show Results, Custom min-height (200px), Save as Deltas, Save every 1 second</h2>
-<polymer-quill-bubble
+<h2>Standard Toolbar, Show Results, Auto Grow, Custom min-height (200px), Save as Deltas, Save every 1 second</h2>
+<polymer-quill-bubble-firebase
   content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
-  class="full"
+  class="grow"
   store-as="delta"
   save-interval="1000"
-  show-results>
-</polymer-quill-bubble>
+  show-results
+  file-path="files/">
+</polymer-quill-bubble-firebase>
 
 <h2>Standard Toolbar, Hide Results, Default height (50px), Save as HTML, Save every 2 seconds</h2>
-<polymer-quill-bubble
+<polymer-quill-bubble-firebase
   content="<h2>Hello World! - Store as HTML</h2>"
-  store-as="html">
-</polymer-quill-bubble>
+  store-as="html"
+  file-path="files/">
+</polymer-quill-bubble-firebase>
 ```
 
 
@@ -79,7 +83,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
 @demo demo/bubble.html
 -->
 
-<dom-module id="polymer-quill-bubble">
+<dom-module id="polymer-quill-bubble-firebase">
   <template>
     <style include="polymer-quill-styles-bubble">
       :host {
@@ -121,7 +125,30 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         opacity: 0.85;
       }
 
+      #dialogBody {
+        font-size: 18px;
+        line-height: 38px;
+        color: #3f51b5;
+        text-align: center;
+      }
+
     </style>
+
+    <paper-dialog id="dialogUpload" always-on-top="true" mode="true" style="width: 90%; max-width: 680px;">
+      <h2 id="dialogHeader">Upload Image</h2>
+      <div id="dialogBody">
+        <firebase-upload id="firebaseUpload" url="https://proplanr2.firebaseio.com" 
+          max-file-size="{{maxFileSize}}" max-files="{{maxFiles}}" download-url="{{downloadURL}}" file-path="{{filePath}}">
+      </firebase-upload>
+      <div title="Max Image size in Kilobytes" style="color: black; font-size: 14px;">Max file size: {{convertToKB(maxFileSize)}}</div>
+      <img src="{{downloadURL}}" title="{{downloadURL}}" height="98px;" style="margin-top: 20px;">
+      <div title="Image size in Kilobytes" style="font-size: 14px;">{{size}}</div>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss autofocus>Cancel</paper-button>
+        <paper-button dialog-confirm on-tap="uploadOk" raised>Insert Image</paper-button>
+      </div>
+    </paper-dialog>
     
     <div id="scrollingContainer">
       <div id="editor" class$="{{disabledClass}}">{{content}}</div>
@@ -134,7 +161,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
   <script>
     Polymer({
 
-      is: 'polymer-quill-bubble',
+      is: 'polymer-quill-bubble-firebase',
 
       /**
         * Fired when element is attached.
@@ -153,6 +180,10 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         *
         * @event ready
         */
+
+      listeners: {
+        'download-url-change': 'downloadUrlChange'
+      },  
 
       properties: {
         /**
@@ -280,11 +311,62 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
             [{ 'color': [] }, { 'background': [] }],
             [{ list: 'ordered' }, { list: 'bullet' }],
             ['clean']
-          ]
-        }
+          ],
+        },
+        /**
+         * Link for Uploaded Image.
+         * Default is `null`.
+         */
+        downloadURL: {
+          type: String,
+          notify: true
+        },
+        /**
+         * Size in Kilobytes for Uploaded Image.
+         * Default is `null`.
+         */
+        size: {
+          type: String,
+          value: null,
+          notify: true
+        },
+        /**
+        * Specifies file path for upload. Default is 
+        * 'root'.
+        */
+        filePath: {
+          type: String,
+          value: '',
+          notify: true
+        },
+        /**
+        * Specifies the types of files that the server accepts.
+        * Syntax: file_extension|audio/*|video/*|image/*|media_type
+        */
+        accept: {
+          type: String,
+          value: 'image/*'
+        },
+        /**
+        * Limit of files to upload, by default it is unlimited. If the value is
+        * one, nomultiple is true.
+        */
+        maxFiles: {
+          type: Number,
+          value: Infinity
+        },
+        /**
+        * Specifies the maximum file size allowed to upload. Default is
+        * unlimited.
+        */
+        maxFileSize: {
+          type: Number,
+          value: Infinity
+        },
       },
 
       ready: function() {
+        // console.log('bubble firebase ready');
         var Delta = Quill.import('delta');
         this.quill = new Quill(this.$.editor, {
           modules: {
@@ -297,6 +379,9 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
           scrollingContainer: this.$.scrollingContainer, 
           bounds: this.$.editor
         });
+
+        var toolbar = this.quill.getModule('toolbar');
+        toolbar.addHandler('image', this.imageHandler.bind(this));
 
         // Set if editor is disabled
         if (this.enable === 'false') {
@@ -382,6 +467,31 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         this.fire('attached');
       },
 
+      _hideUploadChange: function(newValue, oldValue) {
+        console.log('_hideUploadChange',newValue,oldValue,this.hideUpload);
+      },
+
+      imageHandler: function() {
+        this.hideUpload = false;
+        // var range = this.quill.getSelection();
+        // console.log('imageHandler',this.hideUpload,range);
+        this.$.dialogUpload.open();
+      },
+
+      downloadUrlChange: function(event) {
+        this.downloadURL = event.detail.downloadURL;
+        this.size = (event.detail.size > 0 ) ? 'File size:' + this.convertToKB(event.detail.size) : '';
+      },
+
+      uploadOk: function(event) {
+        var range = this.quill.getSelection();
+        this.async(function() {
+          if (this.downloadURL) {
+            this.quill.insertEmbed(range.index, 'image', this.downloadURL, Quill.sources.USER);
+          }          
+        },100);
+      },
+
       // Convert Deltas to HTML, source should be deltas string
       getHTML: function(source) {
         var inputDelta = this.content;
@@ -399,7 +509,6 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         } else {
           html = this.content;
         }
-        // console.log('getHTML: ',html);
         return html;
       },
 
@@ -449,7 +558,16 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         this.quill.enable(false);
         this.disabledClass = 'style-scope polymer-quill ql-container ql-bubble disabled';
         this.readOnly = true;
-      }
+      },
+
+      convertToKB: function(maxFileSize) {
+        if (maxFileSize >= 1000000) {
+          return (Math.round(maxFileSize / 1000000)).toString() + 'MB';
+        } else {
+          return (Math.round(maxFileSize / 1000)).toString() + 'KB';
+        }
+      },
+
     });
   </script>
 </dom-module>

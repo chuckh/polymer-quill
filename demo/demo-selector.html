@@ -16,8 +16,9 @@
     <label id="demosLabel">Demos</label>
     <paper-radio-group selected="{{demo}}" aria-labelledby="demosLabel" attr-for-selected="name">
       <a href="index.html"><paper-radio-button name="Snow" id="snowPRB">Snow</paper-radio-button></a>
-      <a href="bubble.html"><paper-radio-button name="Bubble"id="bubblePRB">Bubble</paper-radio-button></a>
-      <a href="html-render.html"><paper-radio-button name="Render"id="renderPRB">HTML Render</paper-radio-button></a>
+      <a href="bubble.html"><paper-radio-button name="Bubble" id="bubblePRB">Bubble</paper-radio-button></a>
+      <a href="firebase.html"><paper-radio-button name="Firebase Bubble" id="firebaseBubblePRB">Firebase Bubble</paper-radio-button></a>
+      <a href="html-render.html"><paper-radio-button name="Render"i d="renderPRB">HTML Render</paper-radio-button></a>
     </paper-radio-group>
     <hr>
   </template>
@@ -42,7 +43,9 @@
         if (this.demo === "Snow") {
           this.$.snowPRB.checked  = true;
         } else if (this.demo === "Bubble") {
-          this.$.bubblePRB.checked  = true;          
+          this.$.bubblePRB.checked  = true;    
+        } else if (this.demo === "Firebase Bubble") {
+          this.$.firebaseBubblePRB.checked  = true;        
         } else {
           this.$.renderPRB.checked  = true;          
         }

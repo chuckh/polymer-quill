@@ -1,6 +1,6 @@
 {
   "name": "polymer-quill",
-  "version": "1.2.0",
+  "version": "1.2.0.10",
   "description": "Polymer Quill Rich Text Editor",
   "authors": [
     "Chuck Horton"
@@ -26,7 +26,10 @@
     "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
     "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.6",
     "marked-element": "PolymerElements/marked-element#^1.2.0",
-    "paper-radio-group": "PolymerElements/paper-radio-group#^1.2.1"
+    "paper-radio-group": "PolymerElements/paper-radio-group#^1.2.1",
+    "vaadin-upload": "vaadin/vaadin-upload#^1.1.1",
+    "polymerfire": "firebase/polymerfire#^0.10.3",
+    "paper-dialog": "PolymerElements/paper-dialog#^1.1.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
