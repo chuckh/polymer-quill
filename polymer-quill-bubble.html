@@ -331,9 +331,35 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
 
         // Store accumulated changes
         var change = new Delta();
-        this.quill.on('text-change', function(delta) {
+        this.quill.on('text-change', function(delta,oldDeta,source) {
+          // Autolink URLs when typing
+          // console.log('text-change',delta);
+          var regex = /https?:\/\/[^\s]+$/;
+          if (delta.ops.length === 2 && delta.ops[0].retain && this.isWhitespace(delta.ops[1].insert)) {
+            var endRetain = delta.ops[0].retain;
+            var text = this.quill.getText().substr(0, endRetain);
+            var match = text.match(regex);
+
+            if (match !== null) {
+              var url = match[0];
+
+              var ops = [];
+              if (endRetain > url.length) {
+                ops.push({ retain: endRetain - url.length });
+              }
+
+              ops = ops.concat([
+                { delete: url.length },
+                { insert: url, attributes: { link: url } }
+              ]);
+
+              this.quill.updateContents({
+                ops: ops
+              });
+            }
+          }
           change = change.compose(delta);
-        });
+        }.bind(this));
 
         // Save periodically
         setInterval(function() {
@@ -360,6 +386,35 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
             return 'There are unsaved changes. Are you sure you want to leave?';
           }
         };
+
+        // Autolink URLs when pasting
+        this.quill.clipboard.addMatcher(Node.TEXT_NODE, function(node, delta) {
+          var regex = /https?:\/\/[^\s]+/g;
+          if (typeof(node.data) !== 'string') return;
+          var matches = node.data.match(regex);
+          if (matches && matches.length > 0) {
+            var ops = [];
+            var str = node.data;
+            matches.forEach(function(match) {
+              var split = str.split(match);
+              var beforeLink = split.shift();
+              ops.push({ insert: beforeLink });
+              ops.push({ insert: match, attributes: { link: match } });
+              str = split.join(match);
+            });
+            delta.ops = ops;
+          }
+          return delta;
+        });
+        
+      },
+
+      isWhitespace: function(ch) {
+        var whiteSpace = false
+        if ((ch == ' ') || (ch == '\t') || (ch == '\n')) {
+          whiteSpace = true;
+        }
+        return whiteSpace;
       },
 
       setContent: function() {
@@ -405,6 +460,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
 
       // Content Change
       _contentChanged: function(newValue, oldValue) {
+        // console.log('_contentChanged',newValue);
         if (this.useContentReset && newValue != undefined) {
           this.resetContent(newValue);
         }
