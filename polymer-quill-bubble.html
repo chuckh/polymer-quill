@@ -1,0 +1,455 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="polymer-quill-import.html">
+<link rel="import" href="polymer-quill-styles-bubble.html">
+
+<!--
+## Polymer Quill Rich Text Editor - Bubble toolbar like Medium WIP
+
+`<polymer-quill-bubble>` creates a Polymer Quill Rich Text Editor - Bubble popup toolbar like Medium.
+Max-height is set to `auto` and padding-bottom to `50px` so toolbar will popup correctly.
+
+Quill is a free, open source WYSIWYG editor built for the modern web.
+With its modular architecture and expressive API, it is completely customizable to fit any need.
+Learn more at http://quilljs.com/.
+
+### Examples
+
+#### Defaults (stores as Deltas every 2 seconds, does not show results, 100px height)
+
+    <polymer-quill-bubble
+      content='{"ops":[{"insert":"Hello World"},{"attributes":{"header":2},"insert":"\n"}]}'>
+    </polymer-quill-bubble>
+
+#### Custom (stores as HTML every 5 seconds, show results)
+
+    <polymer-quill-bubble
+      content="<h2>Hello World</h2>"
+      store-as="html"
+      store-interval="5000"
+      show-results>
+    </polymer-quill-bubble>
+
+#### Demo example
+
+```html
+<style is="custom-style">
+  polymer-quill.full {
+    --polymer-quill-editor-max-height: 600px;
+    --polymer-quill-editor-min-height: 200px;
+  }
+</style>
+<h2>Full Toolbar, Show Results, Custom min-height (200px), Save as Deltas, Save every 1 second</h2>
+<polymer-quill-bubble
+  content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
+  class="full"
+  store-as="delta"
+  save-interval="1000"
+  show-results>
+</polymer-quill-bubble>
+
+<h2>Standard Toolbar, Hide Results, Default height (50px), Save as HTML, Save every 2 seconds</h2>
+<polymer-quill-bubble
+  content="<h2>Hello World! - Store as HTML</h2>"
+  store-as="html">
+</polymer-quill-bubble>
+```
+
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--polymer-quill-scrolling-height`     | Custom height for scrolling container         | `100%`
+`--polymer-quill-scrolling-min-height` | Custom min-height for scrolling container     | `100%`
+`--polymer-quill-editor-padding`    | Custom padding for editor        | `20px`
+`--polymer-quill-editor-height`     | Custom height for editor         | `auto`
+`--polymer-quill-editor-max-height` | Custom max-height for editor     | `none`
+`--polymer-quill-editor-min-height` | Custom min-height for editor     | `50px`
+`--polymer-quill-editor-border`     | Custom min-height for editor     | `solid 1px #ccc`
+`--polymer-quill`                   | Mixin applied to the editor      | `{}`
+
+Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for editor       | `scroll`
+
+### Install
+
+    bower install --save polymer-quill
+
+@demo demo/bubble.html
+-->
+
+<dom-module id="polymer-quill-bubble">
+  <template>
+    <style include="polymer-quill-styles-bubble">
+      :host {
+        --calculated-polymer-quill-scrolling-height: var(--polymer-quill-scrolling-height, 100%);
+        --calculated-polymer-quill-scrolling-min-height: var(--polymer-quill-scrolling-min-height, 100%);
+        --calculated-polymer-quill-editor-height: var(--polymer-quill-editor-height, auto);
+        --calculated-polymer-quill-editor-max-height: var(--polymer-quill-editor-max-height, none);
+        --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 100px);
+        --calculated-polymer-quill-editor-border: var(--polymer-quill-editor-border, solid 1px #ccc);
+        --calculated-polymer-quill-editor-padding: var(--polymer-quill-editor-padding, 20px);
+        /*--calculated-polymer-quill-editor-overflow: var(--polymer-quill-editor-overflow, scroll);*/
+        display: block;
+        @apply(--polymer-quill);
+      }
+      /* Specify our own scrolling container */
+      #scrollingContainer {
+        height: var(--calculated-polymer-quill-scrolling-height);
+        min-height: var(--calculated-polymer-quill-scrolling-min-height);
+        overflow-y: auto;
+        border: var(--calculated-polymer-quill-editor-border);
+        padding: 2px;
+      }
+      #editor {
+        height: var(--calculated-polymer-quill-editor-height);
+        max-height: var(--calculated-polymer-quill-editor-max-height);
+        min-height: var(--calculated-polymer-quill-editor-min-height);
+        /*overflow: var(--calculated-polymer-quill-editor-overflow);*/
+        padding: var(--calculated-polymer-quill-editor-padding);
+      }
+      #editor .ql-editor {
+        overflow-y: visible; 
+      }
+      .results {
+        padding: 20px 10px;
+        overflow-x: scroll;
+      }
+      .disabled {
+        /*border: 1px solid #ccc !important;*/
+        opacity: 0.85;
+      }
+
+    </style>
+    
+    <div id="scrollingContainer">
+      <div id="editor" class$="{{disabledClass}}">{{content}}</div>
+    </div>
+    <div id="results" class="results" hidden$="[[!showResults]]">RESULTS: {{content}}</div>
+    <div id="resultsHTML" class="results" hidden$="[[!showHtml]]">HTML: {{html}}</div>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'polymer-quill-bubble',
+
+      /**
+        * Fired when element is attached.
+        *
+        * @event attached
+        */
+
+      /**
+        * Fired when content has changed.
+        *
+        * @event change
+        */
+
+      /**
+        * Fired when element is ready.
+        *
+        * @event ready
+        */
+
+      properties: {
+        /**
+         * Content which is in Deltas or HTML format.
+         */
+        content: {
+          type: String,
+          value: '',
+          notify: true,
+          // reflectToAttribute: true,
+          observer: '_contentChanged'
+        },
+        /**
+         * Content which is in HTML format.
+         */
+        html: {
+          type: String,
+          value: '',
+          notify: true,
+          // reflectToAttribute: true,
+        },
+        /**
+         * Store as Quill Deltas or HTML.
+         * Options are `delta`, `html`.
+         */
+        storeAs: {
+          type: String,
+          value: 'delta',
+          notify: true,
+        },
+        /**
+         * Save Interval in milliseconds.
+         * Default is `2000`.
+         */
+        saveInterval: {
+          type: Number,
+          value: 2000,
+          notify: true,
+        },
+        /**
+         * Delay load of content in milliseconds.
+         * Provide time for loading data from polymerfire or iron-ajax.
+         * Default is `10`.
+         */
+        delay: {
+          type: Number,
+          value: 10,
+          notify: true,
+        },
+        /**
+         * Show Results below editor of saves in Delta or HMTL format.
+         * Default is `false`.
+         */
+        showResults: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
+        /**
+         * Show Results below editor of saves in HMTL format.
+         * Default is `false`.
+         */
+        showHtml: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
+        /**
+         * Set ability for user to edit, via input devices like the mouse or keyboard. Does not affect capabilities of API calls.
+         * Default is `true`.
+         */
+        enable: {
+          type: String,
+          value: 'true',
+          notify: true,
+        },
+        /**
+         * Whether to instantiate the editor to read-only mode.
+         * Default is `false`.
+         */
+        readOnly: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
+        /**
+         * Disable Class title.
+         * Default is ``.
+         */
+        disabledClass: {
+          type: String,
+          value: 'style-scope polymer-quill ql-container ql-bubble'
+        },
+        /**
+         * Whether to use content reset for two way data binding.
+         * Default is `false`.
+         */
+        useContentReset: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
+        /**
+         * Placeholder for empty editor.
+         * Default is `Compose an epic...`.
+         */
+        placeholder: {
+          type: String,
+          value: 'Compose an epic...',
+          notify: true,
+        },
+        /**
+         * Toolbar Options.
+         * Default is `above`.
+         */
+        toolbarOptions: {
+          type: Object,
+          notify: true,
+          value: [
+            [{ header: [1, 2, 3, 4, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'align': [] }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }], 
+            ['link', 'blockquote', 'code-block', 'image', 'video'],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            ['clean']
+          ]
+        }
+      },
+
+      ready: function() {
+        var Delta = Quill.import('delta');
+        this.quill = new Quill(this.$.editor, {
+          modules: {
+            toolbar: this.toolbarOptions
+          },
+          theme: 'bubble',
+          strict: false,
+          readOnly: this.readOnly,
+          placeholder: this.placeholder,
+          scrollingContainer: this.$.scrollingContainer, 
+          bounds: this.$.editor
+        });
+
+        // Set if editor is disabled
+        if (this.enable === 'false') {
+          this.quill.enable(false);
+          this.disabledClass = 'style-scope polymer-quill ql-container ql-bubble disabled';
+          this.readOnly = true;
+        }
+
+        // Set initial content
+        this.async(function() {
+          try { // try with initial delay
+            var notset = true;
+            if (this.content && this.content.length > 1 && this.content != undefined && this.content !="<p>undefined</p>" ) {
+              if (this.storeAs === 'delta') {
+                this.quill.setContents(JSON.parse(this.content),'api');
+              } else { // HTML
+                this.quill.root.innerHTML = this.content;
+              }
+              notset = false;
+              this.html = this.quill.root.innerHTML;
+            }
+            if (notset) {
+              throw 'notset';
+            }
+          }
+          catch (notset) {
+            // try again after doubling the delay
+            this.delay = this.delay * 2;
+            this.setContent();
+          }
+        },this.delay);
+
+        // Store accumulated changes
+        var change = new Delta();
+        this.quill.on('text-change', function(delta) {
+          change = change.compose(delta);
+        });
+
+        // Save periodically
+        setInterval(function() {
+          if (change.length() > 0) {
+            if (this.showResults) {
+              console.log('Saving changes', change);
+            }
+            if (this.storeAs === 'delta') {
+              this.content = JSON.stringify(this.quill.getContents());
+            } else { // html
+              this.content = this.quill.root.innerHTML;
+            }
+            this.html = this.quill.root.innerHTML;
+
+            // Fire custom event change
+            this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html, entireDelta: this.quill.getContents()});
+            change = new Delta();
+          }
+        }.bind(this), this.saveInterval);
+
+        // Check for unsaved data
+        window.onbeforeunload = function() {
+          if (change.length() > 0) {
+            return 'There are unsaved changes. Are you sure you want to leave?';
+          }
+        };
+      },
+
+      setContent: function() {
+        this.async(function() {
+          var notset = true;
+          if (this.content && this.content.length > 1 && this.content != undefined && this.content !="<p>undefined</p>" ) {
+            if (this.storeAs === 'delta') {
+              this.quill.setContents(JSON.parse(this.content),'api');
+            } else { // HTML
+              this.quill.root.innerHTML = this.content;
+            }
+            notset = false;
+            this.html = this.quill.root.innerHTML;
+          }
+          return notset;
+        },this.delay);
+      },
+
+      attached: function() {
+        this.fire('attached');
+      },
+
+      // Convert Deltas to HTML, source should be deltas string
+      getHTML: function(source) {
+        var inputDelta = this.content;
+        if (source) {
+          inputDelta = source;
+        }
+        var html = '';
+        if (this.storeAs === 'delta') {
+          var tempHtml = document.createElement("div");
+          var quillHtml = new Quill(tempHtml);
+          quillHtml.setContents(JSON.parse(inputDelta),'api');
+          html = quillHtml.root.innerHTML;
+          quillHtml = null;
+          tempHtml = null;
+        } else {
+          html = this.content;
+        }
+        // console.log('getHTML: ',html);
+        return html;
+      },
+
+      // Content Change
+      _contentChanged: function(newValue, oldValue) {
+        if (this.useContentReset && newValue != undefined) {
+          this.resetContent(newValue);
+        }
+      },
+
+      // Reset Content
+      resetContent: function(content){
+        // Set content
+        this.async(function() {
+          if (this.storeAs === 'delta') {
+            if (this.content.length > 1) {
+              this.quill.setContents(JSON.parse(this.content),'api');
+            }
+          } else { // HTML
+            this.quill.root.innerHTML = this.content;
+          }
+          this.html = this.quill.root.innerHTML;
+        },this.delay);
+      },
+
+      // Toogle Editor Enable (show toolbar and enables editing), Disabled (hide toolbar and disables editing)
+      toggleEnable: function() {
+        if (this.enable  === 'true') {
+          this.disableEditor();
+        } else {
+          this.enableEditor();
+        }
+        return this.enable;
+      },
+
+      // Enable Editor (show toolbar and enable editing)
+      enableEditor: function() {
+        this.enable = 'true';
+        this.quill.enable(true);
+        this.disabledClass = 'style-scope polymer-quill ql-container ql-bubble';
+        this.readOnly = false;
+      },
+
+      // Disabled Editor (hide toolbar and disable editing)
+      disableEditor: function() {
+        this.enable = 'false';
+        this.quill.enable(false);
+        this.disabledClass = 'style-scope polymer-quill ql-container ql-bubble disabled';
+        this.readOnly = true;
+      }
+    });
+  </script>
+</dom-module>
