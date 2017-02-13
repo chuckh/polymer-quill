@@ -1,9 +1,12 @@
 
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="polymer-quill-import.html">
 <link rel="import" href="polymer-quill-styles-bubble.html">
 <link rel="import" href="firebase-upload.html">
+<link rel="import" href="polymer-quill-icons.html">
 
 <!--
 ## Polymer Quill Rich Text Editor - Bubble toolbar like Medium WIP
@@ -131,22 +134,55 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         color: #3f51b5;
         text-align: center;
       }
+      paper-icon-button {
+        color: #ff8f00;
+        margin-left: 5px;
+      }
+
+      #helpContainer {
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        width: 90%; 
+        max-width: 680px;
+        color: #ff8f00;
+      }
+      #helpSteps {
+        position: absolute;
+        top: 1px;
+        right: 30px
+      }
+      #helpClear {
+        position: absolute;
+        top: 165px;
+        right: 37px
+      }
 
     </style>
 
     <paper-dialog id="dialogUpload" always-on-top="true" mode="true" style="width: 90%; max-width: 680px;">
-      <h2 id="dialogHeader">Upload Image</h2>
+      <h2 id="dialogHeader">Upload Image
+        <paper-icon-button class="helpButton" icon="polymer-quill-icons:help" title="Help Toggle" on-tap="toggleHelp"></paper-icon-button>
+      </h2>
       <div id="dialogBody">
         <firebase-upload id="firebaseUpload" url="https://proplanr2.firebaseio.com" 
           max-file-size="{{maxFileSize}}" max-files="{{maxFiles}}" download-url="{{downloadURL}}" file-path="{{filePath}}">
       </firebase-upload>
-      <div title="Max Image size in Kilobytes" style="color: black; font-size: 14px;">Max file size: {{convertToKB(maxFileSize)}}</div>
+      <div title="Max Image size in Kilobytes" style="color: black; font-size: 14px;" hidden>Max file size: {{convertToKB(maxFileSize)}}</div>
       <img src="{{downloadURL}}" title="{{downloadURL}}" height="98px;" style="margin-top: 20px;">
       <div title="Image size in Kilobytes" style="font-size: 14px;">{{size}}</div>
       </div>
       <div class="buttons">
         <paper-button dialog-dismiss autofocus>Cancel</paper-button>
         <paper-button dialog-confirm on-tap="uploadOk" raised>Insert Image</paper-button>
+      </div>
+      <div id="helpContainer" hidden="{{hideHelp}}">
+        <div id="helpSteps">
+          <div>1. Press SELECT FILE button or Drop file (to upload image)</div>
+          <div>2. Press INSERT IMAGE button to insert image</div>
+          <div> Or press CANCEL button NOT to insert image</div>
+        </div>
+        <div id="helpClear">Tap X button to clear image ↑</div>
       </div>
     </paper-dialog>
     
@@ -363,6 +399,15 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
           type: Number,
           value: Infinity
         },
+        /**
+        * Hide or show help. Default is
+        * true.
+        */
+        hideHelp: {
+          type: Boolean,
+          value: true,
+          notify: true
+        }
       },
 
       ready: function() {
@@ -382,7 +427,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
 
         var toolbar = this.quill.getModule('toolbar');
         toolbar.addHandler('image', this.imageHandler.bind(this));
-
+        
         // Set if editor is disabled
         if (this.enable === 'false') {
           this.quill.enable(false);
@@ -620,6 +665,11 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         } else {
           return (Math.round(maxFileSize / 1000)).toString() + 'KB';
         }
+      },
+
+      toggleHelp: function(event) {
+        console.log('toggleHelp:',this.hideHelp);
+        this.hideHelp = !this.hideHelp;
       },
 
     });
