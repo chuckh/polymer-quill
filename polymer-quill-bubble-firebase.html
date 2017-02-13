@@ -166,7 +166,9 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
       </h2>
       <div id="dialogBody">
         <firebase-upload id="firebaseUpload" url="https://proplanr2.firebaseio.com" 
-          max-file-size="{{maxFileSize}}" max-files="{{maxFiles}}" download-url="{{downloadURL}}" file-path="{{filePath}}">
+          max-file-size="{{maxFileSize}}" max-files="{{maxFiles}}" 
+          download-url="{{downloadURL}}" file-path="{{filePath}}"
+          app-name="{{appName}}">
       </firebase-upload>
       <div title="Max Image size in Kilobytes" style="color: black; font-size: 14px;" hidden>Max file size: {{convertToKB(maxFileSize)}}</div>
       <img src="{{downloadURL}}" title="{{downloadURL}}" height="98px;" style="margin-top: 20px;">
@@ -407,7 +409,16 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
           type: Boolean,
           value: true,
           notify: true
-        }
+        },
+        /**
+        * Specifies Firebase App Name. Default is
+        * 'polymer-quill'.
+        */
+        appName: {
+          type: String,
+          value: 'polymer-quill',
+          notify: true
+        },
       },
 
       ready: function() {
@@ -427,7 +438,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
 
         var toolbar = this.quill.getModule('toolbar');
         toolbar.addHandler('image', this.imageHandler.bind(this));
-        
+
         // Set if editor is disabled
         if (this.enable === 'false') {
           this.quill.enable(false);

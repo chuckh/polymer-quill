@@ -27,7 +27,7 @@ Example:
 
   <template>    
 
-    <firebase-auth app-name="polymer-quill" user="{{user}}" id="firebaseAuth"></firebase-auth>
+    <firebase-auth app-name="{{appName}}" user="{{user}}" id="firebaseAuth"></firebase-auth>
 
     <!--<firebase-query
       id="filesQuery"
@@ -111,6 +111,15 @@ Example:
         type: String,
         notify: true
       },
+
+      /**
+       * Specifies Firebase App Name. Default is
+       * 'polymer-quill'.
+       */
+       appName: {
+        type: String,
+        notify: true
+      }, 
     },
 
     // Element Lifecycle
@@ -188,7 +197,7 @@ Example:
         }
         if (!file.error) {
           var rootRef = this.db.ref();
-          rootRef.child('/files').push({
+          rootRef.child(this.filePath).push({
             filename: file.name,
             url: downloadURL,
             file_path: this.filePath,
