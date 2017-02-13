@@ -7,7 +7,7 @@
     "test": "test"
   },
   "dependencies": {
-    "quill": "^1.2.0.10"
+    "quill": "^1.2.0.12"
   },
   "devDependencies": {},
   "scripts": {
