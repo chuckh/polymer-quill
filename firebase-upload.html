@@ -9,7 +9,7 @@
 
 <!--
 firebase-upload is an element providing a file upload to your Firebase database. firebase-upload uses [vaadin-upload](https://github.com/vaadin/vaadin-upload). For other than firebase upload use cases, please use [vaadin-upload](https://github.com/vaadin/vaadin-upload).
-This is based on https://github.com/samiheikki/firebase-upload
+This is based on https://github.com/samiheikki/firebase-upload.
 
 Example:
 
@@ -37,7 +37,12 @@ Example:
       data="{{filesData}}">
     </firebase-query>-->
 
-    <vaadin-upload accept="[[accept]]" max-files="[[maxFiles]]" max-file-size="[[maxFileSize]]"></vaadin-upload>
+    <vaadin-upload accept="[[accept]]" max-files="[[maxFiles]]" max-file-size="[[maxFileSize]]">
+      <div class="drop-label">
+        <iron-icon icon="file-upload"></iron-icon>
+        Drop file here, max file size: {{convertToKB(maxFileSize)}}
+      </div>
+    </vaadin-upload>
   </template>
 
 </dom-module>
@@ -214,6 +219,14 @@ Example:
       // console.log('fileAbortHandler:',event);
       this.downloadURL = null;
       this.fire('download-url-change',{downloadURL: '', size: null});            
+    },
+
+    convertToKB: function(maxFileSize) {
+      if (maxFileSize >= 1000000) {
+        return (Math.round(maxFileSize / 1000000)).toString() + 'MB';
+      } else {
+        return (Math.round(maxFileSize / 1000)).toString() + 'KB';
+      }
     },
 
   });
