@@ -165,7 +165,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         <paper-icon-button class="helpButton" icon="polymer-quill-icons:help" title="Help Toggle" on-tap="toggleHelp"></paper-icon-button>
       </h2>
       <div id="dialogBody">
-        <firebase-upload id="firebaseUpload" url="https://proplanr2.firebaseio.com" 
+        <firebase-upload id="firebaseUpload" url="{{url}}" 
           max-file-size="{{maxFileSize}}" max-files="{{maxFiles}}" 
           download-url="{{downloadURL}}" file-path="{{filePath}}"
           app-name="{{appName}}" plan-id="{{planId}}">
@@ -417,6 +417,14 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         appName: {
           type: String,
           value: 'polymer-quill',
+          notify: true
+        },
+        /**
+        * Firebase URL. https://<YOUR FIREBASE>.firebaseio.com.
+        */
+        url: {
+          type: String,
+          value: '',
           notify: true
         },
       },
