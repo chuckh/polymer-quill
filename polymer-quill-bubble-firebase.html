@@ -594,10 +594,18 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
       },
 
       uploadOk: function(event) {
-        var range = this.quill.getSelection();
         this.async(function() {
+          // console.log('uploadOk',this.downloadURL);
+          var range = this.quill.getSelection();
+          var index = 0;
+          if (range === null) {  // Fix for Safari
+            index = this.quill.selection.savedRange.index + this.quill.selection.savedRange.length;
+          } else {
+            index = range.index;
+          }
+          // console.log(' -',range,index);
           if (this.downloadURL) {
-            this.quill.insertEmbed(range.index, 'image', this.downloadURL, Quill.sources.USER);
+            this.quill.insertEmbed(index, 'image', this.downloadURL, Quill.sources.USER);
           }          
         },100);
       },
