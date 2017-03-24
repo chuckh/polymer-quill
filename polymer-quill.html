@@ -320,6 +320,14 @@ Custom property | Description | Default
           type: String,
           value: 'Compose an epic...',
           notify: true,
+        },
+        /**
+         * syntax highlighting for code blocks.
+         * Default is `false`.
+         */
+        syntax: {
+          type: Boolean,
+          value: false,
         }
       },
 
@@ -330,7 +338,8 @@ Custom property | Description | Default
         var Delta = Quill.import('delta');
         this.quill = new Quill(this.$.editor, {
           modules: {
-            toolbar: this.$.toolbar
+            toolbar: this.$.toolbar,
+            syntax: this.syntax,
           },
           theme: 'snow',
           strict: false,
