@@ -31,7 +31,8 @@
     "polymerfire": "firebase/polymerfire#^0.10.3",
     "paper-dialog": "PolymerElements/paper-dialog#^1.1.0",
     "iron-icons": "PolymerElements/iron-icons#^1.2.0",
-    "iron-iconset-svg": "PolymerElements/iron-iconset-svg#^1.1.0"
+    "iron-iconset-svg": "PolymerElements/iron-iconset-svg#^1.1.0",
+    "highlight-js":"marcus7777/highlight-js"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
