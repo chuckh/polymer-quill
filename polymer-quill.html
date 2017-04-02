@@ -407,7 +407,7 @@ Custom property | Description | Default
             // Fire custom event change
             this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html, entireDelta: this.quill.getContents()});
             change = new Delta();
-          } else {
+          } else { // Allow changes from the Two-way   data binding system
             if (this.content !== JSON.stringify(this.quill.getContents())) {
               if (this.storeAs === 'delta') {
                 if (Array.isArray(this.content))
