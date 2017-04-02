@@ -220,7 +220,6 @@ Custom property | Description | Default
         storeAs: {
           type: String,
           value: 'delta',
-          notify: true,
         },
         /**
          * Save Interval in milliseconds.
@@ -229,7 +228,6 @@ Custom property | Description | Default
         saveInterval: {
           type: Number,
           value: 2000,
-          notify: true,
         },
         /**
          * Delay load of content in milliseconds.
@@ -239,7 +237,6 @@ Custom property | Description | Default
         delay: {
           type: Number,
           value: 10,
-          notify: true,
         },
         /**
          * Show Results below editor of saves in Delta or HMTL format.
@@ -248,7 +245,6 @@ Custom property | Description | Default
         showResults: {
           type: Boolean,
           value: false,
-          notify: true,
         },
         /**
          * Show Results below editor of saves in HMTL format.
@@ -257,7 +253,6 @@ Custom property | Description | Default
         showHtml: {
           type: Boolean,
           value: false,
-          notify: true,
         },
         /**
          * Editor toolbar type.
@@ -266,7 +261,6 @@ Custom property | Description | Default
         toolbarType: {
           type: String,
           value: 'standard',
-          notify: true,
         },
         /**
          * Standard Tool
@@ -275,7 +269,6 @@ Custom property | Description | Default
         standardToolbar: {
           type: Boolean,
           value: true,
-          notify: true,
         },
         /**
          * Enable tracks if editing is enabled.
@@ -284,7 +277,6 @@ Custom property | Description | Default
         enable: {
           type: String,
           value: 'true',
-          notify: true,
         },
          /**
          * Whether to instantiate the editor to read-only mode.
@@ -293,7 +285,6 @@ Custom property | Description | Default
         readOnly: {
           type: Boolean,
           value: false,
-          notify: true,
         },
         /**
          * Disable Class title.
@@ -310,7 +301,6 @@ Custom property | Description | Default
         useContentReset: {
           type: Boolean,
           value: false,
-          notify: true,
         },
         /**
          * Placeholder for empty editor.
@@ -319,7 +309,6 @@ Custom property | Description | Default
         placeholder: {
           type: String,
           value: 'Compose an epic...',
-          notify: true,
         }
       },
 
@@ -418,6 +407,18 @@ Custom property | Description | Default
             // Fire custom event change
             this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html, entireDelta: this.quill.getContents()});
             change = new Delta();
+          } else {
+            if (this.content !== JSON.stringify(this.quill.getContents())) {
+              if (this.storeAs === 'delta') {
+                if (Array.isArray(this.content))
+                  this.quill.setContents(this.content)
+                } else {
+                  this.quill.setContents(JSON.parse(this.content))
+                }
+              } else { // html
+                this.quill.root.innerHTML = this.content 
+              }
+            }
           }
         }.bind(this), this.saveInterval);
 
