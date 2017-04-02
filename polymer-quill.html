@@ -407,17 +407,15 @@ Custom property | Description | Default
             // Fire custom event change
             this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html, entireDelta: this.quill.getContents()});
             change = new Delta();
-          } else { // Allow changes from the Two-way   data binding system
-            if (this.content !== JSON.stringify(this.quill.getContents())) {
-              if (this.storeAs === 'delta') {
-                if (Array.isArray(this.content))
-                  this.quill.setContents(this.content)
-                } else {
-                  this.quill.setContents(JSON.parse(this.content))
-                }
-              } else { // html
-                this.quill.root.innerHTML = this.content 
+          } else if (this.content !== JSON.stringify(this.quill.getContents())) { // Allow changes from the Two-way   data binding system
+            if (this.storeAs === 'delta') {
+              if (Array.isArray(this.content)) {
+                this.quill.setContents(this.content)
+              } else {
+                this.quill.setContents(JSON.parse(this.content))
               }
+            } else { // html
+              this.quill.root.innerHTML = this.content 
             }
           }
         }.bind(this), this.saveInterval);
