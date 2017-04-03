@@ -412,7 +412,9 @@ Custom property | Description | Default
               if (Array.isArray(this.content)) {
                 this.quill.setContents(this.content)
               } else {
-                this.quill.setContents(JSON.parse(this.content))
+                if (this.content.length > 1) {
+                  this.quill.setContents(JSON.parse(this.content),'api')
+                }
               }
             } else { // html
               this.quill.root.innerHTML = this.content 
