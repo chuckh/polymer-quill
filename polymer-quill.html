@@ -413,13 +413,13 @@ Custom property | Description | Default
                 this.quill.setContents(this.content)
               } else {
                 if (this.content.length > 1) {
-                  var a = ""
                   try {
                     if (Array.isArray(JSON.parse(this.content))){
-                        this.quill.setContents(JSON.parse(this.content),'api')
+                      this.quill.setContents(JSON.parse(this.content),'api')
                     }
                   } catch(e) {
                     console.log(e, this.content)
+                    this.content = "{}"
                   }
                 }
               }
