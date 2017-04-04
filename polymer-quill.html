@@ -389,10 +389,13 @@ Custom property | Description | Default
             }
           }
           change = change.compose(delta);
-        }.bind(this));
+        }.bind(this))
+        var typingTimer
+        
 
+                      
         // Save periodically
-        setInterval(function() {
+        var savePeriodically = function() {
           if (change.length() > 0) {
             if (this.showResults) {
               console.log('Saving changes', change);
@@ -427,8 +430,12 @@ Custom property | Description | Default
               this.quill.root.innerHTML = this.content 
             }
           }
-        }.bind(this), this.saveInterval);
-
+        }.bind(this)
+        var saveInterval = this.saveInterval
+        this.quill.on('text-change', function() {
+          clearTimeout(typingTimer)
+          typingTimer = setTimeout(savePeriodically, saveInterval)
+        })
         // Check for unsaved data
         window.onbeforeunload = function() {
           if (change.length() > 0) {
