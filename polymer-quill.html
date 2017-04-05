@@ -389,10 +389,9 @@ Custom property | Description | Default
           }
           change = change.compose(delta);
         }.bind(this))
+          
         var typingTimer
-        
-
-                      
+        var saveInterval = this.saveInterval
         // Save periodically
         var savePeriodically = function() {
           if (change.length() > 0) {
@@ -428,9 +427,11 @@ Custom property | Description | Default
             } else { // html
               this.quill.root.innerHTML = this.content 
             }
+            typingTimer = setTimeout(savePeriodically, saveInterval)
+          } else {
+            typingTimer = setTimeout(savePeriodically, saveInterval)
           }
         }.bind(this)
-        var saveInterval = this.saveInterval
         this.quill.on('text-change', function() {
           clearTimeout(typingTimer)
           typingTimer = setTimeout(savePeriodically, saveInterval)
