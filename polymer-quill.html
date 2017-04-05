@@ -86,22 +86,21 @@ Custom property | Description | Default
         --calculated-polymer-quill-editor-overflow: var(--polymer-quill-editor-overflow, scroll);
         display: block;
         @apply(--polymer-quill);
-      }
+      };
       #editor {
         max-height: var(--calculated-polymer-quill-editor-max-height);
         min-height: var(--calculated-polymer-quill-editor-min-height);
         overflow: var(--calculated-polymer-quill-editor-overflow);
         border: var(--calculated-polymer-quill-editor-border);
-     }
+      };
       .results {
         padding: 20px 10px;
         overflow-x: scroll;
-      }
+      };
       .disabled {
         border: 1px solid #ccc !important;
         opacity: 0.85;
-      }
-
+      };
     </style>
     <div id="toolbar" hidden$='{{hideToolbar}}'>
       <!-- <span class="ql-formats">
