@@ -427,10 +427,9 @@ Custom property | Description | Default
             } else { // html
               this.quill.root.innerHTML = this.content 
             }
-            typingTimer = setTimeout(savePeriodically, saveInterval)
-          } else {
-            typingTimer = setTimeout(savePeriodically, saveInterval)
           }
+          clearTimeout(typingTimer)
+          typingTimer = setTimeout(savePeriodically, saveInterval)
         }.bind(this)
         this.quill.on('text-change', function() {
           clearTimeout(typingTimer)
