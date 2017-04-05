@@ -434,7 +434,7 @@ Custom property | Description | Default
         }.bind(this)
         this.quill.on('text-change', function(delta, oldDelta, source) {
           clearTimeout(typingTimer)
-          typingTimer = setTimeout(savePeriodically(source), saveInterval)
+          typingTimer = setTimeout(savePeriodically, saveInterval)
         })
         // Check for unsaved data
         window.onbeforeunload = function() {
