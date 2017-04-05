@@ -478,7 +478,11 @@ Custom property | Description | Default
           var notset = true;
           if (this.content && this.content.length > 1 && this.content != undefined && this.content !="<p>undefined</p>" ) {
             if (this.storeAs === 'delta') {
-              this.quill.setContents(JSON.parse(this.content),'api');
+              if (Array.isArray(this.content)) {
+                this.quill.setContents(this.content,'api');
+              } else {
+                this.quill.setContents(JSON.parse(this.content),'api');
+              }
             } else { // HTML
               this.quill.root.innerHTML = this.content;
             }
