@@ -1,4 +1,3 @@
-
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="polymer-quill-import.html">
 <link rel="import" href="polymer-quill-styles-snow.html">
@@ -410,25 +409,8 @@ Custom property | Description | Default
               this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html, entireDelta: this.quill.getContents()})
             }
             change = new Delta()
-          } else if (this.content !== JSON.stringify(this.quill.getContents())) { // Allow changes from the Two-way   data binding system
-            if (this.storeAs === 'delta') {
-              if (Array.isArray(this.content)) {
-                this.quill.setContents(this.content, 'api')
-              } else {
-                if (this.content.length > 1) {
-                  try {
-                    if (Array.isArray(JSON.parse(this.content))){
-                      this.quill.setContents(JSON.parse(this.content),'api')
-                    }
-                  } catch(e) {
-                    console.log(e, this.content)
-                    this.content = "{}"
-                  }
-                }
-              }
-            } else { // html
-              this.quill.root.innerHTML = this.content 
-            }
+          } else if (this.content !== JSON.stringify(this.quill.getContents()) || this.content !== this.quill.getContents()) { // Allow changes from the Two-way   data binding system
+            this.resetContent(this.content)
           }
           clearTimeout(typingTimer)
           typingTimer = setTimeout(savePeriodically, saveInterval)
@@ -531,6 +513,7 @@ Custom property | Description | Default
       resetContent: function(content){
         // Set content
         this.async(function() {
+          var range = this.quill.getSelection()
           if (this.storeAs === 'delta') {
             if (Array.isArray(this.content)) {
               this.quill.setContents(this.content,'api')
@@ -540,7 +523,8 @@ Custom property | Description | Default
           } else { // HTML
             this.quill.root.innerHTML = this.content;
           }
-          this.html = this.quill.root.innerHTML;
+          this.html = this.quill.root.innerHTML
+          this.quill.setSelection(range)
         },this.delay);
       },
 
