@@ -524,7 +524,9 @@ Custom property | Description | Default
             this.quill.root.innerHTML = this.content;
           }
           this.html = this.quill.root.innerHTML
-          this.quill.setSelection(range)
+          if (range) {
+            this.quill.setSelection(range)
+          }
         },this.delay);
       },
 
