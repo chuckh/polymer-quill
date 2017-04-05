@@ -392,6 +392,7 @@ Custom property | Description | Default
           
         var typingTimer
         var saveInterval = this.saveInterval
+        var source = "api"
         var savePeriodically = function() {
           if (change.length() > 0) {
             if (this.showResults) {
@@ -432,7 +433,8 @@ Custom property | Description | Default
           clearTimeout(typingTimer)
           typingTimer = setTimeout(savePeriodically, saveInterval)
         }.bind(this)
-        this.quill.on('text-change', function(delta, oldDelta, source) {
+        this.quill.on('text-change', function(delta, oldDelta, theSource) {
+          source = theSource
           clearTimeout(typingTimer)
           typingTimer = setTimeout(savePeriodically, saveInterval)
         })
