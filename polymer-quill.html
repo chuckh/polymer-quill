@@ -392,8 +392,7 @@ Custom property | Description | Default
           
         var typingTimer
         var saveInterval = this.saveInterval
-        // Save periodically
-        var savePeriodically = function() {
+        var savePeriodically = function(source) {
           if (change.length() > 0) {
             if (this.showResults) {
               console.log('Saving changes', change);
@@ -406,12 +405,14 @@ Custom property | Description | Default
             this.html = this.quill.root.innerHTML;
 
             // Fire custom event change
-            this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html, entireDelta: this.quill.getContents()});
-            change = new Delta();
+            if (source == "user") {
+              this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html, entireDelta: this.quill.getContents()})
+            }
+            change = new Delta()
           } else if (this.content !== JSON.stringify(this.quill.getContents())) { // Allow changes from the Two-way   data binding system
             if (this.storeAs === 'delta') {
               if (Array.isArray(this.content)) {
-                this.quill.setContents(this.content)
+                this.quill.setContents(this.content, 'api')
               } else {
                 if (this.content.length > 1) {
                   try {
@@ -431,9 +432,9 @@ Custom property | Description | Default
           clearTimeout(typingTimer)
           typingTimer = setTimeout(savePeriodically, saveInterval)
         }.bind(this)
-        this.quill.on('text-change', function() {
+        this.quill.on('text-change', function(delta, oldDelta, source) {
           clearTimeout(typingTimer)
-          typingTimer = setTimeout(savePeriodically, saveInterval)
+          typingTimer = setTimeout(savePeriodically(source), saveInterval)
         })
         // Check for unsaved data
         window.onbeforeunload = function() {
