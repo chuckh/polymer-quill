@@ -409,7 +409,7 @@ Custom property | Description | Default
               this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html, entireDelta: this.quill.getContents()})
             }
             change = new Delta()
-          } else if (this.content !== JSON.stringify(this.quill.getContents()) || this.content !== this.quill.getContents()) { // Allow changes from the Two-way   data binding system
+          } else if (this.content !== JSON.stringify(this.quill.getContents()) && this.content !== this.quill.getContents()) { // Allow changes from the Two-way   data binding system
             this.resetContent(this.content)
           }
           clearTimeout(typingTimer)
