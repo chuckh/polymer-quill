@@ -4,7 +4,7 @@
     <template>
         <style>
           /*!
-          * Quill Editor v1.2.0.1
+          * Quill Editor v1.2.3
           * https://quilljs.com/
           * Copyright (c) 2014, Jason Chen
           * Copyright (c) 2013, salesforce.com
@@ -19,6 +19,9 @@
           }
           :host ::content .ql-container.ql-disabled .ql-tooltip {
             visibility: hidden;
+          }
+          :host ::content .ql-container.ql-disabled .ql-editor ul[data-checked] > li::before {
+            pointer-events: none;
           }
           :host ::content .ql-clipboard {
             left: -100000px;
@@ -69,11 +72,15 @@
             list-style-type: none;
           }
           :host ::content .ql-editor ul > li::before {
-            content: '\25CF';
+            content: '\2022';
           }
           :host ::content .ql-editor ul[data-checked=true],
           :host ::content .ql-editor ul[data-checked=false] {
             pointer-events: none;
+          }
+          :host ::content .ql-editor ul[data-checked=true] > li *,
+          .ql-editor ul[data-checked=false] > li * {
+            pointer-events: all;
           }
           :host ::content .ql-editor ul[data-checked=true] > li::before,
           :host ::content .ql-editor ul[data-checked=false] > li::before {
@@ -880,15 +887,14 @@
             font-weight: bold;
           }
 
-          /* Link Tooltip needs work TODO */
-          /*:host ::content .ql-container.ql-bubble:not(.ql-disabled) a  {
+          :host ::content .ql-container.ql-bubble:not(.ql-disabled) a {
             position: relative;
             white-space: nowrap;
           }
-          :host ::content .ql-container.ql-bubble:not(.ql-disabled) a::before  {
+          :host ::content .ql-container.ql-bubble:not(.ql-disabled) a::before {
             background-color: #444;
             border-radius: 15px;
-            top: 50px;
+            top: -5px;
             font-size: 12px;
             color: #fff;
             content: attr(href);
@@ -899,10 +905,10 @@
             z-index: 1;
           }
           :host ::content .ql-container.ql-bubble:not(.ql-disabled) a::after {
-            border-bottom: 6px solid #444;
+            border-top: 6px solid #444;
             border-left: 6px solid transparent;
             border-right: 6px solid transparent;
-            bottom: -8px;
+            top: 0;
             content: " ";
             height: 0;
             width: 0;
@@ -918,8 +924,9 @@
           }
           :host ::content .ql-container.ql-bubble:not(.ql-disabled) a:hover::before,
           :host ::content .ql-container.ql-bubble:not(.ql-disabled) a:hover::after {
-              visibility: visible;
-          }*/
+            visibility: visible;
+          }
+
         </style>
     </template>
 </dom-module>
