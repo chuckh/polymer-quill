@@ -4,7 +4,7 @@
     <template>
         <style>
           /*!
-           * Quill Editor v1.2.0
+           * Quill Editor v1.2.3
            * https://quilljs.com/
            * Copyright (c) 2014, Jason Chen
            * Copyright (c) 2013, salesforce.com
@@ -19,6 +19,9 @@
           }
           :host ::content .ql-container.ql-disabled .ql-tooltip {
             visibility: hidden;
+          }
+          :host ::content .ql-container.ql-disabled .ql-editor ul[data-checked] > li::before {
+            pointer-events: none;
           }
           :host ::content .ql-clipboard {
             left: -100000px;
@@ -69,11 +72,15 @@
             list-style-type: none;
           }
           :host ::content .ql-editor ul > li::before {
-            content: '\25CF';
+            content: '\2022';
           }
           :host ::content .ql-editor ul[data-checked=true],
           :host ::content .ql-editor ul[data-checked=false] {
             pointer-events: none;
+          }
+          :host ::content .ql-editor ul[data-checked=true] > li *,
+          :host ::content .ql-editor ul[data-checked=false] > li * {
+            pointer-events: all;
           }
           :host ::content .ql-editor ul[data-checked=true] > li::before,
           :host ::content .ql-editor ul[data-checked=false] > li::before {
