@@ -22,4 +22,4 @@ before_script:
   # - npm run lint
 script:
   - xvfb-run npm run test
-  - xvfb-run npm run test:integration
+  # - xvfb-run npm run test:integration
