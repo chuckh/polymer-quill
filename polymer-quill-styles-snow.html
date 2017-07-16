@@ -4,7 +4,7 @@
     <template>
         <style>
           /*!
-           * Quill Editor v1.2.3
+           * Quill Editor v1.2.6
            * https://quilljs.com/
            * Copyright (c) 2014, Jason Chen
            * Copyright (c) 2013, salesforce.com
@@ -96,13 +96,15 @@
           }
           :host ::content .ql-editor li::before {
             display: inline-block;
-            margin-right: 0.3em;
-            text-align: right;
             white-space: nowrap;
             width: 1.2em;
-          }
-          :host ::content .ql-editor li:not(.ql-direction-rtl)::before {
+            text-align: right;
+            margin-right: 0.3em;
             margin-left: -1.5em;
+          }
+          :host ::content ..ql-editor li.ql-direction-rtl::before {
+            text-align: left;
+            margin-left: 0.3em;
           }
           :host ::content .ql-editor ol li,
           :host ::content .ql-editor ul li {
@@ -410,6 +412,10 @@
             float: left;
             height: 100%;
           }
+          :host ::content .ql-snow.ql-toolbar button:active:hover,
+          :host ::content .ql-snow .ql-toolbar button:active:hover {
+            outline: none;
+          }
           :host ::content .ql-snow.ql-toolbar input.ql-image[type=file],
           :host ::content .ql-snow .ql-toolbar input.ql-image[type=file] {
             display: none;
@@ -480,6 +486,24 @@
           :host ::content .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {
             stroke: #06c;
           }
+          @media (pointer: coarse) {
+            :host ::content .ql-snow.ql-toolbar button:hover:not(.ql-active),
+            :host ::content .ql-snow .ql-toolbar button:hover:not(.ql-active) {
+              color: #444;
+            }
+            :host ::content .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-fill,
+            :host ::content .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-fill,
+            :host ::content .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-stroke.ql-fill,
+            :host ::content .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-stroke.ql-fill {
+              fill: #444;
+            }
+            :host ::content .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-stroke,
+            :host ::content .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-stroke,
+            :host ::content .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-stroke-miter,
+            :host ::content .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-stroke-miter {
+              stroke: #444;
+            }
+          }
           :host ::content .ql-snow {
             box-sizing: border-box;
           }
@@ -500,6 +524,9 @@
           :host ::content .ql-snow .ql-tooltip a {
             cursor: pointer;
             text-decoration: none;
+          }
+          :host ::content .ql-snow .ql-tooltip.ql-flip {
+            transform: translateY(-10px);
           }
           :host ::content .ql-snow .ql-formats {
             display: inline-block;

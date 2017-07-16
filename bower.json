@@ -22,7 +22,7 @@
   "homepage": "https://github.com/chuckh/polymer-quill",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.7.0",
-    "quill": "https://github.com/quilljs/quill/releases/download/v1.2.3/quill.tar.gz",
+    "quill": "https://github.com/quilljs/quill/releases/download/v1.2.6/quill.tar.gz",
     "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
     "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.6",
     "marked-element": "PolymerElements/marked-element#^1.2.0",

@@ -4,7 +4,7 @@
     <template>
         <style>
           /*!
-          * Quill Editor v1.2.3
+          * Quill Editor v1.2.6
           * https://quilljs.com/
           * Copyright (c) 2014, Jason Chen
           * Copyright (c) 2013, salesforce.com
@@ -96,13 +96,15 @@
           }
           :host ::content .ql-editor li::before {
             display: inline-block;
-            margin-right: 0.3em;
-            text-align: right;
             white-space: nowrap;
             width: 1.2em;
-          }
-          :host ::content .ql-editor li:not(.ql-direction-rtl)::before {
+            text-align: right;
+            margin-right: 0.3em;
             margin-left: -1.5em;
+          }
+          :host ::content .ql-editor li.ql-direction-rtl::before {
+            text-align: left;
+            margin-left: 0.3em;
           }
           :host ::content .ql-editor ol li,
           :host ::content .ql-editor ul li {
@@ -485,6 +487,24 @@
           :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {
             stroke: #fff;
           }
+          @media (pointer: coarse) {
+            :host ::content .ql-bubble.ql-toolbar button:hover:not(.ql-active),
+            :host ::content .ql-bubble .ql-toolbar button:hover:not(.ql-active) {
+              color: #ccc;
+            }
+            :host ::content .ql-bubble.ql-toolbar button:hover:not(.ql-active) .ql-fill,
+            :host ::content .ql-bubble .ql-toolbar button:hover:not(.ql-active) .ql-fill,
+            :host ::content .ql-bubble.ql-toolbar button:hover:not(.ql-active) .ql-stroke.ql-fill,
+            :host ::content .ql-bubble .ql-toolbar button:hover:not(.ql-active) .ql-stroke.ql-fill {
+              fill: #ccc;
+            }
+            :host ::content .ql-bubble.ql-toolbar button:hover:not(.ql-active) .ql-stroke,
+            :host ::content .ql-bubble .ql-toolbar button:hover:not(.ql-active) .ql-stroke,
+            :host ::content .ql-bubble.ql-toolbar button:hover:not(.ql-active) .ql-stroke-miter,
+            :host ::content .ql-bubble .ql-toolbar button:hover:not(.ql-active) .ql-stroke-miter {
+              stroke: #ccc;
+            }
+          }
           :host ::content .ql-bubble {
             box-sizing: border-box;
           }
@@ -834,10 +854,8 @@
             background-color: #444;
             border-radius: 25px;
             color: #fff;
-            /*margin-top: 10px;*/
           }
           :host ::content .ql-bubble .ql-tooltip-arrow {
-            /*border-bottom: 6px solid #444;*/
             border-left: 6px solid transparent;
             border-right: 6px solid transparent;
             content: " ";
@@ -853,7 +871,8 @@
           }
           :host ::content .ql-bubble .ql-tooltip.ql-flip .ql-tooltip-arrow {
             border-top: 7px solid #444;
-            top: 40px;
+            top: -6px;
+            /* top: 40px; */
           }
           :host ::content .ql-bubble .ql-tooltip.ql-editing .ql-tooltip-editor {
             display: block;
