@@ -3,6 +3,21 @@
 
 # \<polymer-quill\> 
 
+## Hybrid Branch
+The Hybrid Branch is for devolopmenting this element to work with Polymer 1.x and Polyer 2.x.
+
+Hybrid elements are Polymer elements designed to run under both Polymer 1.x and Polymer 2.x. Polymer 2 provides a backwards-compatible API for hybrid elements.
+
+Implementing a hybrid element requires some extra work, including maintaining multiple sets of bower dependencies and testing on both Polymer 1 and Polymer 2. Build hybrid elements if you're creating a set of reusable elements and need to support customers using both Polymer 1.x and Polymer 2.x. You may also find hybrid elements useful if you're trying to port a large application.
+
+Polymer CLI supports installing and testing with multiple versions of your bower dependencies, so you can test your hybrid elements against multiple versions of Polymer. For an overview, see Manage dependencies for hybrid elements.
+
+Learn more at:
+https://www.polymer-project.org/2.0/docs/devguide/hybrid-elements
+
+See for example of Polymer 2.0 only polymer-quill
+https://github.com/arsnebula/polymer-quill
+
 ## Polymer Quill Rich Text Editor
 
 - `<polymer-quill>` element creates a Polymer Quill Rich Text Editor using the Snow Theme.
