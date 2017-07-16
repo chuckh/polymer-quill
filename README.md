@@ -12,10 +12,13 @@ Implementing a hybrid element requires some extra work, including maintaining mu
 
 Polymer CLI supports installing and testing with multiple versions of your bower dependencies, so you can test your hybrid elements against multiple versions of Polymer. For an overview, see Manage dependencies for hybrid elements.
 
-Learn more at:
+### Learn more at:
 https://www.polymer-project.org/2.0/docs/devguide/hybrid-elements
 
-See for example of Polymer 2.0 only polymer-quill
+### Example of hybrid mode conversion
+https://github.com/PolymerElements/iron-list/commit/10bbf171792f7533add467fd0308c24622d875ef
+
+### See for example of Polymer 2.0 only polymer-quill
 https://github.com/arsnebula/polymer-quill
 
 ## Polymer Quill Rich Text Editor
