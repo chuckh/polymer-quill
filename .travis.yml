@@ -19,7 +19,7 @@ install:
   - npm install
   - polymer install
 before_script:
-  - npm run lint
+  # - npm run lint
 script:
   - xvfb-run npm run test
   - xvfb-run npm run test:integration
