@@ -15,6 +15,12 @@ Polymer CLI supports installing and testing with multiple versions of your bower
 ### Learn more at:
 https://www.polymer-project.org/2.0/docs/devguide/hybrid-elements
 
+### Upgrade Guild
+https://www.polymer-project.org/2.0/docs/upgrade
+
+### Tips for Upgrading to Polymer 2.0: Imports & Hybrid Mode
+https://www.captaincodeman.com/2017/04/06/tips-upgrading-polymer-2-0-imports-hybrid-mode
+
 ### Example of hybrid mode conversion
 https://github.com/PolymerElements/iron-list/commit/10bbf171792f7533add467fd0308c24622d875ef
 
