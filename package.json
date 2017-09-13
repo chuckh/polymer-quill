@@ -9,9 +9,16 @@
   "dependencies": {
     "quill": "^1.2.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-google": "^0.7.0",
+    "eslint-plugin-html": "^2.0.0"
+  },
   "scripts": {
-    "test": "polymer test"
+    "test": "polymer test",
+    "eslint": "^3.19.0",
+    "eslint-config-google": "^0.7.0",
+    "eslint-plugin-html": "^2.0.0"
   },
   "repository": {
     "type": "git",
