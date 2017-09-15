@@ -4,7 +4,7 @@
     <template>
         <style>
           /*!
-          * Quill Editor v1.2.6
+          * Quill Editor v1.3.2
           * https://quilljs.com/
           * Copyright (c) 2014, Jason Chen
           * Copyright (c) 2013, salesforce.com
@@ -36,7 +36,6 @@
           }
           :host ::content .ql-editor {
             box-sizing: border-box;
-            cursor: text;
             line-height: 1.42;
             height: 100%;
             outline: none;
@@ -47,6 +46,9 @@
             text-align: left;
             white-space: pre-wrap;
             word-wrap: break-word;
+          }
+          :host ::content .ql-editor > * {
+            cursor: text;
           }
           :host ::content .ql-editor p,
           :host ::content .ql-editor ol,
@@ -98,13 +100,19 @@
             display: inline-block;
             white-space: nowrap;
             width: 1.2em;
-            text-align: right;
-            margin-right: 0.3em;
-            margin-left: -1.5em;
           }
           :host ::content .ql-editor li.ql-direction-rtl::before {
-            text-align: left;
+            margin-left: -1.5em;
+            margin-right: 0.3em;
+            text-align: right;
+          }
+          .ql-editor li.ql-direction-rtl::before {
             margin-left: 0.3em;
+            margin-right: -1.5em;
+          }
+          .ql-editor ol li:not(.ql-direction-rtl),
+          .ql-editor ul li:not(.ql-direction-rtl) {
+            padding-left: 1.5em;
           }
           :host ::content .ql-editor ol li,
           :host ::content .ql-editor ul li {
@@ -112,7 +120,7 @@
           }
           :host ::content .ql-editor ol li {
             counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
-            counter-increment: list-num;
+            counter-increment: list-0;
           }
           :host ::content .ql-editor ol li:before {
             content: counter(list-num, decimal) '. ';
@@ -306,7 +314,7 @@
           :host ::content .ql-editor .ql-video {
             display: block;
             max-width: 100%;
-            border: 1px solid #444;
+            border: 1px solid #444;   /* added for Proplanr */
           }
           :host ::content .ql-editor .ql-video.ql-align-center {
             margin: 0 auto;
@@ -384,12 +392,18 @@
           :host ::content .ql-editor .ql-align-right {
             text-align: right;
           }
+          :host ::content .ql-editor .ql-embed-selected {
+            border: 2px solid #777;
+            user-select: none;
+          }
           :host ::content .ql-editor.ql-blank::before {
             color: rgba(0,0,0,0.6);
             content: attr(data-placeholder);
             font-style: italic;
+            left: 15px;
             pointer-events: none;
             position: absolute;
+            right: 15px;
           }
           :host ::content .ql-bubble.ql-toolbar:after,
           :host ::content .ql-bubble .ql-toolbar:after {
@@ -432,6 +446,8 @@
           :host ::content .ql-bubble.ql-toolbar .ql-picker-item:hover,
           :host ::content .ql-bubble .ql-toolbar .ql-picker-item:hover,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-item.ql-selected,
+          :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected,
+          :host ::content .ql-bubble.ql-toolbar .ql-picker-item.ql-selected,
           :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected {
             color: #fff;
           }
@@ -458,6 +474,10 @@
           :host ::content .ql-bubble.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
           :host ::content .ql-bubble .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill,
+          :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill, 
+          :host ::content .ql-bubble.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
+          :host ::content .ql-bubble .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
+          :host ::content .ql-bubble.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill,
           :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {
             fill: #fff;
           }
@@ -481,6 +501,10 @@
           :host ::content .ql-bubble .ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
           :host ::content .ql-bubble .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
+          :host ::content .ql-bubble.ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
+          :host ::content .ql-bubble .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
+          :host ::content .ql-bubble.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
+          :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
           :host ::content .ql-bubble .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
@@ -617,8 +641,7 @@
           }
           :host ::content .ql-bubble .ql-editor code {
             font-size: 85%;
-            padding-bottom: 2px;
-            padding-top: 2px;
+            padding: 2px 4px;
           }
           :host ::content .ql-bubble .ql-editor code:before,
           :host ::content .ql-bubble .ql-editor code:after {
