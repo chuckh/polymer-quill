@@ -1,4 +1,3 @@
-
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="polymer-quill-import.html">
 <link rel="import" href="polymer-quill-styles-snow.html">
@@ -86,22 +85,21 @@ Custom property | Description | Default
         --calculated-polymer-quill-editor-overflow: var(--polymer-quill-editor-overflow, scroll);
         display: block;
         @apply(--polymer-quill);
-      }
+      };
       #editor {
         max-height: var(--calculated-polymer-quill-editor-max-height);
         min-height: var(--calculated-polymer-quill-editor-min-height);
         overflow: var(--calculated-polymer-quill-editor-overflow);
         border: var(--calculated-polymer-quill-editor-border);
-     }
+      };
       .results {
         padding: 20px 10px;
         overflow-x: scroll;
-      }
+      };
       .disabled {
         border: 1px solid #ccc !important;
         opacity: 0.85;
-      }
-
+      };
     </style>
     <div id="toolbar" hidden$='{{hideToolbar}}'>
       <!-- <span class="ql-formats">
@@ -155,8 +153,8 @@ Custom property | Description | Default
         <select class="ql-align" title="Align">></select>
       </span>
       <span class="ql-formats">
-        <button class="ql-link" title="Link"></button>
-        <button class="ql-image" title="Image" hidden$="{{standardToolbar}}"></button>
+        <button class="ql-link" title="Link" hidden$="{{standardToolbar}}"></button>
+        <button class="ql-image" title="Image"></button>
         <button class="ql-video" title="Video" hidden$="{{standardToolbar}}"></button>
         <!-- <button class="ql-formula"></button>> -->
       </span>
@@ -220,7 +218,6 @@ Custom property | Description | Default
         storeAs: {
           type: String,
           value: 'delta',
-          notify: true,
         },
         /**
          * Save Interval in milliseconds.
@@ -229,7 +226,6 @@ Custom property | Description | Default
         saveInterval: {
           type: Number,
           value: 2000,
-          notify: true,
         },
         /**
          * Delay load of content in milliseconds.
@@ -239,7 +235,6 @@ Custom property | Description | Default
         delay: {
           type: Number,
           value: 10,
-          notify: true,
         },
         /**
          * Show Results below editor of saves in Delta or HMTL format.
@@ -248,7 +243,6 @@ Custom property | Description | Default
         showResults: {
           type: Boolean,
           value: false,
-          notify: true,
         },
         /**
          * Show Results below editor of saves in HMTL format.
@@ -257,7 +251,6 @@ Custom property | Description | Default
         showHtml: {
           type: Boolean,
           value: false,
-          notify: true,
         },
         /**
          * Editor toolbar type.
@@ -266,7 +259,6 @@ Custom property | Description | Default
         toolbarType: {
           type: String,
           value: 'standard',
-          notify: true,
         },
         /**
          * Standard Tool
@@ -275,7 +267,6 @@ Custom property | Description | Default
         standardToolbar: {
           type: Boolean,
           value: true,
-          notify: true,
         },
         /**
          * Enable tracks if editing is enabled.
@@ -284,7 +275,6 @@ Custom property | Description | Default
         enable: {
           type: String,
           value: 'true',
-          notify: true,
         },
          /**
          * Whether to instantiate the editor to read-only mode.
@@ -293,7 +283,6 @@ Custom property | Description | Default
         readOnly: {
           type: Boolean,
           value: false,
-          notify: true,
         },
         /**
          * Disable Class title.
@@ -310,7 +299,6 @@ Custom property | Description | Default
         useContentReset: {
           type: Boolean,
           value: false,
-          notify: true,
         },
         /**
          * Placeholder for empty editor.
@@ -319,7 +307,6 @@ Custom property | Description | Default
         placeholder: {
           type: String,
           value: 'Compose an epic...',
-          notify: true,
         }
       },
 
@@ -400,10 +387,12 @@ Custom property | Description | Default
             }
           }
           change = change.compose(delta);
-        }.bind(this));
-
-        // Save periodically
-        setInterval(function() {
+        }.bind(this))
+          
+        var typingTimer
+        var saveInterval = this.saveInterval
+        var source = "api"
+        var savePeriodically = function() {
           if (change.length() > 0) {
             if (this.showResults) {
               console.log('Saving changes', change);
@@ -416,11 +405,23 @@ Custom property | Description | Default
             this.html = this.quill.root.innerHTML;
 
             // Fire custom event change
-            this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html, entireDelta: this.quill.getContents()});
-            change = new Delta();
+            if (source == "user") {
+              this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html, entireDelta: this.quill.getContents()})
+            } else {
+              this.fire('update', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html, entireDelta: this.quill.getContents()})
+            }
+            change = new Delta()
+          } else if (this.content !== JSON.stringify(this.quill.getContents()) && this.content !== this.quill.getContents()) { // Allow changes from the Two-way   data binding system
+            this.resetContent(this.content)
           }
-        }.bind(this), this.saveInterval);
-
+          clearTimeout(typingTimer)
+          typingTimer = setTimeout(savePeriodically, saveInterval)
+        }.bind(this)
+        this.quill.on('text-change', function(delta, oldDelta, theSource) {
+          source = theSource
+          clearTimeout(typingTimer)
+          typingTimer = setTimeout(savePeriodically, saveInterval)
+        })
         // Check for unsaved data
         window.onbeforeunload = function() {
           if (change.length() > 0) {
@@ -463,7 +464,11 @@ Custom property | Description | Default
           var notset = true;
           if (this.content && this.content.length > 1 && this.content != undefined && this.content !="<p>undefined</p>" ) {
             if (this.storeAs === 'delta') {
-              this.quill.setContents(JSON.parse(this.content),'api');
+              if (Array.isArray(this.content)) {
+                this.quill.setContents(this.content,'api');
+              } else {
+                this.quill.setContents(JSON.parse(this.content),'api');
+              }
             } else { // HTML
               this.quill.root.innerHTML = this.content;
             }
@@ -510,14 +515,20 @@ Custom property | Description | Default
       resetContent: function(content){
         // Set content
         this.async(function() {
+          var range = this.quill.getSelection()
           if (this.storeAs === 'delta') {
-            if (this.content.length > 1) {
+            if (Array.isArray(this.content)) {
+              this.quill.setContents(this.content,'api')
+            } else if (this.content.length > 1) {
               this.quill.setContents(JSON.parse(this.content),'api');
             }
           } else { // HTML
             this.quill.root.innerHTML = this.content;
           }
-          this.html = this.quill.root.innerHTML;
+          this.html = this.quill.root.innerHTML
+          if (range !== null ) {
+            this.quill.setSelection(range)
+          }
         },this.delay);
       },
 
