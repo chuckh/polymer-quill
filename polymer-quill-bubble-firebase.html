@@ -178,7 +178,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         <paper-button dialog-dismiss autofocus>Cancel</paper-button>
         <paper-button dialog-confirm on-tap="uploadOk" raised>Insert Image</paper-button>
       </div>
-      <div id="helpContainer" hidden="{{hideHelp}}">
+      <div id="helpContainer" hidden$="{{hideHelp}}">
         <div id="helpSteps">
           <div>1. Press SELECT FILE button or Drop file (to upload image)</div>
           <div>2. Press INSERT IMAGE button to insert image</div>
@@ -188,7 +188,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
       </div>
     </paper-dialog>
     
-    <div id="scrollingContainer">
+    <div id="scrollingContainer"> 
       <div id="editor" class$="{{disabledClass}}">{{content}}</div>
     </div>
     <div id="results" class="results" hidden$="[[!showResults]]">RESULTS: {{content}}</div>
@@ -220,9 +220,9 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         */
 
       listeners: {
-        'download-url-change': 'downloadUrlChange'
+        'download-url-change': 'downloadUrlChange',
+        'paste': 'onPaste'
       },  
-
       properties: {
         /**
          * Content which is in Deltas or HTML format.
@@ -695,8 +695,13 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
       },
 
       toggleHelp: function(event) {
-        console.log('toggleHelp:',this.hideHelp);
+        // console.log('toggleHelp:',this.hideHelp);
         this.hideHelp = !this.hideHelp;
+      },
+
+      onPaste: function(event) {
+        // console.log('onPaste:',this.quill.scrollingContainer.scrollHeight, this.quill.scrollingContainer.scrollTop);
+        this.quill.focus();    
       },
 
     });
