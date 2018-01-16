@@ -4,7 +4,7 @@
     <template>
         <style>
           /*!
-          * Quill Editor v1.3.2
+          * Quill Editor v1.3.4
           * https://quilljs.com/
           * Copyright (c) 2014, Jason Chen
           * Copyright (c) 2013, salesforce.com
@@ -114,8 +114,8 @@
           .ql-editor ul li:not(.ql-direction-rtl) {
             padding-left: 1.5em;
           }
-          :host ::content .ql-editor ol li,
-          :host ::content .ql-editor ul li {
+          :host ::content .ql-editor ol li.ql-direction-rtl,
+          :host ::content .ql-editor ul li.ql-direction-rtl {
             padding-left: 1.5em;
           }
           :host ::content .ql-editor ol li {
@@ -886,16 +886,14 @@
             left: 50%;
             margin-left: -6px;
             position: absolute;
-            top: -6px;
           }
           :host ::content .ql-bubble .ql-tooltip:not(.ql-flip) .ql-tooltip-arrow {
             border-bottom: 7px solid #444;
-            top: -7px;
+            top: -6px;
           }
           :host ::content .ql-bubble .ql-tooltip.ql-flip .ql-tooltip-arrow {
             border-top: 7px solid #444;
             top: -6px;
-            /* top: 40px; */
           }
           :host ::content .ql-bubble .ql-tooltip.ql-editing .ql-tooltip-editor {
             display: block;
@@ -928,7 +926,6 @@
             font-size: 16px;
             font-weight: bold;
           }
-
           :host ::content .ql-container.ql-bubble:not(.ql-disabled) a {
             position: relative;
             white-space: nowrap;
@@ -972,13 +969,13 @@
           /* Use bigger checkbox  */ 
           :host ::content .ql-editor ul[data-checked="false"] > li::before {
             content: '\2E3A';
-            font-size: 1.0rem;
+            font-size: 1.10rem;
           }
 
           /* Use check instead of checkbox checked */ 
-          :host ::content .ql-editor ul[data-checked="true"] li::before {
+          :host ::content .ql-editor ul[data-checked="true"] > li::before {
             content: '\2713';
-            font-size: 1.0rem;
+            font-size: 1.10rem;
           }
 
         </style>
