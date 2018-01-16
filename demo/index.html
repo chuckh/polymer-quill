@@ -102,7 +102,7 @@
 
               window.addEventListener('WebComponentsReady', function() {
                 // imports are loaded and elements have been registered
-                console.log('WebComponentsReady');
+                // console.log('WebComponentsReady');
                 app.loadInitialData();
               });
 
@@ -141,7 +141,7 @@
                 // Send entire document in html
                 // this.contentValue = e.detail.html;
 
-                console.log('saveChange to localstorage: ');
+                // console.log('saveChange to localstorage: ');
               };
             </script>
           </template>
@@ -177,11 +177,11 @@
       var app2 = document.querySelector('#app5');
 
       app2.handleResponse = function (event) {
-        console.log('handleResponse');
+        // console.log('handleResponse');
       };
 
       window.addEventListener('WebComponentsReady', function() {
-        console.log('html-render Demo Ready');
+        // console.log('html-render Demo Ready');
       });
 
     </script>
