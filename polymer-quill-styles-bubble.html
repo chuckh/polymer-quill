@@ -969,6 +969,18 @@
             visibility: visible;
           }
 
+          /* Use bigger checkbox  */ 
+          :host ::content .ql-editor ul[data-checked="false"] > li::before {
+            content: '\2E3A';
+            font-size: 1.0rem;
+          }
+
+          /* Use check instead of checkbox checked */ 
+          :host ::content .ql-editor ul[data-checked="true"] li::before {
+            content: '\2713';
+            font-size: 1.0rem;
+          }
+
         </style>
     </template>
 </dom-module>

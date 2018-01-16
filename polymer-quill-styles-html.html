@@ -463,6 +463,18 @@
           .markdown-html a {
             color: #06c;
           }
+
+          /* Use bigger checkbox  */ 
+          .markdown-html ul[data-checked="false"] > li::before {
+            content: '\2E3A';
+            font-size: 1.0rem;
+          }
+
+          /* Use check instead of checkbox checked */ 
+          .markdown-html ul[data-checked="true"] li::before {
+            content: '\2713';
+            font-size: 1.0rem;
+          }
           
         </style>
     </template>
