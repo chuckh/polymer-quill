@@ -160,14 +160,14 @@ Example:
       // 2. Error observer, called on failure
       // 3. Completion observer, called on successful completion
       uploadTask.on('state_changed', function(snapshot) {
-        console.log('uploadTask',snapshot);
+        // console.log('uploadTask',snapshot);
         // Observe state change events such as progress, pause, and resume
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         last = Date.now();
         var elapsed = (last - ini) / 1000;
         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         // this.vaadinUpload._setStatus(file, snapshot.totalBytes, snapshot.bytesTransferred, elapsed, progress);
-        console.log('Upload is ' + progress + '% done', snapshot.bytesTransferred, elapsed);
+        // console.log('Upload is ' + progress + '% done', snapshot.bytesTransferred, elapsed);
         switch (snapshot.state) {
           case firebase.storage.TaskState.PAUSED: // or 'paused'
             // console.log('Upload is paused');
@@ -179,7 +179,7 @@ Example:
         this.vaadinUpload._notifyFileChanges(file);
       }.bind(this), function(error) {
         throw new Error(error);
-        console.log('uploadTask',arguments);
+        // console.log('uploadTask',arguments);
         // Handle unsuccessful uploads
         this.downloadURL = null;
         this.fire('download-url-change',{downloadURL: null, size: null});            
@@ -191,7 +191,7 @@ Example:
         var downloadURL = uploadTask.snapshot.downloadURL;
         this.downloadURL = downloadURL; 
         this.fire('download-url-change',{downloadURL: downloadURL, size: file.size });            
-        console.log(' this.downloadURL:',this.downloadURL,file,file.lastModifiedDate.toString());
+        // console.log(' this.downloadURL:',this.downloadURL,file,file.lastModifiedDate.toString());
         var now = new Date().toLocaleString();
         var userUid = '';
         var displayName = '';
