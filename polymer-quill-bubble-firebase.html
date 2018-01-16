@@ -706,6 +706,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
       },
 
       onPaste: function(event) {
+        // console.log('onPaste:',event);
         // console.log('onPaste:',this.quill.scrollingContainer.scrollHeight, this.quill.scrollingContainer.scrollTop);
         // this.quill.focus();    
         // this.quill.scrollingContainer.
@@ -713,7 +714,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         // 38 up and 40 down
         // Doing up arrow then down arrow will get you to end of paste
         // this is not working
-        var kbe = new KeyboardEvent('keydown',{'keyCode':119,'which':119});
+        // var kbe = new KeyboardEvent('keydown',{'keyCode':119,'which':119});
         // console.log('onPaste:',kbe);
         // document.dispatchEvent(kbe);
 
