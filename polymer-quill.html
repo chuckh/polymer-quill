@@ -405,9 +405,9 @@ Custom property | Description | Default
         // Save periodically
         setInterval(function() {
           if (change.length() > 0) {
-            if (this.showResults) {
-              console.log('Saving changes', change);
-            }
+            // if (this.showResults) {
+            //   console.log('Saving changes', change);
+            // }
             if (this.storeAs === 'delta') {
               this.content = JSON.stringify(this.quill.getContents());
             } else { // html
