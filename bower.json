@@ -24,7 +24,7 @@
     "polymer": "Polymer/polymer#^1.7.0",
     "quill": "https://github.com/quilljs/quill/releases/download/v1.3.2/quill.tar.gz",
     "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
-    "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.6",
+    "app-storage": "PolymerElements/app-storage#^1.0.1",
     "marked-element": "PolymerElements/marked-element#^1.2.0",
     "paper-radio-group": "PolymerElements/paper-radio-group#^1.2.1",
     "vaadin-upload": "vaadin/vaadin-upload#^1.1.1",

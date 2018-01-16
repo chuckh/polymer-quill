@@ -15,7 +15,6 @@
     <link rel="import" href="../../iron-ajax/iron-ajax.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <link rel="import" href="../../iron-localstorage/iron-localstorage.html">
     <link rel="import" href="../../paper-button/paper-button.html">
 
     <link rel="import" href="../polymer-quill-bubble.html">
@@ -121,11 +120,11 @@
          ];
 
           app.handleResponse = function (event) {
-            console.log('handleResponse');
+            // console.log('handleResponse');
           };
 
           app.disableToggle = function(e) {
-            console.log('disableToggle');
+            // console.log('disableToggle');
             if (e.target.innerText === 'ENABLE') {
               e.target.innerText = 'DISABLE';
             } else {
