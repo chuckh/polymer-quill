@@ -4,7 +4,7 @@
     <template>
         <style>
           /*!
-           * Quill Editor v1.3.2
+           * Quill Editor v1.3.4
            * https://quilljs.com/
            * Copyright (c) 2014, Jason Chen
            * Copyright (c) 2013, salesforce.com
@@ -120,10 +120,10 @@
           }
           :host ::content .ql-editor ol li {
             counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
-            counter-increment: list-num;
+            counter-increment: list-0;
           }
           :host ::content .ql-editor ol li:before {
-            content: counter(list-num, decimal) '. ';
+            content: counter(list-0, decimal) '. ';
           }
           :host ::content .ql-editor ol li.ql-indent-1 {
             counter-increment: list-1;
@@ -391,10 +391,6 @@
           :host ::content .ql-editor .ql-align-right {
             text-align: right;
           }
-          :host ::content .ql-editor .ql-embed-selected {
-            border: 2px solid #777;
-            user-select: none;
-          }
           :host ::content .ql-editor.ql-blank::before {
             color: rgba(0,0,0,0.6);
             content: attr(data-placeholder);
@@ -642,24 +638,10 @@
             font-size: 85%;
             padding: 2px 4px;
           }
-          :host ::content .ql-snow .ql-editor code:before,
-          :host ::content .ql-snow .ql-editor code:after {
-            content: "\A0";
-            letter-spacing: -2px;
-          }
           :host ::content .ql-snow .ql-editor pre.ql-syntax {
             background-color: #23241f;
             color: #f8f8f2;
             overflow: visible;
-          }
-          :host ::content .hljs-keyword, .hljs-selector-tag, .hljs-name, .hljs-attr {
-              color: #f92672;
-          }
-          :host ::content .hljs-string, .hljs-type, .hljs-built_in, .hljs-builtin-name, .hljs-selector-id, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-addition, .hljs-variable, .hljs-template-variable {
-              color: #e6db74;
-          }
-          :host ::content .hljs-comment, .hljs-deletion, .hljs-meta {
-              color: #75715e;
           }
           :host ::content .ql-snow .ql-editor img {
             max-width: 100%;
@@ -967,6 +949,20 @@
           :host ::content .ql-container.ql-snow {
             border: 1px solid #ccc;
           }
+
+          /* Use bigger checkbox  */ 
+          :host ::content .ql-editor ul[data-checked="false"] > li::before {
+            content: '\2E3A';
+            font-size: 1.1rem;
+          }
+
+          /* Use check instead of checkbox checked */ 
+          :host ::content .ql-editor ul[data-checked="true"] > li::before {
+            content: '\2713';
+            font-size: 1.1rem;
+          }
+
+
         </style>
     </template>
 </dom-module>

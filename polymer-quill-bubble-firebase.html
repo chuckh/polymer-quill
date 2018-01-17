@@ -167,18 +167,18 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
       <div id="dialogBody">
         <firebase-upload id="firebaseUpload" url="{{url}}" 
           max-file-size="{{maxFileSize}}" max-files="{{maxFiles}}" 
-          download-url="{{downloadURL}}" file-path="{{filePath}}"
+          download-url="{{downloadUrl}}" file-path="{{filePath}}"
           app-name="{{appName}}" plan-id="{{planId}}">
         </firebase-upload>
       <div title="Max Image size in Kilobytes" style="color: black; font-size: 14px;" hidden>Max file size: {{convertToKB(maxFileSize)}}</div>
-      <img src="{{downloadURL}}" title="{{downloadURL}}" height="98px;" style="margin-top: 20px;">
+      <img src="{{downloadUrl}}" title="{{downloadUrl}}" height="98px;" style="margin-top: 20px;">
       <div title="Image size in Kilobytes" style="font-size: 14px;">{{size}}</div>
       </div>
       <div class="buttons">
         <paper-button dialog-dismiss autofocus>Cancel</paper-button>
         <paper-button dialog-confirm on-tap="uploadOk" raised>Insert Image</paper-button>
       </div>
-      <div id="helpContainer" hidden="{{hideHelp}}">
+      <div id="helpContainer" hidden$="{{hideHelp}}">
         <div id="helpSteps">
           <div>1. Press SELECT FILE button or Drop file (to upload image)</div>
           <div>2. Press INSERT IMAGE button to insert image</div>
@@ -188,7 +188,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
       </div>
     </paper-dialog>
     
-    <div id="scrollingContainer">
+    <div id="scrollingContainer"> 
       <div id="editor" class$="{{disabledClass}}">{{content}}</div>
     </div>
     <div id="results" class="results" hidden$="[[!showResults]]">RESULTS: {{content}}</div>
@@ -220,9 +220,9 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         */
 
       listeners: {
-        'download-url-change': 'downloadUrlChange'
+        'download-url-change': 'downloadUrlChange',
+        'paste': 'onPaste'
       },  
-
       properties: {
         /**
          * Content which is in Deltas or HTML format.
@@ -355,7 +355,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
          * Link for Uploaded Image.
          * Default is `null`.
          */
-        downloadURL: {
+        downloadUrl: {
           type: String,
           notify: true
         },
@@ -427,6 +427,12 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
           value: '',
           notify: true
         },
+        /**
+        * Plan ID for upload.
+        */
+        planId: {
+          type: String
+        }
       },
 
       ready: function() {
@@ -597,13 +603,13 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
       },
 
       downloadUrlChange: function(event) {
-        this.downloadURL = event.detail.downloadURL;
+        this.downloadUrl = event.detail.downloadURL;
         this.size = (event.detail.size > 0 ) ? 'File size:' + this.convertToKB(event.detail.size) : '';
       },
 
       uploadOk: function(event) {
         this.async(function() {
-          // console.log('uploadOk',this.downloadURL);
+          // console.log('uploadOk',this.downloadUrl);
           var range = this.quill.getSelection();
           var index = 0;
           if (range === null) {  // Fix for Safari
@@ -612,8 +618,8 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
             index = range.index;
           }
           // console.log(' -',range,index);
-          if (this.downloadURL) {
-            this.quill.insertEmbed(index, 'image', this.downloadURL, Quill.sources.USER);
+          if (this.downloadUrl) {
+            this.quill.insertEmbed(index, 'image', this.downloadUrl, Quill.sources.USER);
           }          
         },100);
       },
@@ -695,8 +701,38 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
       },
 
       toggleHelp: function(event) {
-        console.log('toggleHelp:',this.hideHelp);
+        // console.log('toggleHelp:',this.hideHelp);
         this.hideHelp = !this.hideHelp;
+      },
+
+      onPaste: function(event) {
+        // console.log('onPaste:',event);
+        // console.log('onPaste:',this.quill.scrollingContainer.scrollHeight, this.quill.scrollingContainer.scrollTop);
+        // this.quill.focus();    
+        // this.quill.scrollingContainer.
+
+        // 38 up and 40 down
+        // Doing up arrow then down arrow will get you to end of paste
+        // this is not working
+        // var kbe = new KeyboardEvent('keydown',{'keyCode':119,'which':119});
+        // console.log('onPaste:',kbe);
+        // document.dispatchEvent(kbe);
+
+        // var e = new Event('keydown');
+        // e.key='a';    // just enter the char you want to send 
+        // e.keyCode=e.key.charCodeAt(0);
+        // e.keyCode = 38;
+        // e.which=e.keyCode;
+        // e.altKey=false;
+        // e.ctrlKey=true;
+        // e.shiftKey=false;
+        // e.metaKey=false;
+        // e.bubbles=true;
+        // this.async(function() {
+        //   console.log('onPaste:',e);
+        //   this.quill.scrollingContainer.focus();
+        //   this.quill.scrollingContainer.dispatchEvent(e);
+        // },10);
       },
 
     });

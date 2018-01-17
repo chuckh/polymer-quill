@@ -111,7 +111,7 @@ Example:
        * Specifies the URL for uploaded file. Default is
        * 'null'.
        */
-      downloadURL: {
+      downloadUrl: {
         type: String,
         notify: true
       },
@@ -123,7 +123,19 @@ Example:
        appName: {
         type: String,
         notify: true
-      }, 
+      },
+
+      /**
+       * Specifies the URL for uploaded file. Default is
+       * 'null'.
+       */
+      planId: {
+        type: String,
+        notify: true
+      },
+      user: { 
+        type: Object      
+      } 
     },
 
     // Element Lifecycle
@@ -181,7 +193,7 @@ Example:
         throw new Error(error);
         // console.log('uploadTask',arguments);
         // Handle unsuccessful uploads
-        this.downloadURL = null;
+        this.downloadUrl = null;
         this.fire('download-url-change',{downloadURL: null, size: null});            
       }, function() {
         file.uploading = false;
@@ -189,9 +201,9 @@ Example:
         this.vaadinUpload.fire('upload-' + (file.error ? 'error' : 'success'), {file: file, xhr: null});
         this.vaadinUpload._notifyFileChanges(file);
         var downloadURL = uploadTask.snapshot.downloadURL;
-        this.downloadURL = downloadURL; 
+        this.downloadUrl = downloadURL; 
         this.fire('download-url-change',{downloadURL: downloadURL, size: file.size });            
-        // console.log(' this.downloadURL:',this.downloadURL,file,file.lastModifiedDate.toString());
+        // console.log(' this.downloadUrl:',this.downloadUrl,file,file.lastModifiedDate.toString());
         var now = new Date().toLocaleString();
         var userUid = '';
         var displayName = '';
@@ -230,7 +242,7 @@ Example:
 
     fileAbortHandler: function(event) {
       // console.log('fileAbortHandler:',event);
-      this.downloadURL = null;
+      this.downloadUrl = null;
       this.fire('download-url-change',{downloadURL: '', size: null});            
     },
 

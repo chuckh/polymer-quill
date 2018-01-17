@@ -15,7 +15,7 @@
     <link rel="import" href="../../iron-ajax/iron-ajax.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <link rel="import" href="../../iron-localstorage/iron-localstorage.html">
+    <link rel="import" href="../../app-storage/app-localstorage/app-localstorage-document.html">
     <link rel="import" href="../../paper-button/paper-button.html">
 
     <link rel="import" href="../polymer-quill.html">
@@ -83,11 +83,10 @@
       <demo-snippet>
         <template>
           <template is="dom-bind" id="app4">
-            <iron-localstorage
-              name="app4-localstorage"
-              value="{{contentValue}}"
-              use-raw>
-            </iron-localstorage>
+            <app-localstorage-document
+              key="app4-localstorage"
+              data="{{contentValue}}">
+            </app-localstorage-document>
             <polymer-quill id="demo4"
               store-as="delta"
               show-html
@@ -107,7 +106,6 @@
               });
 
               app.loadInitialData = function () {
-                // console.log('loadInitialData', this.contentValue);
                 var content = '';
                 if (this.contentValue === null || this.contentValue.length <= 25) {
                   content = '{"ops":[{"insert":"Hello World! - Store as Delta, On Change Event - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\\n"}]}';

@@ -4,7 +4,7 @@
     <template>
         <style>
           /*!
-          * Quill Editor v1.3.2
+          * Quill Editor v1.3.4
           * https://quilljs.com/
           * Copyright (c) 2014, Jason Chen
           * Copyright (c) 2013, salesforce.com
@@ -101,21 +101,21 @@
             white-space: nowrap;
             width: 1.2em;
           }
-          :host ::content .ql-editor li.ql-direction-rtl::before {
+          :host ::content .ql-editor li:not(.ql-direction-rtl)::before {
             margin-left: -1.5em;
             margin-right: 0.3em;
             text-align: right;
           }
-          .ql-editor li.ql-direction-rtl::before {
+          :host ::content .ql-editor li.ql-direction-rtl::before {
             margin-left: 0.3em;
             margin-right: -1.5em;
           }
-          .ql-editor ol li:not(.ql-direction-rtl),
-          .ql-editor ul li:not(.ql-direction-rtl) {
+          :host ::content .ql-editor ol li:not(.ql-direction-rtl),
+          :host ::content .ql-editor ul li:not(.ql-direction-rtl) {
             padding-left: 1.5em;
           }
-          :host ::content .ql-editor ol li,
-          :host ::content .ql-editor ul li {
+          :host ::content .ql-editor ol li.ql-direction-rtl,
+          :host ::content .ql-editor ul li.ql-direction-rtl {
             padding-left: 1.5em;
           }
           :host ::content .ql-editor ol li {
@@ -123,7 +123,7 @@
             counter-increment: list-0;
           }
           :host ::content .ql-editor ol li:before {
-            content: counter(list-num, decimal) '. ';
+            content: counter(list-0, decimal) '. ';
           }
           :host ::content .ql-editor ol li.ql-indent-1 {
             counter-increment: list-1;
@@ -437,6 +437,8 @@
           }
           :host ::content .ql-bubble.ql-toolbar button:hover,
           :host ::content .ql-bubble .ql-toolbar button:hover,
+          :host ::content .ql-bubble.ql-toolbar button:focus,
+          :host ::content .ql-bubble .ql-toolbar button:focus,
           :host ::content .ql-bubble.ql-toolbar button.ql-active,
           :host ::content .ql-bubble .ql-toolbar button.ql-active,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-label:hover,
@@ -446,13 +448,13 @@
           :host ::content .ql-bubble.ql-toolbar .ql-picker-item:hover,
           :host ::content .ql-bubble .ql-toolbar .ql-picker-item:hover,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-item.ql-selected,
-          :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected,
-          :host ::content .ql-bubble.ql-toolbar .ql-picker-item.ql-selected,
           :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected {
             color: #fff;
           }
           :host ::content .ql-bubble.ql-toolbar button:hover .ql-fill,
           :host ::content .ql-bubble .ql-toolbar button:hover .ql-fill,
+          :host ::content .ql-bubble.ql-toolbar button:focus .ql-fill,
+          :host ::content .ql-bubble .ql-toolbar button:focus .ql-fill,
           :host ::content .ql-bubble.ql-toolbar button.ql-active .ql-fill,
           :host ::content .ql-bubble .ql-toolbar button.ql-active .ql-fill,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-label:hover .ql-fill,
@@ -465,6 +467,8 @@
           :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected .ql-fill,
           :host ::content .ql-bubble.ql-toolbar button:hover .ql-stroke.ql-fill,
           :host ::content .ql-bubble .ql-toolbar button:hover .ql-stroke.ql-fill,
+          :host ::content .ql-bubble.ql-toolbar button:focus .ql-stroke.ql-fill,
+          :host ::content .ql-bubble .ql-toolbar button:focus .ql-stroke.ql-fill,
           :host ::content .ql-bubble.ql-toolbar button.ql-active .ql-stroke.ql-fill,
           :host ::content .ql-bubble .ql-toolbar button.ql-active .ql-stroke.ql-fill,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill,
@@ -474,15 +478,13 @@
           :host ::content .ql-bubble.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
           :host ::content .ql-bubble .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill,
-          :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill, 
-          :host ::content .ql-bubble.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
-          :host ::content .ql-bubble .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
-          :host ::content .ql-bubble.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill,
           :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {
             fill: #fff;
           }
           :host ::content .ql-bubble.ql-toolbar button:hover .ql-stroke,
           :host ::content .ql-bubble .ql-toolbar button:hover .ql-stroke,
+          :host ::content .ql-bubble.ql-toolbar button:focus .ql-stroke,
+          :host ::content .ql-bubble .ql-toolbar button:focus .ql-stroke,
           :host ::content .ql-bubble.ql-toolbar button.ql-active .ql-stroke,
           :host ::content .ql-bubble .ql-toolbar button.ql-active .ql-stroke,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-label:hover .ql-stroke,
@@ -495,16 +497,14 @@
           :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
           :host ::content .ql-bubble.ql-toolbar button:hover .ql-stroke-miter,
           :host ::content .ql-bubble .ql-toolbar button:hover .ql-stroke-miter,
+          :host ::content .ql-bubble.ql-toolbar button:focus .ql-stroke-miter,
+          :host ::content .ql-bubble .ql-toolbar button:focus .ql-stroke-miter,
           :host ::content .ql-bubble.ql-toolbar button.ql-active .ql-stroke-miter,
           :host ::content .ql-bubble .ql-toolbar button.ql-active .ql-stroke-miter,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
           :host ::content .ql-bubble .ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
           :host ::content .ql-bubble .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
-          :host ::content .ql-bubble.ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
-          :host ::content .ql-bubble .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
-          :host ::content .ql-bubble.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
-          :host ::content .ql-bubble .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
           :host ::content .ql-bubble .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
           :host ::content .ql-bubble.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
@@ -886,16 +886,14 @@
             left: 50%;
             margin-left: -6px;
             position: absolute;
-            top: -6px;
           }
           :host ::content .ql-bubble .ql-tooltip:not(.ql-flip) .ql-tooltip-arrow {
             border-bottom: 7px solid #444;
-            top: -7px;
+            top: -6px;
           }
           :host ::content .ql-bubble .ql-tooltip.ql-flip .ql-tooltip-arrow {
             border-top: 7px solid #444;
             top: -6px;
-            /* top: 40px; */
           }
           :host ::content .ql-bubble .ql-tooltip.ql-editing .ql-tooltip-editor {
             display: block;
@@ -928,7 +926,6 @@
             font-size: 16px;
             font-weight: bold;
           }
-
           :host ::content .ql-container.ql-bubble:not(.ql-disabled) a {
             position: relative;
             white-space: nowrap;
@@ -967,6 +964,18 @@
           :host ::content .ql-container.ql-bubble:not(.ql-disabled) a:hover::before,
           :host ::content .ql-container.ql-bubble:not(.ql-disabled) a:hover::after {
             visibility: visible;
+          }
+
+          /* Use bigger checkbox  */ 
+          :host ::content .ql-editor ul[data-checked="false"] > li::before {
+            content: '\2E3A';
+            font-size: 1.10rem;
+          }
+
+          /* Use check instead of checkbox checked */ 
+          :host ::content .ql-editor ul[data-checked="true"] li::before {
+            content: '\2713';
+            font-size: 1.10rem;
           }
 
         </style>
