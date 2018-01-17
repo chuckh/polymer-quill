@@ -1,0 +1,258 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../vaadin-upload/vaadin-upload.html">
+<!--<link rel="import" href="../polymerfire/firebase.html">-->
+<link rel="import" href="../polymerfire/firebase-app.html">
+<link rel="import" href="../polymerfire/firebase-auth.html">
+<link rel="import" href="../polymerfire/firebase-query.html">
+
+<!--<script src="../firebase/firebase.js"></script>-->
+
+<!--
+firebase-upload is an element providing a file upload to your Firebase database. firebase-upload uses [vaadin-upload](https://github.com/vaadin/vaadin-upload). For other than firebase upload use cases, please use [vaadin-upload](https://github.com/vaadin/vaadin-upload).
+This is based on https://github.com/samiheikki/firebase-upload.
+
+Example:
+
+    <firebase-upload url="https://<YOUR FIREBASE>.firebaseio.com"></firebase-upload>
+
+@demo
+-->
+<dom-module id="firebase-upload">
+
+  <style>
+    :host {
+      display: block;
+    }
+
+    /*vaadin-upload.in-upload-file {
+      height: 32px;
+    }*/
+  </style>
+
+  <template>    
+
+    <firebase-auth app-name="{{appName}}" user="{{user}}" id="firebaseAuth"></firebase-auth>
+
+    <!--<firebase-query
+      id="filesQuery"
+      path="/files"
+      app-name="polymer-quill"
+      order-by-child="filename"
+      data="{{filesData}}">
+    </firebase-query>-->
+
+    <vaadin-upload accept="[[accept]]" max-files="[[maxFiles]]" max-file-size="[[maxFileSize]]">
+      <div class="drop-label">
+        <iron-icon icon="file-upload"></iron-icon>
+        Drop file here, max file size: {{convertToKB(maxFileSize)}}
+      </div>
+    </vaadin-upload>
+  </template>
+
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'firebase-upload',
+
+    listeners: {
+      'file-abort': 'fileAbortHandler'
+    },  
+
+    properties: {
+
+      /**
+       * Specifies the types of files that the server accepts.
+       * Syntax: file_extension|audio/*|video/*|image/*|media_type
+       */
+      accept: {
+        type: String,
+        value: 'image/*'
+      },
+
+      /**
+       * Limit of files to upload, by default it is unlimited. If the value is
+       * one, nomultiple is true.
+       */
+       maxFiles: {
+         type: Number,
+         value: Infinity
+       },
+
+      /**
+       * Specifies the maximum file size allowed to upload. Default is
+       * unlimited.
+       */
+      maxFileSize: {
+        type: Number,
+        value: Infinity
+      },
+
+      /**
+       * Firebase URL. https://<YOUR FIREBASE>.firebaseio.com.
+       */
+      url: {
+        type: String,
+        value: ''
+      },
+
+      /**
+       * Specifies file path for upload. Default is 
+       * 'root'.
+       */
+      filePath: {
+        type: String,
+        value: '',
+        notify: true
+      },
+
+      /**
+       * Specifies the URL for uploaded file. Default is
+       * 'null'.
+       */
+      downloadUrl: {
+        type: String,
+        notify: true
+      },
+
+      /**
+       * Specifies Firebase App Name. Default is
+       * 'polymer-quill'.
+       */
+       appName: {
+        type: String,
+        notify: true
+      },
+
+      /**
+       * Specifies the URL for uploaded file. Default is
+       * 'null'.
+       */
+      planId: {
+        type: String,
+        notify: true
+      },
+      user: { 
+        type: Object      
+      } 
+    },
+
+    // Element Lifecycle
+
+    ready: function() {
+      // Initialize Firebase
+      this.appName = 'fb' + Math.random().toString(36).substr(2, 5).toString();
+      this.db = this.$.firebaseAuth.app.database();
+      this.storage = this.$.firebaseAuth.app.storage();
+      // console.log('firebase-upload ready',this.db,this.storage);
+    },
+
+    attached: function() {
+      this.vaadinUpload = this.$$('vaadin-upload');
+      this.vaadinUpload._uploadFile = this._uploadFile.bind(this);
+    },
+
+    detached: function() {
+    },
+
+    // Element Behavior
+
+    _uploadFile: function(file) {
+      // console.log('_uploadFile',this.db,this.storage);
+      var file = file // use the Blob or File API
+      var ref = this.storage.ref();
+      var ini = Date.now();
+      var last;
+
+      var uploadTask = ref.child(this.filePath + file.name).put(file);
+
+      // Register three observers:
+      // 1. 'state_changed' observer, called any time the state changes
+      // 2. Error observer, called on failure
+      // 3. Completion observer, called on successful completion
+      uploadTask.on('state_changed', function(snapshot) {
+        // console.log('uploadTask',snapshot);
+        // Observe state change events such as progress, pause, and resume
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        last = Date.now();
+        var elapsed = (last - ini) / 1000;
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        // this.vaadinUpload._setStatus(file, snapshot.totalBytes, snapshot.bytesTransferred, elapsed, progress);
+        // console.log('Upload is ' + progress + '% done', snapshot.bytesTransferred, elapsed);
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.PAUSED: // or 'paused'
+            // console.log('Upload is paused');
+            break;
+          case firebase.storage.TaskState.RUNNING: // or 'running'
+            // console.log('Upload is running');
+            break;
+        }
+        this.vaadinUpload._notifyFileChanges(file);
+      }.bind(this), function(error) {
+        throw new Error(error);
+        // console.log('uploadTask',arguments);
+        // Handle unsuccessful uploads
+        this.downloadUrl = null;
+        this.fire('download-url-change',{downloadURL: null, size: null});            
+      }, function() {
+        file.uploading = false;
+        file.complete = !file.error;
+        this.vaadinUpload.fire('upload-' + (file.error ? 'error' : 'success'), {file: file, xhr: null});
+        this.vaadinUpload._notifyFileChanges(file);
+        var downloadURL = uploadTask.snapshot.downloadURL;
+        this.downloadUrl = downloadURL; 
+        this.fire('download-url-change',{downloadURL: downloadURL, size: file.size });            
+        // console.log(' this.downloadUrl:',this.downloadUrl,file,file.lastModifiedDate.toString());
+        var now = new Date().toLocaleString();
+        var userUid = '';
+        var displayName = '';
+        if (this.user) {
+          userUid = this.user.uid;
+          displayName = this.user.displayName;
+        }
+        if (!file.error) {
+          var rootRef = this.db.ref();
+          rootRef.child(this.filePath).push({
+            filename: file.name,
+            url: downloadURL,
+            file_path: this.filePath,
+            last_modified: file.lastModified,
+            last_modified_date: file.lastModifiedDate.toString(),
+            upload_at: now,
+            upload_timestamp: firebase.database.ServerValue.TIMESTAMP,
+            size: file.size,
+            type: file.type,
+            abort: file.abort,
+            complete: file.complete,
+            plan_id: this.planId || '',
+            user_uid: userUid,
+            user_name: displayName,
+          });
+        }
+      }.bind(this));
+
+      file.uploading = file.indeterminate = true;
+      file.complete = file.abort = file.error = false;
+
+      this.vaadinUpload.fire('upload-start', {file: file, xhr: null});
+      this.vaadinUpload._notifyFileChanges(file);
+
+    },
+
+    fileAbortHandler: function(event) {
+      // console.log('fileAbortHandler:',event);
+      this.downloadUrl = null;
+      this.fire('download-url-change',{downloadURL: '', size: null});            
+    },
+
+    convertToKB: function(maxFileSize) {
+      if (maxFileSize >= 1000000) {
+        return (Math.round(maxFileSize / 1000000)).toString() + 'MB';
+      } else {
+        return (Math.round(maxFileSize / 1000)).toString() + 'KB';
+      }
+    },
+
+  });
+</script>

@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+  <head>
+    <title>polymer-quill-bubble demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script>
+      window.Polymer = {
+        dom: 'shady',
+        lazyRegister: true
+      };
+    </script>
+    <!-- <link rel="import" href="../../polymer/polymer.html"> -->
+    <link rel="import" href="../../iron-ajax/iron-ajax.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../paper-button/paper-button.html">
+
+    <link rel="import" href="../polymer-quill-bubble.html">
+    <link rel="import" href="demo-selector.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        max-width: 880px;
+      }
+    </style>
+  </head>
+
+  <body unresolved>
+    <div class="vertical-section-container centered">
+      <h2>polymer-quill-bubble -- Bubble Demo</h2>
+      <demo-selector demo="Bubble"></demo-selector>
+
+      <h3>1. Bubble Editor Popup Toolbar, max & min heights (auto & 70px), Save every 2 seconds</h3>
+      <demo-snippet>
+        <template>
+          <style is="custom-style">
+            polymer-quill-bubble#demo1 {
+              --polymer-quill-editor-min-height: 70px;
+            }
+          </style>
+          <polymer-quill-bubble id="demo1"
+            store-as="delta"
+            show-results
+            content='{"ops":[{"insert":"Hello World! - Store as Delta, Bubble Popup toolbar - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\n"}]}'>
+          </polymer-quill-bubble>
+        </template>
+      </demo-snippet>
+
+      <h3>2. Bubble Editor Popup Toolbar, Default max & min heights (auto & 200px), No border, Show HTML, Save every 2 seconds</h3>
+      <demo-snippet>
+        <template>
+          <style is="custom-style">
+            polymer-quill-bubble#demo2 {
+              --polymer-quill-editor-min-height: 200px;
+              --polymer-quill-editor-border: none;
+            }
+          </style>
+          <polymer-quill-bubble id="demo2"
+            store-as="html"
+            show-html
+            content='<h2>Hello World! - Store as HTML, Show HTML, No Border -  <a href="//proplanr.com" target="_blank">proplanr.com</a></h2>'
+          </polymer-quill-bubble>
+        </template>
+      </demo-snippet>
+      
+      <h3>3. Bubble Editor Popup Toolbar, Default max & min heights (auto & 200px), Purple border, Show HTML, Save every 2 seconds, Placeholder</h3>
+      <demo-snippet>
+        <template>
+          <style is="custom-style">
+            polymer-quill-bubble#demo3 {
+              --polymer-quill-editor-min-height: 50px;
+              --polymer-quill-editor-border: solid 1px purple;
+            }
+          </style>
+          <polymer-quill-bubble id="demo3"
+            store-as="html"
+            show-html
+            content=""
+            placeholder="Compose some epic content..."
+          </polymer-quill-bubble>
+        </template>
+      </demo-snippet>
+
+      <h3>4. Custom Toolbar, Sample Content via iron-ajax, Hide Results, Autogrow, Save as HTML, Save every 2 seconds</h3>
+      <demo-snippet>
+        <template is="dom-bind" id="bubbleApp4">
+          <style is="custom-style">
+            polymer-quill-bubble.long {
+              --polymer-quill-editor-min-height: 150px;
+            }
+          </style>
+          <iron-ajax
+            auto
+            url="sample.txt"
+            handle-as="text"
+            on-response="handleResponse"
+            last-response="{{ajaxResponse}}">
+          </iron-ajax>
+          <polymer-quill-bubble id="bubbleDemo4" class="long"
+            store-as="html"
+            enable="true"
+            toolbar-options="{{toolBarOptions}}"
+            content="{{ajaxResponse}}">
+          </polymer-quill-bubble>
+        </template>
+        <!--<paper-button id="disableToggleButtton4" type="button" name="button" on-click="disableToggle" raised>Disable</paper-button>-->
+        <script>
+          var app = document.querySelector('#bubbleApp4');
+
+          app.toolBarOptions = [
+            [{ header: [1, 2, 3,4, 5, 6, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'align': [] }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }], 
+            ['link', 'blockquote', 'code-block', 'image', 'video'],
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            [{ 'color': [] }, { 'background': [] }]
+         ];
+
+          app.handleResponse = function (event) {
+            // console.log('handleResponse');
+          };
+
+          app.disableToggle = function(e) {
+            // console.log('disableToggle');
+            if (e.target.innerText === 'ENABLE') {
+              e.target.innerText = 'DISABLE';
+            } else {
+              e.target.innerText = 'ENABLE';
+            }
+            app.$.bubbleDemo4.toggleEnable();
+          };
+        </script>
+      </demo-snippet>
+
+
+    </div>
+  </body>
+</html>

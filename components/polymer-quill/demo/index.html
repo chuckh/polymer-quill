@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+  <head>
+    <title>polymer-quill demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script>
+      window.Polymer = {
+        dom: 'shady',
+        lazyRegister: true
+      };
+    </script>
+
+    <link rel="import" href="../../iron-ajax/iron-ajax.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../app-storage/app-localstorage/app-localstorage-document.html">
+    <link rel="import" href="../../paper-button/paper-button.html">
+
+    <link rel="import" href="../polymer-quill.html">
+    <link rel="import" href="demo-selector.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        max-width: 880px;
+      }
+      polymer-quill {
+        margin-bottom: 20px
+      }
+    </style>
+  </head>
+
+  <body unresolved>
+    <div class="vertical-section-container centered">
+      <h2>polymer-quill -- Snow Demo</h2>
+      <demo-selector demo="Snow"></demo-selector>
+
+      <h3>1. Full Toolbar, Show Results & HTML, Max height 300px & Min height 150px), Save as Deltas, Save every 1 second</h3>
+      <demo-snippet>
+        <template>
+          <style is="custom-style">
+            polymer-quill.full {
+              --polymer-quill-editor-max-height: 300px;
+              --polymer-quill-editor-min-height: 150px;
+            }
+          </style>
+          <polymer-quill id="demo1"
+            class='full'
+            store-as="delta"
+            save-interval="1000"
+            toolbar-type="full"
+            show-html
+            show-results
+            content='{"ops":[{"insert":"Hello World! - Store as Delta - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\n"}]}'>
+          </polymer-quill>
+        </template>
+      </demo-snippet>
+
+      <h3>2. Standard Toolbar, Hide Results, Default max & min heights (400px & 50px), Save as HTML, Save every 2 seconds</h3>
+      <demo-snippet>
+        <template>
+          <polymer-quill id="demo2"
+            store-as="html"
+            content='<h2>Hello World! - Store as HTML -  <a href="//proplanr.com" target="_blank">proplanr.com</a></h2>'>
+          </polymer-quill>
+        </template>
+      </demo-snippet>
+
+      <h3>3. Standard Toolbar, Disabled, Show HTML, Default max & min heights (400px & 50px), Save every 2 seconds</h3>
+      <demo-snippet>
+        <template>
+          <polymer-quill id="demo3"
+            store-as="delta"
+            show-html
+            enable="false"
+            content='{"ops":[{"insert":"Hello World! - Store as Delta, Disabled - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\n"}]}'>
+          </polymer-quill>
+        </template>
+      </demo-snippet>
+
+      <h3>4. Standard Toolbar, On Change save to local storage, Show HTML & Deltas, Default max & min heights (400px & 50px), Save as Deltas, Save every 2 seconds</h3>
+      <demo-snippet>
+        <template>
+          <template is="dom-bind" id="app4">
+            <app-localstorage-document
+              key="app4-localstorage"
+              data="{{contentValue}}">
+            </app-localstorage-document>
+            <polymer-quill id="demo4"
+              store-as="delta"
+              show-html
+              show-results
+              enable="true"
+              on-change="saveChange">
+            </polymer-quill>
+            <paper-button id="disableToggleButtton4" type="button" name="button" on-tap="disableToggle" raised>Disable</paper-button>
+            <paper-button id="getHtmlButtton4" type="button" name="button" on-tap="getHTML" raised>Get HTML</paper-button>
+            <script>
+              var app = document.querySelector('#app4');
+
+              window.addEventListener('WebComponentsReady', function() {
+                // imports are loaded and elements have been registered
+                // console.log('WebComponentsReady');
+                app.loadInitialData();
+              });
+
+              app.loadInitialData = function () {
+                var content = '';
+                if (this.contentValue === null || this.contentValue.length <= 25) {
+                  content = '{"ops":[{"insert":"Hello World! - Store as Delta, On Change Event - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\\n"}]}';
+                } else {
+                  content = this.contentValue;
+                }
+                app.$.demo4.quill.setContents(JSON.parse(content),'api');
+              };
+
+              app.disableToggle = function(e) {
+                if (e.target.innerText === 'ENABLE') {
+                  e.target.innerText = 'DISABLE';
+                } else {
+                  e.target.innerText = 'ENABLE';
+                }
+                app.$.demo4.toggleEnable();
+              };
+
+              app.getHTML = function(e) {
+                var html = app.$.demo4.getHTML();
+                alert('HTML: ' + html)
+              };
+
+              app.saveChange = function(e) {
+                // Send partial changes in deltas string
+                // this.contentValue = e.detail.change;
+
+                // Send entire document in deltas string
+                this.contentValue = e.detail.content;
+
+                // Send entire document in html
+                // this.contentValue = e.detail.html;
+
+                // console.log('saveChange to localstorage: ');
+              };
+            </script>
+          </template>
+        </template>
+      </demo-snippet>
+
+      <h3>5. Full Toolbar, Sample Content via iron-ajax, Hide Results, Default max & min heights (none & 150px), Save as HTML, Save every 2 seconds</h3>
+      <demo-snippet>
+        <template is="dom-bind" id="app5">
+        <style is="custom-style">
+          polymer-quill.long {
+            --polymer-quill-editor-max-height: calc(100vh - 320px);
+            --polymer-quill-editor-min-height: 150px;
+          }
+        </style>
+        <iron-ajax
+            auto
+            url="sample.txt"
+            handle-as="text"
+            on-response="handleResponse"
+            last-response="{{ajaxResponse}}">
+          </iron-ajax>
+          <polymer-quill id="demo5" class="long"
+            store-as="html"
+            content="{{ajaxResponse}}"
+            toolbar-type="full">
+          </polymer-quill>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <script>
+      var app2 = document.querySelector('#app5');
+
+      app2.handleResponse = function (event) {
+        // console.log('handleResponse');
+      };
+
+      window.addEventListener('WebComponentsReady', function() {
+        // console.log('html-render Demo Ready');
+      });
+
+    </script>
+
+  </body>
+</html>

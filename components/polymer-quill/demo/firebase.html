@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <head>
+    <title>polymer-quill-bubble-firebase demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script>
+      window.Polymer = {
+        dom: 'shady',
+        lazyRegister: true
+      };
+    </script>
+    <!-- <link rel="import" href="../../polymer/polymer.html"> -->
+    <link rel="import" href="../../iron-ajax/iron-ajax.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../paper-button/paper-button.html">
+    <link rel="import" href="../../polymerfire/firebase.html">
+    <link rel="import" href="../../polymerfire/firebase-app.html">
+
+    <link rel="import" href="../polymer-quill-bubble-firebase.html">
+    <link rel="import" href="demo-selector.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        max-width: 880px;
+      }
+    </style>
+  </head>
+
+  <body unresolved>
+    <div class="vertical-section-container centered">
+      <h2>polymer-quill-bubble-firebase -- Bubble Demo</h2>
+      <demo-selector demo="Firebase Bubble"></demo-selector>
+
+      <h3>1. Bubble Editor Popup Toolbar, max & min heights (auto & 70px), Save every 2 seconds</h3>
+      <demo-snippet>
+        <template>
+          <firebase-app
+            id="firebase"
+            name="polymer-quill"
+            auth-domain="polymer-quill.firebaseapp.com"
+            database-url="https://polymer-quill.firebaseio.com"
+            storage-bucket="polymer-quill.appspot.com",
+            api-key="IzaSyDAElztwGgCccNuec-0FOokg857ejWzEvk">
+          </firebase-app>
+          <style is="custom-style">
+            polymer-quill-bubble-firebase#demo1 {
+              --polymer-quill-editor-min-height: 70px;
+            }
+          </style>
+          <polymer-quill-bubble-firebase id="demo1"
+            store-as="delta"
+            show-results
+            file-path="files/"
+            app-name="polymer-quill"
+            url="polymer-quill.firebaseio.com"
+            max-file-size="1000000" max-files="1" 
+            plan-id="test1"
+            content='{"ops":[{"insert":"Hello World! - Store as Delta, Bubble Popup toolbar - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\n"}]}'>
+          </polymer-quill-bubble-firebase>
+        </template>
+      </demo-snippet>
+
+      <h3>2. Bubble Editor Popup Toolbar, Default max & min heights (auto & 200px), No border, Show HTML, Save every 2 seconds</h3>
+      <demo-snippet>
+        <template>
+          <style is="custom-style">
+            polymer-quill-bubble-firebase#demo2 {
+              --polymer-quill-editor-min-height: 200px;
+              --polymer-quill-editor-border: none;
+            }
+          </style>
+          <polymer-quill-bubble-firebase id="demo2"
+            store-as="html"
+            file-path="files/"
+            max-file-size="100000" max-files="1" 
+            show-html
+            content='<h2>Hello World! - Store as HTML, Show HTML, No Border -  <a href="//proplanr.com" target="_blank">proplanr.com</a></h2>'>
+          </polymer-quill-bubble-firebase>
+        </template>
+      </demo-snippet>
+
+    </div>
+  </body>
+</html>

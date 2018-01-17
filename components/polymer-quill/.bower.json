@@ -1,0 +1,51 @@
+{
+  "name": "polymer-quill",
+  "description": "Polymer Quill Rich Text Editor",
+  "authors": [
+    "Chuck Horton"
+  ],
+  "keywords": [
+    "web-components",
+    "web-component",
+    "polymer",
+    "quill",
+    "editor",
+    "wysiwyg"
+  ],
+  "main": "polymer-quill.html",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/chuckh/polymer-quill.git"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/chuckh/polymer-quill",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.7.0",
+    "quill": "https://github.com/quilljs/quill/releases/download/v1.3.4/quill.tar.gz",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
+    "app-storage": "PolymerElements/app-storage#^1.0.1",
+    "marked-element": "PolymerElements/marked-element#^1.2.0",
+    "paper-radio-group": "PolymerElements/paper-radio-group#^1.2.1",
+    "vaadin-upload": "vaadin/vaadin-upload#^1.1.1",
+    "polymerfire": "firebase/polymerfire#^0.10.3",
+    "paper-dialog": "PolymerElements/paper-dialog#^1.1.0",
+    "iron-icons": "PolymerElements/iron-icons#^1.2.0",
+    "iron-iconset-svg": "PolymerElements/iron-iconset-svg#^1.1.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "_release": "4446b6c7ea",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "4446b6c7ea967173246f5d904a2d66018ea0fd1a"
+  },
+  "_source": "https://github.com/chuckh/polymer-quill.git",
+  "_target": "master",
+  "_originalSource": "chuckh/polymer-quill",
+  "_direct": true
+}

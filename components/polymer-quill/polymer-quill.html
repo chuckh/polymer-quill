@@ -1,0 +1,561 @@
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="polymer-quill-import.html">
+<link rel="import" href="polymer-quill-styles-snow.html">
+
+<!--
+## Polymer Quill Rich Text Editor using Snow Theme
+
+`<polymer-quill>` creates a Polymer Quill Rich Text Editor.
+
+Quill is a free, open source WYSIWYG editor built for the modern web.
+With its modular architecture and expressive API, it is completely customizable to fit any need.
+Learn more at http://quilljs.com/.
+
+So link popup will work added `50px` bottom-padding to editor.
+
+### Examples
+
+#### Defaults (stores as Deltas every 2 seconds, does not show results, 100px height)
+
+    <polymer-quill
+      content='{"ops":[{"insert":"Hello World"},{"attributes":{"header":2},"insert":"\n"}]}'>
+    </polymer-quill>
+
+#### Custom (stores as HTML every 5 seconds, show results)
+
+    <polymer-quill
+      content="<h2>Hello World</h2>"
+      store-as="html"
+      store-interval="5000"
+      show-results>
+    </polymer-quill>
+
+#### Demo example
+
+```html
+<style is="custom-style">
+  polymer-quill.full {
+    --polymer-quill-editor-max-height: 600px;
+    --polymer-quill-editor-min-height: 200px;
+  }
+</style>
+<h2>Full Toolbar, Show Results, Custom height (150px), Save as Deltas, Save every 1 second</h2>
+<polymer-quill
+  content='{"ops":[{"insert":"Hello World! - Store as Delta"},{"attributes":{"header":2},"insert":"\n"}]}'
+  class="full"
+  store-as="delta"
+  save-interval="1000"
+  toolbar-type="full"
+  show-results>
+</polymer-quill>
+
+<h2>Standard Toolbar, Hide Results, Default height (100px), Save as HTML, Save every 2 seconds</h2>
+<polymer-quill
+  content="<h2>Hello World! - Store as HTML</h2>"
+  store-as="html">
+</polymer-quill>
+```
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--polymer-quill-editor-max-height` | Custom max-height for editor     | `400px`
+`--polymer-quill-editor-min-height` | Custom min-height for editor     | `50px`
+`--polymer-quill-editor-overflow`   | Custom overflow for editor       | `scroll`
+`--polymer-quill-editor-border`     | Custom min-height for editor     | `solid 1px #ccc`
+`--polymer-quill`                   | Mixin applied to the editor      | `{}`
+
+### Install
+
+    bower install --save polymer-quill
+
+@demo demo/index.html
+-->
+
+<dom-module id="polymer-quill">
+  <template>
+    <style include="polymer-quill-styles-snow">
+      :host {
+        --calculated-polymer-quill-editor-max-height: var(--polymer-quill-editor-max-height, 400px);
+        --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 50px);
+        --calculated-polymer-quill-editor-border: var(--polymer-quill-editor-border, solid 1px #ccc);
+        --calculated-polymer-quill-editor-overflow: var(--polymer-quill-editor-overflow, scroll);
+        display: block;
+        @apply(--polymer-quill);
+      }
+      #editor {
+        max-height: var(--calculated-polymer-quill-editor-max-height);
+        min-height: var(--calculated-polymer-quill-editor-min-height);
+        overflow: var(--calculated-polymer-quill-editor-overflow);
+        border: var(--calculated-polymer-quill-editor-border);
+     }
+      .results {
+        padding: 20px 10px;
+        overflow-x: scroll;
+      }
+      .disabled {
+        border: 1px solid #ccc !important;
+        opacity: 0.85;
+      }
+
+    </style>
+    <div id="toolbar" hidden$='{{hideToolbar}}'>
+      <!-- <span class="ql-formats">
+      <select class="ql-font"></select>
+      <select class="ql-size"></select>
+      </span> -->
+      <span class="ql-formats">
+        <select class="ql-header"  hidden$="{{standardToolbar}}">
+          <option value="1">Header 1</option>
+          <option value="2">Header 2</option>
+          <option value="3">Header 3</option>
+          <option value="4">Header 4</option>
+          <option value="5">Header 5</option>
+          <option value="7">Normal</option>
+        </select>
+        <select class="ql-header"  hidden$="{{!standardToolbar}}">
+          <option value="1">Header 1</option>
+          <option value="2">Header 2</option>
+          <option value="3">Header 3</option>
+          <option value="7">Normal</option>
+        </select>
+      </span>
+      <span class="ql-formats">
+        <button class="ql-bold" title="Bold"></button>
+        <button class="ql-italic" title="Italic"></button>
+        <button class="ql-underline" title="Underline"></button>
+        <button class="ql-strike" title="strike" hidden$="{{standardToolbar}}"></button>
+      </span>
+      <span class="ql-formats" hidden$="{{standardToolbar}}">
+        <select class="ql-color" title="Text Color"></select>
+        <select class="ql-background" title="Text Background Color"></select>
+      </span>
+      <!-- <span class="ql-formats">
+      <button class="ql-script" value="sub"></button>
+      <button class="ql-script" value="super"></button>
+      </span> -->
+      <span class="ql-formats" hidden$="{{standardToolbar}}">
+        <button class="ql-header" value="1" title="Header 1"></button>
+        <button class="ql-header" value="2" title="Header 2"></button>
+        <button class="ql-blockquote" title="Blockquote"></button>
+        <button class="ql-code-block" title="Code Block"></button>
+      </span>
+      <span class="ql-formats">
+        <button class="ql-list" value="ordered" title="Numbered List"></button>
+        <button class="ql-list" value="bullet" title="Bullet List"></button>
+        <button class="ql-indent" value="-1" title="Decrease Indent" hidden$="{{standardToolbar}}"></button>
+        <button class="ql-indent" value="+1" title="Indent" hidden$="{{standardToolbar}}"></button>
+      </span>
+      <span class="ql-formats" hidden$="{{standardToolbar}}">
+        <!-- <button class="ql-direction" value="rtl"></button> -->
+        <select class="ql-align" title="Align">></select>
+      </span>
+      <span class="ql-formats">
+        <button class="ql-link" title="Link"></button>
+        <button class="ql-image" title="Image" hidden$="{{standardToolbar}}"></button>
+        <button class="ql-video" title="Video" hidden$="{{standardToolbar}}"></button>
+        <!-- <button class="ql-formula"></button>> -->
+      </span>
+      <span class="ql-formats">
+        <button class="ql-clean" title="Clear Formating"></button>
+      </span>
+    </div>
+    <div id="editor" class$="{{disabledClass}}">{{content}}</div>
+    <div id="results" class="results" hidden$="[[!showResults]]">RESULTS: {{content}}</div>
+    <div id="resultsHTML" class="results" hidden$="[[!showHtml]]">HTML: {{html}}</div>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'polymer-quill',
+
+      /**
+        * Fired when element is attached.
+        *
+        * @event attached
+        */
+
+      /**
+        * Fired when content has changed.
+        *
+        * @event change
+        */
+
+      /**
+        * Fired when element is ready.
+        *
+        * @event ready
+        */
+
+      properties: {
+        /**
+         * Content which is in Deltas or HTML format.
+         */
+        content: {
+          type: String,
+          value: '',
+          notify: true,
+          // reflectToAttribute: true,
+          observer: '_contentChanged'
+        },
+        /**
+         * Content which is in HTML format.
+         */
+        html: {
+          type: String,
+          value: '',
+          notify: true,
+          // reflectToAttribute: true,
+        },
+        /**
+         * Store as Quill Deltas or HTML.
+         * Options are `delta`, `html`.
+         */
+        storeAs: {
+          type: String,
+          value: 'delta',
+          notify: true,
+        },
+        /**
+         * Save Interval in milliseconds.
+         * Default is `2000`.
+         */
+        saveInterval: {
+          type: Number,
+          value: 2000,
+          notify: true,
+        },
+        /**
+         * Delay load of content in milliseconds.
+         * Provide time for loading data from polymerfire or iron-ajax.
+         * Default is `10`.
+         */
+        delay: {
+          type: Number,
+          value: 10,
+          notify: true,
+        },
+        /**
+         * Show Results below editor of saves in Delta or HMTL format.
+         * Default is `false`.
+         */
+        showResults: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
+        /**
+         * Show Results below editor of saves in HMTL format.
+         * Default is `false`.
+         */
+        showHtml: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
+        /**
+         * Editor toolbar type.
+         * Options are `standard`, `full`.
+         */
+        toolbarType: {
+          type: String,
+          value: 'standard',
+          notify: true,
+        },
+        /**
+         * Standard Tool
+         * Default is `true`.
+         */
+        standardToolbar: {
+          type: Boolean,
+          value: true,
+          notify: true,
+        },
+        /**
+         * Show or hide Tool
+         */
+        hideToolbar: {
+          type: Boolean,
+          notify: true,          
+        },
+        /**
+         * Enable tracks if editing is enabled.
+         * Default is `true`.
+         */
+        enable: {
+          type: String,
+          value: 'true',
+          notify: true,
+        },
+         /**
+         * Whether to instantiate the editor to read-only mode.
+         * Default is `false`.
+         */
+        readOnly: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
+        /**
+         * Disable Class title.
+         * Default is ``.
+         */
+        disabledClass: {
+          type: String,
+          value: 'style-scope polymer-quill ql-container ql-snow'
+        },
+        /**
+         * Whether to use content reset for two way data binding.
+         * Default is `false`.
+         */
+        useContentReset: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
+        /**
+         * Placeholder for empty editor.
+         * Default is `Compose an epic...`.
+         */
+        placeholder: {
+          type: String,
+          value: 'Compose an epic...',
+          notify: true,
+        }
+      },
+
+      ready: function() {
+        if (this.toolbarType === 'full') {
+          this.standardToolbar = false;
+        }
+        var Delta = Quill.import('delta');
+        this.quill = new Quill(this.$.editor, {
+          modules: {
+            toolbar: this.$.toolbar
+          },
+          theme: 'snow',
+          strict: false,
+          readOnly: this.readOnly,
+          placeholder: this.placeholder,
+          bounds: this.$.editor
+        });
+
+        // Set if editor is dsiabled
+        if (this.enable === 'false') {
+          this.quill.enable(false);
+          this.hideToolbar = true;
+          this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
+          this.readOnly = true;
+        }
+
+        // Set initial content
+        this.async(function() {
+          try { // try with initial delay
+            var notset = true;
+            if (this.content && this.content.length > 1 && this.content != undefined && this.content !="<p>undefined</p>" ) {
+              if (this.storeAs === 'delta') {
+                this.quill.setContents(JSON.parse(this.content),'api');
+              } else { // HTML
+                this.quill.root.innerHTML = this.content;
+              }
+              notset = false;
+              this.html = this.quill.root.innerHTML;
+            }
+            if (notset) {
+              throw 'notset';
+            }
+          }
+          catch (notset) {
+            // try again after doubling the delay
+            this.delay = this.delay * 2;
+            this.setContent();
+          }
+        },this.delay);
+
+        // Store accumulated changes
+        var change = new Delta();
+        this.quill.on('text-change', function(delta,oldDeta,source) {
+          // Autolink URLs when typing
+          var regex = /https?:\/\/[^\s]+$/;
+          if (delta.ops.length === 2 && delta.ops[0].retain && this.isWhitespace(delta.ops[1].insert)) {
+            var endRetain = delta.ops[0].retain;
+            var text = this.quill.getText().substr(0, endRetain);
+            var match = text.match(regex);
+
+            if (match !== null) {
+              var url = match[0];
+
+              var ops = [];
+              if (endRetain > url.length) {
+                ops.push({ retain: endRetain - url.length });
+              }
+
+              ops = ops.concat([
+                { delete: url.length },
+                { insert: url, attributes: { link: url } }
+              ]);
+
+              this.quill.updateContents({
+                ops: ops
+              });
+            }
+          }
+          change = change.compose(delta);
+        }.bind(this));
+
+        // Save periodically
+        setInterval(function() {
+          if (change.length() > 0) {
+            // if (this.showResults) {
+            //   console.log('Saving changes', change);
+            // }
+            if (this.storeAs === 'delta') {
+              this.content = JSON.stringify(this.quill.getContents());
+            } else { // html
+              this.content = this.quill.root.innerHTML;
+            }
+            this.html = this.quill.root.innerHTML;
+
+            // Fire custom event change
+            this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html, entireDelta: this.quill.getContents()});
+            change = new Delta();
+          }
+        }.bind(this), this.saveInterval);
+
+        // Check for unsaved data
+        window.onbeforeunload = function() {
+          if (change.length() > 0) {
+            return 'There are unsaved changes. Are you sure you want to leave?';
+          }
+        };
+
+        // Autolink URLs when pasting
+        this.quill.clipboard.addMatcher(Node.TEXT_NODE, function(node, delta) {
+          var regex = /https?:\/\/[^\s]+/g;
+          if (typeof(node.data) !== 'string') return;
+          var matches = node.data.match(regex);
+          if (matches && matches.length > 0) {
+            var ops = [];
+            var str = node.data;
+            matches.forEach(function(match) {
+              var split = str.split(match);
+              var beforeLink = split.shift();
+              ops.push({ insert: beforeLink });
+              ops.push({ insert: match, attributes: { link: match } });
+              str = split.join(match);
+            });
+            delta.ops = ops;
+          }
+          return delta;
+        });
+
+      },
+
+      isWhitespace: function(ch) {
+        var whiteSpace = false
+        if ((ch == ' ') || (ch == '\t') || (ch == '\n')) {
+          whiteSpace = true;
+        }
+        return whiteSpace;
+      },
+
+      setContent: function() {
+        this.async(function() {
+          var notset = true;
+          if (this.content && this.content.length > 1 && this.content != undefined && this.content !="<p>undefined</p>" ) {
+            if (this.storeAs === 'delta') {
+              this.quill.setContents(JSON.parse(this.content),'api');
+            } else { // HTML
+              this.quill.root.innerHTML = this.content;
+            }
+            notset = false;
+            this.html = this.quill.root.innerHTML;
+          }
+          return notset;
+        },this.delay);
+      },
+
+      attached: function() {
+        this.fire('attached');
+      },
+
+      // Convert Deltas to HTML, source should be deltas string
+      getHTML: function(source) {
+        var inputDelta = this.content;
+        if (source) {
+          inputDelta = source;
+        }
+        var html = '';
+        if (this.storeAs === 'delta') {
+          var tempHtml = document.createElement("div");
+          var quillHtml = new Quill(tempHtml);
+          quillHtml.setContents(JSON.parse(inputDelta),'api');
+          html = quillHtml.root.innerHTML;
+          quillHtml = null;
+          tempHtml = null;
+        } else {
+          html = this.content;
+        }
+        // console.log('getHTML: ',html);
+        return html;
+      },
+
+      // Content Change
+      _contentChanged: function(newValue, oldValue) {
+        if (this.useContentReset && newValue != undefined) {
+          this.resetContent(newValue);
+        }
+      },
+
+      // Reset Content
+      resetContent: function(content){
+        // Set content
+        this.async(function() {
+          if (this.storeAs === 'delta') {
+            if (this.content.length > 1) {
+              this.quill.setContents(JSON.parse(this.content),'api');
+            }
+          } else { // HTML
+            this.quill.root.innerHTML = this.content;
+          }
+          this.html = this.quill.root.innerHTML;
+        },this.delay);
+      },
+
+      // Toogle Editor Enable (show toolbar and enables editing), Disabled (hide toolbar and disables editing)
+      toggleEnable: function() {
+        if (this.enable  === 'true') {
+          this.disableEditor();
+        } else {
+          this.enableEditor();
+        }
+        return this.enable;
+      },
+
+      // Enable Editor (show toolbar and enable editing)
+      enableEditor: function() {
+        this.enable = 'true';
+        this.hideToolbar = false;
+        this.quill.enable(true);
+        this.disabledClass = 'style-scope polymer-quill ql-container ql-snow';
+        this.readOnly = false;
+      },
+
+      // Disabled Editor (hide toolbar and disable editing)
+      disableEditor: function() {
+        this.enable = 'false';
+        this.hideToolbar = true;
+        this.quill.enable(false);
+        this.disabledClass = 'style-scope polymer-quill ql-container ql-snow disabled';
+        this.readOnly = true;
+      }
+
+    });
+  </script>
+</dom-module>
