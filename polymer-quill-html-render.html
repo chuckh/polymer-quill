@@ -92,20 +92,13 @@ Custom property | Description | Default
       .markdown-html {
         padding: var(--calculated-polymer-quill-html-padding);
       }
-      /*.markdown-html > iframe {
-        display: block;
-        max-width: 100%;
-        min-width: 640px;
-        min-height: 360px;
-        margin-left: auto;
-        margin-right: auto;
-      }*/
     </style>
     
     <div class="viewCard">
       <marked-element  id="markedView" markdown="[[content]]">
         <div class="markdown-html"></div>
       </marked-element>
+      <!-- <div class="markdown-html" inner-h-t-m-l="[[content]]"></div> -->
     </div>
   </template>
 
