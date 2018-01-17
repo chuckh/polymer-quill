@@ -45,3 +45,10 @@
 <p><br></p><p><br>
 
 <p>Left Text</p><p class="ql-align-center">Center Text</p><p class="ql-align-right">Right Text</p><p class="ql-align-right"><br></p><p class="ql-align-justify">Justified Text Justified Text Justified Text Justified Text Justified Text Justified Text Justified Text Justified Text Justified Text Justified Text Justified Text Justified TextJustified Text Justified TextJustified Text Justified TextJustified Text Justified TextJustified Text Justified TextJustified Text Justified TextJustified Text Justified TextJustified Text Justified TextJustified Text Justified Text</p><p><br></p>
+
+</h2><h2>Lists</h2>
+<h3>Numbered List</h3><p><br></p><ol><li>Item One</li><li>Item Two</li><li>Item Three</li></ol><p><br></p>
+
+<h3>Bullted List</h3><p><br></p><ul><li>Item One</li><li>Item Two</li><li>Item Three</li></ul><p><br></p>
+
+<h3>Checkbox List</h3><p><br></p><ul data-checked="false"><li>Checkbox One</li></ul><ul data-checked="true"><li>Checkbox Two</li></ul><ul data-checked="false"><li>Checkbox Three</li></ul><p><br></p>
