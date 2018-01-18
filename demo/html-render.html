@@ -5,12 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <script>
+    <!-- <script>
       window.Polymer = {
         dom: 'shady',
         lazyRegister: true
       };
-    </script>
+    </script> -->
     
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
@@ -20,18 +20,20 @@
     <link rel="import" href="../polymer-quill-html-render.html">
     <link rel="import" href="demo-selector.html">
 
-    <style is="custom-style" include="demo-pages-shared-styles">
-      body {
-        font-size: 16px;
-        font-weight: 200;
-      }
-      .centered {
-        max-width: 880px;
-      }
-      polymer-quill-html-render {
-        margin-bottom: 20px
-      }
-    </style>
+    <custom-style>
+      <style include="demo-pages-shared-styles">
+        body {
+          font-size: 16px;
+          font-weight: 200;
+        }
+        .centered {
+          max-width: 880px;
+        }
+        polymer-quill-html-render {
+          margin-bottom: 20px
+        }
+      </style>
+    </custom-style>
   </head>
 
   <body unresolved>
@@ -42,12 +44,14 @@
       <h3>1. HTML Render Standard</h3>
       <demo-snippet>
         <template>
-          <style is="custom-style">
-            polymer-quill-html-render#demo1 {
-              --polymer-quill-html-max-width: 870px;
-              --polymer-quill-html-border: solid 1px #ccc;
-            }
-          </style>
+          <custom-style>
+            <style>
+              polymer-quill-html-render#demo1 {
+                --polymer-quill-html-max-width: 870px;
+                --polymer-quill-html-border: solid 1px #ccc;
+              }
+            </style>
+          </custom-style>
           <polymer-quill-html-render id="demo1"
             content='<h2>Hello World! - Border -  <a href="//proplanr.com" target="_blank">proplanr.com</a></h2>'>
           </polymer-quill-html-render>
@@ -56,23 +60,27 @@
 
       <h3>2. HTML Render, No Border, iron-ajax</h3>
       <demo-snippet>
-        <template is="dom-bind" id="app2">
-          <style is="custom-style">
-            polymer-quill-html-render#demo2 {
-              --polymer-quill-html-max-width: 870px;
-            }
-          </style>
-          <iron-ajax
-            auto
-            url="sample.txt"
-            handle-as="text"
-            on-response="handleResponse"
-            last-response="{{ajaxResponse}}">
-          </iron-ajax>
-          <polymer-quill-html-render id="demo2"
-            content="{{ajaxResponse}}">
-          </polymer-quill-html-render>
-        </template>
+        <dom-bind>
+          <template id="app2">
+            <custom-style>
+              <style>
+                polymer-quill-html-render#demo2 {
+                  --polymer-quill-html-max-width: 870px;
+                }
+              </style>
+            </custom-style>
+            <iron-ajax
+              auto
+              url="sample.txt"
+              handle-as="text"
+              on-response="handleResponse"
+              last-response="{{ajaxResponse}}">
+            </iron-ajax>
+            <polymer-quill-html-render id="demo2"
+              content="{{ajaxResponse}}">
+            </polymer-quill-html-render>
+          </template>
+        </dom-bind>
       </demo-snippet>
 
     </div>
@@ -81,11 +89,11 @@
       var app2 = document.querySelector('#app2');
 
       app2.handleResponse = function (event) {
-        // console.log('handleResponse');
+        console.log('handleResponse',event);
       };
 
       window.addEventListener('WebComponentsReady', function() {
-        // console.log('html-render Demo Ready');
+        console.log('html-render Demo Ready');
       });
 
     </script>
