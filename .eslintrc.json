@@ -1,21 +1,17 @@
 {
-  "extends": ["eslint:recommended", "google"],
-  "parserOptions": {
-    "ecmaVersion": 6
-  },
-  "env": {
-    "browser": true
-  },
-  "plugins": [
-    "html"
-  ],
+  "extends": ["eslint:recommended", "google", "prettier"],
+  "parserOptions": { "ecmaVersion": 6 },
+  "env": { "browser": true, "serviceworker": true, "worker": true },
+  "plugins": ["html", "prettier"],
   "rules": {
     "brace-style": "off",
     "new-cap": ["error", { "capIsNewExceptions": ["Polymer"] }],
     "no-var": "off",
-    "require-jsdoc": "off"
+    "require-jsdoc": "off",
+    "prettier/prettier": [
+      "error",
+      { "singleQuote": true, "trailingComma": "all", "bracketSpacing": false, "printWidth": 120, "parser": "flow" }
+    ]
   },
-  "globals": {
-    "Polymer": true
-  }
+  "globals": { "Polymer": true }
 }
