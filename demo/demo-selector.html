@@ -5,13 +5,15 @@
 
 <dom-module id="demo-selector">
   <template>
-    <style>
-      :host {
-        display: block;
-        font-size: 16px;
-        font-weight: 200;
-      }
-    </style>
+    <custom-style>
+      <style>
+        :host {
+          display: block;
+          font-size: 16px;
+          font-weight: 200;
+        }
+      </style>
+    </custom-style>
     
     <label id="demosLabel">Demos</label>
     <paper-radio-group selected="{{demo}}" aria-labelledby="demosLabel" attr-for-selected="name">
