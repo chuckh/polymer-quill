@@ -1,6 +1,6 @@
 
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../marked-element/marked-element.html">
+<!-- <link rel="import" href="../marked-element/marked-element.html"> -->
 <link rel="import" href="polymer-quill-styles-html.html">
 
 <!--
@@ -95,10 +95,10 @@ Custom property | Description | Default
     </style>
     
     <div class="viewCard">
-      <marked-element  id="markedView" markdown="[[content]]">
+      <!-- <marked-element  id="markedView" markdown="[[content]]">
         <div class="markdown-html"></div>
-      </marked-element>
-      <!-- <div class="markdown-html" inner-h-t-m-l="[[content]]"></div> -->
+      </marked-element> -->
+      <div class="markdown-html" inner-h-t-m-l="[[content]]"></div>
     </div>
   </template>
 
@@ -131,7 +131,7 @@ Custom property | Description | Default
       },
 
       ready: function() {
-        // console.log('polymer-quill-html-render ready');
+        console.log('polymer-quill-html-render ready');
       }
 
     });
