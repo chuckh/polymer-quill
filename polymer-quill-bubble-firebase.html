@@ -5,6 +5,7 @@
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="polymer-quill-import.html">
 <link rel="import" href="polymer-quill-styles-bubble.html">
+<link rel="import" href="polymer-quill-styles.html">
 <link rel="import" href="firebase-upload.html">
 <link rel="import" href="polymer-quill-icons.html">
 
@@ -88,7 +89,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
 
 <dom-module id="polymer-quill-bubble-firebase">
   <template>
-    <style include="polymer-quill-styles-bubble">
+    <style include="polymer-quill-styles-bubble polymer-quill-styles">
       :host {
         --calculated-polymer-quill-scrolling-height: var(--polymer-quill-scrolling-height, 100%);
         --calculated-polymer-quill-scrolling-min-height: var(--polymer-quill-scrolling-min-height, 100%);
@@ -99,7 +100,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
         --calculated-polymer-quill-editor-padding: var(--polymer-quill-editor-padding, 30px 20px);
         /*--calculated-polymer-quill-editor-overflow: var(--polymer-quill-editor-overflow, scroll);*/
         display: block;
-        @apply(--polymer-quill);
+        @apply --polymer-quill;
       }
       /* Specify our own scrolling container */
       #scrollingContainer {
@@ -162,7 +163,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
 
     <paper-dialog id="dialogUpload" always-on-top="true" mode="true" style="width: 90%; max-width: 680px;">
       <h2 id="dialogHeader">Upload Image
-        <paper-icon-button class="helpButton" icon="polymer-quill-icons:help" title="Help Toggle" on-tap="toggleHelp"></paper-icon-button>
+        <paper-icon-button class="helpButton" icon="polymer-quill-icons:help" title="Help Toggle" on-click="toggleHelp"></paper-icon-button>
       </h2>
       <div id="dialogBody">
         <firebase-upload id="firebaseUpload" url="{{url}}" 
@@ -176,7 +177,7 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
       </div>
       <div class="buttons">
         <paper-button dialog-dismiss autofocus>Cancel</paper-button>
-        <paper-button dialog-confirm on-tap="uploadOk" raised>Insert Image</paper-button>
+        <paper-button dialog-confirm on-click="uploadOk" raised>Insert Image</paper-button>
       </div>
       <div id="helpContainer" hidden$="{{hideHelp}}">
         <div id="helpSteps">
