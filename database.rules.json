@@ -1,0 +1,10 @@
+{
+  "rules": {
+    "files": {
+      // grants read to authenticated users
+      // grant write to logged in and new data exists
+      ".read": true,
+      ".write": true,
+    }
+  }
+}

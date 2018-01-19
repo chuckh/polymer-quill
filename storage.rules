@@ -1,0 +1,8 @@
+service firebase.storage {
+  match /b/polymer-quill.appspot.com/o {
+    // Files look like: "user/<UID>/path/to/file.txt"
+    match /files/{allPaths=**} {
+      allow read, write;
+    }
+  }
+}
