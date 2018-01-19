@@ -1,6 +1,12 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/lib/utils/async.html">
+<!-- import CSS mixin shim -->
+<!-- <link rel="import" href="../shadycss/apply-shim.html"> -->
+<!-- import Polymer.Element -->
+<link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="polymer-quill-import.html">
 <link rel="import" href="polymer-quill-styles-bubble.html">
+<link rel="import" href="polymer-quill-styles.html">
 
 <!--
 ## Polymer Quill Rich Text Editor - Bubble toolbar like Medium WIP
@@ -81,48 +87,49 @@ Not used anymore `--polymer-quill-editor-overflow`   | Custom overflow for edito
 
 <dom-module id="polymer-quill-bubble">
   <template>
-    <style include="polymer-quill-styles-bubble">
-      :host {
-        --calculated-polymer-quill-scrolling-height: var(--polymer-quill-scrolling-height, 100%);
-        --calculated-polymer-quill-scrolling-min-height: var(--polymer-quill-scrolling-min-height, 100%);
-        --calculated-polymer-quill-editor-height: var(--polymer-quill-editor-height, auto);
-        --calculated-polymer-quill-editor-max-height: var(--polymer-quill-editor-max-height, none);
-        --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 100px);
-        --calculated-polymer-quill-editor-border: var(--polymer-quill-editor-border, solid 1px #ccc);
-        --calculated-polymer-quill-editor-padding: var(--polymer-quill-editor-padding, 20px);
-        /*--calculated-polymer-quill-editor-overflow: var(--polymer-quill-editor-overflow, scroll);*/
-        display: block;
-        @apply(--polymer-quill);
-      }
-      /* Specify our own scrolling container */
-      #scrollingContainer {
-        height: var(--calculated-polymer-quill-scrolling-height);
-        min-height: var(--calculated-polymer-quill-scrolling-min-height);
-        overflow-y: auto;
-        border: var(--calculated-polymer-quill-editor-border);
-        padding: 2px;
-      }
-      #editor {
-        height: var(--calculated-polymer-quill-editor-height);
-        max-height: var(--calculated-polymer-quill-editor-max-height);
-        min-height: var(--calculated-polymer-quill-editor-min-height);
-        /*overflow: var(--calculated-polymer-quill-editor-overflow);*/
-        padding: var(--calculated-polymer-quill-editor-padding);
-      }
-      #editor .ql-editor {
-        overflow-y: visible; 
-      }
-      .results {
-        padding: 20px 10px;
-        overflow-x: scroll;
-      }
-      .disabled {
-        /*border: 1px solid #ccc !important;*/
-        opacity: 0.85;
-      }
+    <custom-style>
+      <style include="polymer-quill-styles-bubble polymer-quill-styles">
+        :host {
+          --calculated-polymer-quill-scrolling-height: var(--polymer-quill-scrolling-height, 100%);
+          --calculated-polymer-quill-scrolling-min-height: var(--polymer-quill-scrolling-min-height, 100%);
+          --calculated-polymer-quill-editor-height: var(--polymer-quill-editor-height, auto);
+          --calculated-polymer-quill-editor-max-height: var(--polymer-quill-editor-max-height, none);
+          --calculated-polymer-quill-editor-min-height: var(--polymer-quill-editor-min-height, 100px);
+          --calculated-polymer-quill-editor-border: var(--polymer-quill-editor-border, solid 1px #ccc);
+          --calculated-polymer-quill-editor-padding: var(--polymer-quill-editor-padding, 20px);
+          /*--calculated-polymer-quill-editor-overflow: var(--polymer-quill-editor-overflow, scroll);*/
+          display: block;
+          @apply --polymer-quill;
+        }
+        /* Specify our own scrolling container */
+        #scrollingContainer {
+          height: var(--calculated-polymer-quill-scrolling-height);
+          min-height: var(--calculated-polymer-quill-scrolling-min-height);
+          overflow-y: auto;
+          border: var(--calculated-polymer-quill-editor-border);
+          padding: 2px;
+        }
+        #editor {
+          height: var(--calculated-polymer-quill-editor-height);
+          max-height: var(--calculated-polymer-quill-editor-max-height);
+          min-height: var(--calculated-polymer-quill-editor-min-height);
+          /*overflow: var(--calculated-polymer-quill-editor-overflow);*/
+          padding: var(--calculated-polymer-quill-editor-padding);
+        }
+        #editor .ql-editor {
+          overflow-y: visible; 
+        }
+        .results {
+          padding: 20px 10px;
+          overflow-x: scroll;
+        }
+        .disabled {
+          /*border: 1px solid #ccc !important;*/
+          opacity: 0.85;
+        }
 
-    </style>
-    
+      </style>
+    </custom-style>
     <div id="scrollingContainer">
       <div id="editor" class$="{{disabledClass}}">{{content}}</div>
     </div>
