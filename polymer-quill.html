@@ -85,7 +85,7 @@ Custom property | Description | Default
         --calculated-polymer-quill-editor-border: var(--polymer-quill-editor-border, solid 1px #ccc);
         --calculated-polymer-quill-editor-overflow: var(--polymer-quill-editor-overflow, scroll);
         display: block;
-        @apply(--polymer-quill);
+        @apply --polymer-quill;
       }
       #editor {
         max-height: var(--calculated-polymer-quill-editor-max-height);
@@ -276,7 +276,7 @@ Custom property | Description | Default
           type: Boolean,
           value: true,
           notify: true,
-        },
+       },
         /**
          * Show or hide Tool
          */
@@ -334,6 +334,7 @@ Custom property | Description | Default
         if (this.toolbarType === 'full') {
           this.standardToolbar = false;
         }
+        console.log('ready',this.standardToolbar);
         var Delta = Quill.import('delta');
         this.quill = new Quill(this.$.editor, {
           modules: {
@@ -413,7 +414,7 @@ Custom property | Description | Default
         setInterval(function() {
           if (change.length() > 0) {
             // if (this.showResults) {
-            //   console.log('Saving changes', change);
+              // console.log('Saving changes', change);
             // }
             if (this.storeAs === 'delta') {
               this.content = JSON.stringify(this.quill.getContents());
@@ -424,6 +425,9 @@ Custom property | Description | Default
 
             // Fire custom event change
             this.fire('change', {delta: change, change: JSON.stringify(change), content: this.content, html: this.html, entireDelta: this.quill.getContents()});
+            // if (content) {
+            //   this.dispatchEvent(new CustomEvent('change', {bubbles: true, composed: true, delta: change, change: JSON.stringify(change), content: this.content, html: this.html, entireDelta: this.quill.getContents()}));
+            // }
             change = new Delta();
           }
         }.bind(this), this.saveInterval);
@@ -482,7 +486,9 @@ Custom property | Description | Default
       },
 
       attached: function() {
-        this.fire('attached');
+        // this.fire('attached');
+        // console.log('attached');
+        this.dispatchEvent(new CustomEvent('attached',{bubbles: true, composed: true}));
       },
 
       // Convert Deltas to HTML, source should be deltas string
