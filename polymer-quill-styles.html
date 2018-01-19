@@ -1,0 +1,27 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="polymer-quill-styles">
+    <template>
+        <style>
+          /*!
+           * Polymer Quill Editor
+           * https://quilljs.com/
+           * Copyright (c) 2018, Chuck Horton
+           */
+
+          /* Use bigger checkbox  */ 
+          .ql-editor ul[data-checked="false"] > li::before {
+            content: '\2E3A';
+            font-size: 1.10rem;
+          }
+
+          /* Use check instead of checkbox checked */ 
+          .ql-editor ul[data-checked="true"] li::before {
+            content: '\2713';
+            font-size: 1.10rem;
+          }
+          
+
+        </style>
+    </template>
+</dom-module>
