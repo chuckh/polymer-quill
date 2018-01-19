@@ -3,7 +3,7 @@
 
 # \<polymer-quill\> 
 
-## Polymer Quill Rich Text Editor
+## Polymer 2.x Quill Rich Text Editor (does not work Polymer 1.x)
 
 - `<polymer-quill>` element creates a Polymer Quill Rich Text Editor using the Snow Theme.
 - `<polymer-quill-bubble>` element creates a Polymer Quill Rich Text Editor using the Bubble Theme (popup toolbar like Medium).
