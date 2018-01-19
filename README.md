@@ -5,8 +5,18 @@
 
 ## Polymer 2.x Quill Rich Text Editor (does not work Polymer 1.x)
 
+### WIP progress converting to pure Polymer 2.x.  It requires support by Quill to support ShadowDOM see Quill pr: https://github.com/quilljs/quill/pull/1805.  Once this is working this should work.
+
+Status:
+
+[x] Display content works
+[x] Demos selecting and display content
+[] Snow: changing formats does not work
+[] Bubble: popup menu does not work, so no chaning formating
+
 - `<polymer-quill>` element creates a Polymer Quill Rich Text Editor using the Snow Theme.
 - `<polymer-quill-bubble>` element creates a Polymer Quill Rich Text Editor using the Bubble Theme (popup toolbar like Medium).
+- `<polymer-quill-bubble-firebase>` element creates a Polymer Quill Rich Text Editor using the Bubble Theme using Firebase (popup toolbar like Medium).
 - `<polymer-quill-html-render>` element creates a Polymer Quill HTML Render
 
 Quill is a free, open source WYSIWYG editor built for the modern web.
@@ -29,6 +39,7 @@ If your are viewing this from webcomponents.org, use the below links for API and
 - [API docs](https://chuckh.github.io/polymer-quill/#polymer-quill)
 - [Demo Snow Toolbar](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/)
 - [Demo Bubble Toolbar (Medium style)](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/bubble.html)
+- [Demo Bubble Toolbar Firebase (Medium style)](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/firebase.html)
 - [Demo Quill HTML Render](https://chuckh.github.io/polymer-quill/components/polymer-quill/demo/html-render.html)
 
 ### Examples
