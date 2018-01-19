@@ -4,13 +4,7 @@
     <title>polymer-quill-html-render demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <!-- <script>
-      window.Polymer = {
-        dom: 'shady',
-        lazyRegister: true
-      };
-    </script> -->
+    <script src="../../webcomponentsjs/webcomponents-lite.js" shadydom></script>
     
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
@@ -36,9 +30,9 @@
     </custom-style>
   </head>
 
-  <body unresolved>
+  <body>
     <div class="vertical-section-container centered">
-      <h2>polymer-quill-html-render -- HTML Render Demo</h2>
+      <h2>polymer-quill-html-render -- HTML Render Demo (Polymer 2.x only)</h2>
       <demo-selector demo="Render"></demo-selector>
 
       <h3>1. HTML Render Standard</h3>
@@ -53,50 +47,53 @@
             </style>
           </custom-style>
           <polymer-quill-html-render id="demo1"
-            content='<h2>Hello World! - Border -  <a href="//proplanr.com" target="_blank">proplanr.com</a></h2>'>
+            content='<h2>Hello World! - Border</h2><h2><br></h2><p><a href="https://proplanr.com/" target="_blank"><strong>ProPlanr</strong></a> organizes all your <em>plans</em>, <em>projects</em>, and <em>tasks</em> in<strong> one system</strong>. Currently in public beta for <u>individuals</u>.</p><h2><br></h2><h3>Check List</h3><ul data-checked="true"><li>Sign up for ProPlanr</li></ul><ul data-checked="false"><li>Build your first plan</li><li>Add Three Actions</li></ul><h2><br></h2>'>
           </polymer-quill-html-render>
         </template>
       </demo-snippet>
 
       <h3>2. HTML Render, No Border, iron-ajax</h3>
       <demo-snippet>
-        <dom-bind>
-          <template id="app2">
-            <custom-style>
-              <style>
-                polymer-quill-html-render#demo2 {
-                  --polymer-quill-html-max-width: 870px;
-                }
-              </style>
-            </custom-style>
-            <iron-ajax
-              auto
-              url="sample.txt"
-              handle-as="text"
-              on-response="handleResponse"
-              last-response="{{ajaxResponse}}">
-            </iron-ajax>
-            <polymer-quill-html-render id="demo2"
-              content="{{ajaxResponse}}">
-            </polymer-quill-html-render>
-          </template>
-        </dom-bind>
+        <template>
+          <dom-bind id="app2">
+            <template>
+              <custom-style>
+                <style>
+                  polymer-quill-html-render#demo2 {
+                    --polymer-quill-html-max-width: 870px;
+                  }
+                </style>
+              </custom-style>
+              <iron-ajax
+                auto
+                url="sample.txt"
+                handle-as="text"
+                on-response="handleResponse"
+                last-response="{{ajaxResponse}}">
+              </iron-ajax>
+              <polymer-quill-html-render id="demo2"
+                content="{{ajaxResponse}}">
+              </polymer-quill-html-render>
+              <script>
+                var app2 = document.querySelector('#app2');
+
+                app2.handleResponse = function (event) {
+                  // console.log('handleResponse',event);
+                };
+
+                window.addEventListener('WebComponentsReady', function() {
+                  // console.log('html-render Demo Ready');
+                });
+
+              </script>
+            </template>
+          </dom-bind>
+        </template>
       </demo-snippet>
 
     </div>
 
-    <script>
-      var app2 = document.querySelector('#app2');
-
-      app2.handleResponse = function (event) {
-        console.log('handleResponse',event);
-      };
-
-      window.addEventListener('WebComponentsReady', function() {
-        console.log('html-render Demo Ready');
-      });
-
-    </script>
+    
 
   </body>
 </html>
