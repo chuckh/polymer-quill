@@ -1,5 +1,6 @@
 
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/lib/utils/async.html">
 <link rel="import" href="polymer-quill-import.html">
 <link rel="import" href="polymer-quill-styles-snow.html">
 
@@ -334,7 +335,7 @@ Custom property | Description | Default
         if (this.toolbarType === 'full') {
           this.standardToolbar = false;
         }
-        console.log('ready',this.standardToolbar);
+        // console.log('ready',this.standardToolbar);
         var Delta = Quill.import('delta');
         this.quill = new Quill(this.$.editor, {
           modules: {
