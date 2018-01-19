@@ -1,16 +1,10 @@
 <!doctype html>
 <html>
   <head>
-    <title>polymer-quill-bubble-firebase demo</title>
+    <title>polymer-quill-bubble-firebase Demo (Polymer 2.x only)</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <script>
-      window.Polymer = {
-        dom: 'shady',
-        lazyRegister: true
-      };
-    </script>
+    <script src="../../webcomponentsjs/webcomponents-lite.js" shadydom></script>
     <!-- <link rel="import" href="../../polymer/polymer.html"> -->
     <link rel="import" href="../../iron-ajax/iron-ajax.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
@@ -22,16 +16,18 @@
     <link rel="import" href="../polymer-quill-bubble-firebase.html">
     <link rel="import" href="demo-selector.html">
 
-    <style is="custom-style" include="demo-pages-shared-styles">
-      .centered {
-        max-width: 880px;
-      }
-    </style>
+     <custom-style>
+      <style include="demo-pages-shared-styles">
+        .centered {
+          max-width: 880px;
+        }
+      </style>
+    </custom-style>
   </head>
 
-  <body unresolved>
+  <body>
     <div class="vertical-section-container centered">
-      <h2>polymer-quill-bubble-firebase -- Bubble Demo</h2>
+      <h2>polymer-quill-bubble-firebase -- Bubble Demo (Polymer 2.x only)</h2>
       <demo-selector demo="Firebase Bubble"></demo-selector>
 
       <h3>1. Bubble Editor Popup Toolbar, max & min heights (auto & 70px), Save every 2 seconds</h3>
@@ -45,11 +41,13 @@
             storage-bucket="polymer-quill.appspot.com",
             api-key="IzaSyDAElztwGgCccNuec-0FOokg857ejWzEvk">
           </firebase-app>
-          <style is="custom-style">
-            polymer-quill-bubble-firebase#demo1 {
-              --polymer-quill-editor-min-height: 70px;
-            }
-          </style>
+          <custom-style>
+            <style>
+              polymer-quill-bubble-firebase#demo1 {
+                --polymer-quill-editor-min-height: 70px;
+              }
+            </style>
+          </custom-style>
           <polymer-quill-bubble-firebase id="demo1"
             store-as="delta"
             show-results
@@ -58,7 +56,7 @@
             url="polymer-quill.firebaseio.com"
             max-file-size="1000000" max-files="1" 
             plan-id="test1"
-            content='{"ops":[{"insert":"Hello World! - Store as Delta, Bubble Popup toolbar - "},{"attributes":{"link":"//proplanr.com"},"insert":"proplanr.com"},{"attributes":{"header":2},"insert":"\n"}]}'>
+            content='{"ops":[{"insert":"Hello World! - Store as Delta, Bubble Popup toolbar"},{"attributes":{"header":2},"insert":"\n\n"},{"attributes":{"bold":true,"link":"https://proplanr.com"},"insert":"ProPlanr"},{"insert":" organizes all your "},{"attributes":{"italic":true},"insert":"plans"},{"insert":", "},{"attributes":{"italic":true},"insert":"projects"},{"insert":", and "},{"attributes":{"italic":true},"insert":"tasks"},{"insert":" in"},{"attributes":{"bold":true},"insert":" one system"},{"insert":". Currently in public beta for "},{"attributes":{"underline":true},"insert":"individuals"},{"insert":".\n"},{"attributes":{"header":2},"insert":"\n"},{"insert":"Check List"},{"attributes":{"header":3},"insert":"\n"},{"insert":"Sign up for ProPlanr"},{"attributes":{"list":"checked"},"insert":"\n"},{"insert":"Build your first plan"},{"attributes":{"list":"unchecked"},"insert":"\n"},{"insert":"Add Three Actions"},{"attributes":{"list":"unchecked"},"insert":"\n"},{"attributes":{"header":2},"insert":"\n"}]}'>
           </polymer-quill-bubble-firebase>
         </template>
       </demo-snippet>
@@ -66,18 +64,20 @@
       <h3>2. Bubble Editor Popup Toolbar, Default max & min heights (auto & 200px), No border, Show HTML, Save every 2 seconds</h3>
       <demo-snippet>
         <template>
-          <style is="custom-style">
-            polymer-quill-bubble-firebase#demo2 {
-              --polymer-quill-editor-min-height: 200px;
-              --polymer-quill-editor-border: none;
-            }
-          </style>
+          <custom-style>
+            <style>
+              polymer-quill-bubble-firebase#demo2 {
+                --polymer-quill-editor-min-height: 200px;
+                --polymer-quill-editor-border: none;
+              }
+            </style>
+          </custom-style>
           <polymer-quill-bubble-firebase id="demo2"
             store-as="html"
             file-path="files/"
             max-file-size="100000" max-files="1" 
             show-html
-            content='<h2>Hello World! - Store as HTML, Show HTML, No Border -  <a href="//proplanr.com" target="_blank">proplanr.com</a></h2>'>
+            content='<h2>Hello World! - Store as HTML, Bubble Popup toolbar</h2><h2><br></h2><p><a href="https://proplanr.com/" target="_blank"><strong>ProPlanr</strong></a> organizes all your <em>plans</em>, <em>projects</em>, and <em>tasks</em> in<strong> one system</strong>. Currently in public beta for <u>individuals</u>.</p><h2><br></h2><h3>Check List</h3><ul data-checked="true"><li>Sign up for ProPlanr</li></ul><ul data-checked="false"><li>Build your first plan</li><li>Add Three Actions</li></ul><h2><br></h2>'>
           </polymer-quill-bubble-firebase>
         </template>
       </demo-snippet>
