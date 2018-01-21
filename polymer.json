@@ -1,4 +1,23 @@
 {
+  "sources": [
+    "*.html",
+    "*.css",
+    "demo/**/*",
+    "!zArchive/**/*",
+    "bower.json"
+  ],
+  "extraDependencies": [
+    "bower_components/webcomponentsjs/webcomponents-lite.js"
+  ],
+  "builds": [{
+    "bundle": false,
+    "js": {"minify": false},
+    "css": {"minify": false},
+    "html": {"minify": false},
+    "addServiceWorker": false,
+    "addPushManifest": false,
+    "insertPrefetchLinks": false
+  }],
   "lint": {
     "rules": ["polymer-1"]
   }

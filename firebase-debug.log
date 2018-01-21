@@ -1,0 +1,28 @@
+[debug] [2018-01-19T22:58:13.273Z] ----------------------------------------------------------------------
+[debug] [2018-01-19T22:58:13.275Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2018-01-19T22:58:13.275Z] CLI Version:   3.15.2
+[debug] [2018-01-19T22:58:13.276Z] Platform:      darwin
+[debug] [2018-01-19T22:58:13.276Z] Node Version:  v8.7.0
+[debug] [2018-01-19T22:58:13.276Z] Time:          Fri Jan 19 2018 14:58:13 GMT-0800 (PST)
+[debug] [2018-01-19T22:58:13.276Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-01-19T22:58:13.287Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-01-19T22:58:13.287Z] > authorizing via signed-in user
+[debug] [2018-01-19T22:58:13.289Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/polymer-quill  
+ Fri Jan 19 2018 14:58:13 GMT-0800 (PST)
+[debug] [2018-01-19T22:58:13.858Z] <<< HTTP RESPONSE 200
+[debug] [2018-01-19T22:58:13.859Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/polymer-quill/tokens  
+ Fri Jan 19 2018 14:58:13 GMT-0800 (PST)
+[debug] [2018-01-19T22:58:14.334Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/chuckh/Dropbox/DevPolymer/polymer-quill'...
+[info] 
+[debug] [2018-01-19T22:58:14.336Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/polymer-quill  
+ Fri Jan 19 2018 14:58:14 GMT-0800 (PST)
+[debug] [2018-01-19T22:58:14.952Z] <<< HTTP RESPONSE 200
+[debug] [2018-01-19T22:58:14.952Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/884604560087/clients/_:getWebAppConfig  
+ Fri Jan 19 2018 14:58:14 GMT-0800 (PST)
+[debug] [2018-01-19T22:58:15.505Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: build/public
+[info] ✔  hosting: Local server: http://localhost:5000
+
