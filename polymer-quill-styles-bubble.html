@@ -9,7 +9,7 @@
         * Copyright (c) 2014, Jason Chen
         * Copyright (c) 2013, salesforce.com
         */
-        .ql-container {
+        ::slotted(.ql-container) {
           box-sizing: border-box;
           font-family: Helvetica, Arial, sans-serif;
           font-size: 13px;
@@ -17,7 +17,7 @@
           margin: 0px;
           position: relative;
         }
-        .ql-container.ql-disabled .ql-tooltip {
+        ::slotted(.ql-container.ql-disabled .ql-tooltip) {
           visibility: hidden;
         }
         .ql-container.ql-disabled .ql-editor ul[data-checked] > li::before {
